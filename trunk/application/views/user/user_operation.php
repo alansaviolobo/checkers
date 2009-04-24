@@ -1,10 +1,10 @@
 <!--
-	Project Name: Checkers
-	Module Name: User Operations
-	Module Description: Provides Interface for all User related CRUD operations
-	Author: Agraj Agranayak
-	
-	Associated Files: controllers/user	
+	Project:
+	Module:
+	Author:
+	Description:
+
+	Associated Files:
 -->
 
 <?php
