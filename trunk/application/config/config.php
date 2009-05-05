@@ -11,7 +11,7 @@
 |	http://example.com/
 |
 */
-$config['base_url']	= "http://localhost.com/";
+$config['base_url']	= "http://localhost/checkers/trunk";
 
 /*
 |--------------------------------------------------------------------------

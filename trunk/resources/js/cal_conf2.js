@@ -1,6 +1,7 @@
 
 //Define calendar(s): addCalendar ("Unique Calendar Name", "Window title", "Form element's name", Form name")
-addCalendar("cal_joining_date", "Joining Date", "txt_joining_date", "frm_user_operation");
+addCalendar("cal_from_date", "From", "txt_from_date", "frm_report_create");
+addCalendar("cal_to_date", "To", "txt_to_date", "frm_report_create");
 //addCalendar("Calendar2", "Select Date", "secondinput", "sampleform");
 
 // default settings for English
@@ -9,7 +10,7 @@ addCalendar("cal_joining_date", "Joining Date", "txt_joining_date", "frm_user_op
  setWidth(90, 1, 15, 1);
 // setColor("#cccccc", "#cccccc", "#ffffff", "#ffffff", "#333333", "#cccccc", "#333333");
 // setFontColor("#333333", "#333333", "#333333", "#ffffff", "#333333");
-// setFormat("yyyy/mm/dd");
+setFormat("yyyy-mm-dd");
 // setSize(200, 200, -200, 16);
 
 // setWeekDay(0);
