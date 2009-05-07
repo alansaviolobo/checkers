@@ -25,10 +25,16 @@ class Menu_m extends Model
 		$this->session->set_userdata('message', 'Menu item successfully added');
 	}
 
-	function menu_list()
+	function menu_list($limit, $offset)
+	{
+        $query = $this->db->get('check_menu',$limit, $offset);		
+        return $query->result_array();
+	}
+	
+	function menu_list_all()
 	{
 		$query = $this->db->get('check_menu');
-        return $query->result_array();
+		return $query->result_array();
 	}
 
 	function menu_item($id)
@@ -63,7 +69,12 @@ class Menu_m extends Model
 		$query = $this->db->query('select distinct section from check_menu');
         $categories = $query->result_array();
         return $categories;
-	}                 
+	}       
+	
+	function menu_count()
+	{
+		return $this->db->count_all('check_menu');
+	}          
 }
 
 ?>

@@ -58,9 +58,9 @@ class User_m extends Model
         $this->session->set_userdata('message', 'User successfully added');
     }
 	
-	function user_list()
-	{
-		$query = $this->db->get('check_user');
+	function user_list($limit, $offset)
+	{		
+        $query = $this->db->get('check_user',$limit, $offset);		
         return $query->result_array();
 	}
 	
@@ -94,6 +94,11 @@ class User_m extends Model
 		$this->db->where('id',$id);
         if($this->db->delete('check_user'))
 		$this->session->set_userdata('message', 'User successfully deleted');
+	}
+	
+	function user_count()
+	{
+		return $this->db->count_all('check_user');
 	}
 }
 ?>

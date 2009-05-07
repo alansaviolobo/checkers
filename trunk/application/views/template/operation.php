@@ -54,7 +54,7 @@
     </head>
     <body onload= DisableEnableForm(document.frm_orders)>
         <div id='container'>
-            <div id='menu'>
+            <div id='menu' style="background: url(<?=base_url()?>resources/image/checkers_small.png) 100% 0 no-repeat;">
                 <?php
 					if ( isset ($menu))
 					$this->load->view($menu);

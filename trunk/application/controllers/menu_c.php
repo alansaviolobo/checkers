@@ -9,13 +9,24 @@ class Menu_c extends Controller
 
     function index()
     {
+    	$this->session->unset_userdata('message');
         redirect('menu_c/menu_list','refresh');
     }
 
     function menu_list()
     {
-        $this->load->model('menu_m', '', TRUE);
-        $data['menu_items'] = $this->menu_m->menu_list();
+    	$this->load->model('menu_m', '', TRUE);
+		
+    	$config['base_url'] = base_url().'index.php/menu_c/menu_list/';
+        $config['total_rows'] = $this->menu_m->menu_count();
+		$config['full_tag_open'] = '<p>';
+		$config['full_tag_close'] = '</p>';
+        $config['per_page'] = 12;
+        $config['uri_segment'] = 3;
+
+        $this->pagination->initialize($config);
+		
+        $data['menu_items'] = $this->menu_m->menu_list($config['per_page'],$this->uri->segment(3));
     	$content['title'] = "Menu List";
 		$content['menu'] = 'misc/menu_items';
         $content['content'] = 'menu/menu_list';

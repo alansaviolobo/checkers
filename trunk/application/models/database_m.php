@@ -31,11 +31,17 @@ class Database_m extends Model
         }
     }
     
-    function database_log()
+    function database_log($limit, $offset)
     {
-    	$query = $this->db->get_where('check_log',array('log_of'=>'database'));
+    	$query = $this->db->get_where('check_log',array('log_of'=>'database'),$limit, $offset);
     	return $query->result_array();
     }
+	
+	function database_count()
+	{
+		$query = $this->db->get_where('check_log',array('log_of'=>'database'));
+		return $query->num_rows();
+	}
 }
 
 ?>

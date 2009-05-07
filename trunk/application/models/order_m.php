@@ -4,20 +4,35 @@ class Order_m extends Model
     function _construct()
     {
     }
+	
     function index()
     {
     }
+	
     function order_delete($id)
     {
         $this->db->where('id', $id);
         if ($this->db->delete('check_order'))
         $this->session->set_userdata('message', 'Order item successfully deleted');
     }
-    function order_list()
+	
+    function order_list($limit, $offset)
     {
-        $query = $this->db->get('check_order');
+    	$this->db->start_cache();
+        $this->db->from('check_order');
+        $this->db->stop_cache();
+        $this->db->limit($limit, $offset);
+        $query = $this->db->get();
+		
         return $query->result_array();
     }
+	
+	function order_list_all()
+	{
+		$query = $this->db->get('check_order');
+		return $query->result_array();
+	}
+	
     function order_add()
     {
         if ($this->input->xss_clean($this->input->post('ddl_table_no')))
@@ -62,7 +77,8 @@ class Order_m extends Model
             'quantity'=>$quantity_get,
             'cost'=>$cost*intval($quantity_get),
             'ordered_by'=>$ordered_by);
-            $this->db->insert('check_order', $data);
+            if($this->db->insert('check_order', $data))
+			$this->session->set_userdata('message', 'Order item successfully added');
         }
         else
         {
@@ -75,24 +91,25 @@ class Order_m extends Model
             $this->db->update('check_order', $data);
         }
     }
-    function order_update()
-    {
-    }
+		
     function order_bill()
     {
         $query = $this->db->get_where('check_order', array ('ordered_by'=>$this->input->xss_clean($this->input->post('ddl_bill_dropdown'))));
         return $query->result_array();
     }
+	
     function order_check()
     {
         $query = $this->db->get('check_order');
         return $query->result_array();
     }
+	
     function get_order_by()
     {
         $query = $this->db->get_where('check_order', array ('ordered_by'=>$this->input->xss_clean($this->input->post('ddl_bill_dropdown'))));
         return $query->result_array();
     }
+	
     function create_bill()
     {
         $query = $this->db->get_where('check_order', array ('ordered_by'=>$this->session->userdata('ord_by')));
@@ -141,5 +158,10 @@ class Order_m extends Model
       $query = $this->db->get_where('check_bill', array ('bill_number'=>$this->session->userdata('bill_number')));
       return $query->result_array();
     }
+	
+	function order_count()
+	{
+		return $this->db->count_all('check_order');
+	}
 }
 ?>

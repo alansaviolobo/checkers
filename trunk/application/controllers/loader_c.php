@@ -44,21 +44,13 @@ class Loader_c extends Controller
         $this->load->view('template/operation');
 	}
 	
-	function load_user_list()
-	{
-		redirect('user_c/user_list','refresh');
-	}
-	
 	function load_report_create()
 	{
-		$this->load->model('menu_m','',TRUE);
-		$data['categories'] = $this->menu_m->menu_categories();
-		
 		$content['title'] = "Report Create";
 		$content['menu'] = 'misc/menu_items';
         $content['content'] = 'report/report_create';
         $this->load->vars($content);
-        $this->load->view('template/operation', $data);
+        $this->load->view('template/operation');
 	}
 	
 	function load_bill()

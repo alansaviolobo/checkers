@@ -7,7 +7,8 @@ class User_c extends Controller
     }
 
     function index()
-    {
+    {    	
+		$this->session->unset_userdata('message');
         redirect('user_c/user_list','refresh');
     }
 
@@ -33,9 +34,19 @@ class User_c extends Controller
     }
 
     function user_list()
-    {
+    {				
         $this->load->model('user_m', '', TRUE);
-        $data['users'] = $this->user_m->user_list();
+		
+    	$config['base_url'] = base_url().'index.php/user_c/user_list/';
+        $config['total_rows'] = $this->user_m->user_count();
+		$config['full_tag_open'] = '<p>';
+		$config['full_tag_close'] = '</p>';
+        $config['per_page'] = 7;
+        $config['uri_segment'] = 3;
+
+        $this->pagination->initialize($config);
+		
+        $data['users'] = $this->user_m->user_list($config['per_page'],$this->uri->segment(3));
     	$content['title'] = "User List";
 		$content['menu'] = 'misc/menu_items';
         $content['content'] = 'user/user_list';
@@ -70,7 +81,7 @@ class User_c extends Controller
 
     function user_logout()
     {
-        $this->session->unset_userdata('user_info');
+        $this->session->sess_destroy();
         redirect('loader_c','refresh');
     }
 }

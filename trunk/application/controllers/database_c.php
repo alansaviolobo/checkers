@@ -9,6 +9,7 @@ class Database_c extends Controller
 
 	function index()
 	{
+		$this->session->unset_userdata('message');
 		redirect('database_c/database_log','refresh');
 	}
 
@@ -25,7 +26,17 @@ class Database_c extends Controller
 	function database_log()
 	{
 		$this->load->model('database_m', '', TRUE);
-		$data['log'] = $this->database_m->database_log();
+		
+    	$config['base_url'] = base_url().'index.php/database_c/database_log/';
+        $config['total_rows'] = $this->database_m->database_count();
+		$config['full_tag_open'] = '<p>';
+		$config['full_tag_close'] = '</p>';
+        $config['per_page'] = 7;
+        $config['uri_segment'] = 3;
+
+        $this->pagination->initialize($config);
+		
+		$data['log'] = $this->database_m->database_log($config['per_page'],$this->uri->segment(3));
 		
 		$content['title'] = "Database Log";
 		$content['menu'] = 'misc/menu_items';
