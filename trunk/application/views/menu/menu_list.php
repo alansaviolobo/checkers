@@ -1,14 +1,20 @@
 <?php
 
-echo "<h2>Menu Items</h2><small>".anchor('loader_c/load_menu_add','New Menu Item')."</small><br /><br />";
+$attributes = array ('name'=>'frm_menu_list');
+echo form_open('menu_c/menu_list_section_items', $attributes);
+
+echo "<span style=\"font-size: large;\">Menu Items</span>&nbsp;&nbsp;&nbsp;".anchor('loader_c/load_menu_add','New Menu Item')."<br />";
+
+echo "<p>Select Section :".form_dropdown('ddl_section',array('Bar'=>'Bar','Restaurant'=>'Restaurant','Beverages'=>'Beverages'))."&nbsp;&nbsp;";
+echo form_submit('submit','Select')."</p>";
 
 if (isset($menu_items))
 {
     echo "<table cellpadding='3' cellspacing='3' class='border_set' style=\"border-collapse: collapse;\">";
-	echo "<tr><th class='border_set'>Item name</th>";
-	echo "<th class='border_set'>Quantity</th>";
-	echo "<th class='border_set'>Cost</th>";
-	echo "<th class='border_set'>Select</th></tr>";
+	echo "<tr><th class='back_color'>Item name</th>";
+	echo "<th class='back_color'>Quantity</th>";
+	echo "<th class='back_color'>Cost</th>";
+	echo "<th class='back_color'>Select</th></tr>";
     foreach ($menu_items as $item)
     {
     	echo "<tr><td class='border_set'><b><i>".$item['name']."</i></b></td>";
@@ -24,5 +30,7 @@ echo "No Menu Items Exist&nbsp;&nbsp<small>".anchor('loader_c/load_menu_add','Ad
 
 if($this->session->userdata('message'))
 	echo "<br /><h3>".$this->session->userdata('message')."</h3>";
+
+echo form_close();
 
 ?>

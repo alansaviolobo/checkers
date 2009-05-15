@@ -1,5 +1,6 @@
 *{
     font-family:"Trebuchet MS";
+	font-size: 12px;
 }
 div{
 	font-size:small;
@@ -29,4 +30,12 @@ html body {
 
 .border_set{
 	border: 1px solid #666666;
+}
+.back_color{
+	border: 1px solid #666666;
+	background-color: yellow;
+}
+.back_color_1{
+	border: 1px solid #666666;
+	background-color: orange;
 }

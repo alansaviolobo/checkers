@@ -40,7 +40,7 @@
 |
 */
 
-$route['default_controller'] = "loader_controller";
+$route['default_controller'] = "loader_c";
 $route['scaffolding_trigger'] = "";
 
 

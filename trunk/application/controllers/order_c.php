@@ -4,6 +4,7 @@ class Order_c extends Controller
     function _construct()
     {
     }
+	
     function index()
     {
     	$this->session->unset_userdata('message');
@@ -21,7 +22,7 @@ class Order_c extends Controller
         $this->pagination->initialize($config);
 
         $data['orders'] = $this->order_m->order_list_all();
-        $data['orders_1'] = $this->order_m->order_list($config['per_page'], $this->uri->segment(3));
+        $data['order_list'] = $this->order_m->order_list($config['per_page'], $this->uri->segment(3));
 
         $data['menu_items'] = $this->menu_m->menu_list_all();
         $data['categories'] = $this->menu_m->menu_categories();
@@ -33,6 +34,61 @@ class Order_c extends Controller
         $this->load->view('template/operation', $data);
 
     }
+    
+    function order_list_table()
+    {
+    		 $this->load->model('order_m', '', TRUE);
+        $this->load->model('menu_m', '', TRUE);
+
+        $config['base_url'] = base_url().'index.php/order_c/index';
+        $config['total_rows'] = $this->order_m->order_list_table_count();
+        $config['full_tag_open'] = '<p>';
+        $config['full_tag_close'] = '</p>';
+        $config['per_page'] = 10;
+        $config['uri_segment'] = 3;
+
+        $this->pagination->initialize($config);
+
+        $data['orders'] = $this->order_m->order_list_all();
+        $data['order_list'] = $this->order_m->order_list_table($config['per_page'], $this->uri->segment(3));
+
+        $data['menu_items'] = $this->menu_m->menu_list_all();
+        $data['categories'] = $this->menu_m->menu_categories();
+
+        $content['title'] = 'Order';
+        $content['menu'] = 'misc/menu_items';
+        $content['content'] = 'order/order';
+        $this->load->vars($content);
+        $this->load->view('template/operation', $data);
+    }
+    
+    function order_list_room()
+    {
+    			 $this->load->model('order_m', '', TRUE);
+        $this->load->model('menu_m', '', TRUE);
+
+        $config['base_url'] = base_url().'index.php/order_c/index';
+        $config['total_rows'] = $this->order_m->order_list_room_count();
+        $config['full_tag_open'] = '<p>';
+        $config['full_tag_close'] = '</p>';
+        $config['per_page'] = 10;
+        $config['uri_segment'] = 3;
+
+        $this->pagination->initialize($config);
+
+        $data['orders'] = $this->order_m->order_list_all();
+        $data['order_list'] = $this->order_m->order_list_room($config['per_page'], $this->uri->segment(3));
+
+        $data['menu_items'] = $this->menu_m->menu_list_all();
+        $data['categories'] = $this->menu_m->menu_categories();
+
+        $content['title'] = 'Order';
+        $content['menu'] = 'misc/menu_items';
+        $content['content'] = 'order/order';
+        $this->load->vars($content);
+        $this->load->view('template/operation', $data);
+    }
+	
     function order_add()
     {
         if ( isset ($_POST['btn_add']))
@@ -58,7 +114,7 @@ class Order_c extends Controller
             $data['order_bill'] = $this->order_m->order_bill();
             $this->session->set_userdata('ord_by', $this->input->xss_clean($this->input->post('ddl_bill_dropdown')));
             $data['orders'] = $this->order_m->order_list_all();
-            $data['orders_1'] = $this->order_m->order_list($config['per_page'], $this->uri->segment(3));
+            $data['order_list'] = $this->order_m->order_list($config['per_page'], $this->uri->segment(3));
             $data['menu_items'] = $this->menu_m->menu_list_all();
             $data['categories'] = $this->menu_m->menu_categories();
             $content['title'] = "Order";

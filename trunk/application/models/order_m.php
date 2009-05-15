@@ -1,12 +1,16 @@
 <?php
 class Order_m extends Model
 {
+	public $room_order  = array();
+	public $table_order = array();
+	
     function _construct()
     {
     }
 	
     function index()
     {
+		
     }
 	
     function order_delete($id)
@@ -24,13 +28,57 @@ class Order_m extends Model
         $this->db->limit($limit, $offset);
         $query = $this->db->get();
 		
-        return $query->result_array();
+        return $query->result_array();		
+    }
+
+    function order_list_table($limit, $offset)
+    {
+    		$this->db->select('*');
+    		$this->db->from('check_order');
+    		$this->db->order_by('ordered_by', 'asc'); 
+    		$this->db->like('ordered_by', 'Table', 'after');
+    		$this->db->limit($limit, $offset);
+    		$query = $this->db->get();
+    		return $query->result_array();  
+    }
+    
+    function order_list_table_count()
+    {
+    		$this->db->select('*');
+    		$this->db->from('check_order');
+    		$this->db->like('ordered_by', 'Table', 'after');
+    		
+    		return $this->db->count_all_results();
+    }
+    
+    function order_list_room($limit, $offset)
+    {
+    		$this->db->select('*');
+    		$this->db->from('check_order');
+    		$this->db->order_by('ordered_by', 'asc'); 
+    		$this->db->like('ordered_by', 'Room', 'after');
+    		$this->db->limit($limit, $offset);
+    		$query = $this->db->get();
+    		return $query->result_array();
+    }
+    
+    function order_list_room_count()
+    {
+    		$this->db->select('*');
+    		$this->db->from('check_order');
+    		$this->db->like('ordered_by', 'Room', 'after');
+    		
+    		return $this->db->count_all_results();
     }
 	
 	function order_list_all()
 	{
-		$query = $this->db->get('check_order');
-		return $query->result_array();
+		$this->db->select('*');
+    		$this->db->from('check_order');
+    		$this->db->order_by('ordered_by', 'asc'); 
+    		
+		$query = $this->db->get();
+		return $query->result_array();				
 	}
 	
     function order_add()
@@ -144,7 +192,8 @@ class Order_m extends Model
             'sub_total'=>$this->session->userdata('sub_total'),
             'discount'=>get_cookie('discount'),
             'tax'=>get_cookie('tax'),
-            'total'=>$total);
+            'total'=>$total,
+			'pay_by'=>get_cookie('pay_by'));
 
             $this->db->insert('check_bill', $data);
         }

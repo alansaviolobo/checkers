@@ -21,11 +21,11 @@ if ($menu_item)
         echo "<td>".form_input('txt_cost',$item['cost'])."</td><tr />";
 
         echo "<tr><td>".form_label('Section', 'ddl_section')."</td>";
-        $dropdown_elements = array ('Bar', 'Restaurant', 'Beverages');
+        $dropdown_elements = array ('Bar'=>'Bar', 'Restaurant'=>'Restaurant', 'Beverages'=>'Beverages');
         echo "<td>".form_dropdown('ddl_section', $dropdown_elements, $item['section'])."</td></tr>";
 
         echo "<tr><td colspan='2'>".form_submit('submit', 'Update')."&nbsp";
-        echo "<small>".anchor('menu_c/menu_delete/'.$item['id'],'Delete')."</td></tr>"."</small>";
+        echo anchor('menu_c/menu_delete/'.$item['id'],'Delete')."</td></tr>";
     }
     echo "</table>";
 }

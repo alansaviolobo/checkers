@@ -24,19 +24,20 @@ if ($user_single)
         echo "<td>".form_password('txt_password', $user['password'])."</td><tr />";
 
         echo "<tr><td>".form_label('Designation', 'ddl_designation')."</td>";
-        $designation_elements = array ('Waiter', 'Bartender', 'Manager');
-        echo "<td>".form_dropdown('ddl_designation', $designation_elements, $user['designation'])."</td></tr>";
+        $designation_elements = array ('Waiter'=>'Waiter', 'Bartender'=>'Bartender', 'Manager'=>'Manager');
+		$js = 'onchange="check_admin()"';
+        echo "<td>".form_dropdown('ddl_designation', $designation_elements, $user['designation'], $js)."</td></tr>";
 
         echo "<tr><td valign='top'>".form_label('User Privileges')."</td>";
-        echo "<td>".form_checkbox('chk_order', 'yes', $user['order_manage'])." Order<br/>";
-        echo form_checkbox('chk_menu', 'yes', $user['menu_manage'])." Menu<br/>";
-        echo form_checkbox('chk_database', 'yes', $user['database_manage'])." Database<br/>";
-        echo form_checkbox('chk_report', 'yes', $user['report_manage'])." Report<br/>";
-        echo form_checkbox('chk_user', 'yes', $user['user_manage'])." User<br/></td></tr>";
+        echo "<td>".form_checkbox('chk_order', 'yes', $user['order_manage'])." Order Manage<br/>";
+        echo form_checkbox('chk_menu', 'yes', $user['menu_manage'])." Menu Manage<br/>";
+        echo form_checkbox('chk_database', 'yes', $user['database_manage'])." Database Manage<br/>";
+        echo form_checkbox('chk_report', 'yes', $user['report_manage'])." Report Manage<br/>";
+        echo form_checkbox('chk_user', 'yes', $user['user_manage'])." User Manage<br/></td></tr>";
 
 
         echo "<tr><td colspan='2'>".form_submit('submit', 'Update')."&nbsp";
-        echo "<small>".anchor('user_c/user_delete/'.$user['id'], 'Delete')."</td></tr>"."</small>";
+        echo anchor('user_c/user_delete/'.$user['id'], 'Delete')."</td></tr>";
     }
     echo "</table>";
 }

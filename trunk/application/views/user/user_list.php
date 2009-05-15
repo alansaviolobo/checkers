@@ -1,18 +1,20 @@
 <?php
 
-echo "<h2>User List</h2><small>".anchor('loader_c/load_user_add','New User')."</small><br /><br />";
+echo "<span style=\"font-size: large;border-bottom:medium dotted pink;\">User List</span>&nbsp;&nbsp;&nbsp;".anchor('loader_c/load_user_add','New User')."<br /><br />";
 
 if (isset($users))
 {
     echo "<table cellpadding='3' cellspacing='3' class='border_set' style=\"border-collapse: collapse;\">";
-	echo "<tr><th class='border_set' >Name</th>";
-	echo "<th class='border_set' >Username</th>";
-	echo "<th class='border_set' >Order</th>";
-	echo "<th class='border_set' >Menu</th>";
-	echo "<th class='border_set' >Database</th>";
-	echo "<th class='border_set' >Report</th>";
-	echo "<th class='border_set' >User</th>";
-	echo "<th class='border_set' >Select</th></tr>";
+	echo "<tr><th class='back_color' rowspan='2'>Name</th>";
+	echo "<th class='back_color' rowspan='2'>Username</th>";
+	echo "<th class='back_color' colspan='6'>Access Privileges</th></tr>";
+	echo "<tr>";
+	echo "<th class='back_color_1' >Order</th>";
+	echo "<th class='back_color_1' >Menu</th>";
+	echo "<th class='back_color_1' >Database</th>";
+	echo "<th class='back_color_1' >Report</th>";
+	echo "<th class='back_color_1'>User</th>";
+	echo "<th class='back_color_1'>Select</th></tr>";
     foreach ($users as $user)
     {
     	echo "<tr><td class='border_set' ><b><i>".$user['name']."</i></b></td>";
@@ -28,7 +30,7 @@ if (isset($users))
 	echo $this->pagination->create_links();
 }
 else
-echo "No User Exist&nbsp;&nbsp<small>".anchor('loader_c/load_user_add','Add user')."</small>";
+echo "No User Exist&nbsp;&nbsp".anchor('loader_c/load_user_add','Add user')."";
 
 if($this->session->userdata('message'))
 	echo "<br /><h3>".$this->session->userdata('message')."</h3>";

@@ -26,7 +26,7 @@ class Database_m extends Model
         	'file_name'=>date('d-m-y').'.gz',
         	'dated'=>date('d-m-y'));
         	
-        	$this->db->insert('check_log',$data);
+        	if($this->db->insert('check_log',$data))
         	return 1;
         }
     }

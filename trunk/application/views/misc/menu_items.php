@@ -10,10 +10,10 @@
 		if($key == 'username')
 			echo "<td>Logged In As: <strong>".$value."</strong> (<i>";
 		if($key == 'designation')
-			echo $value."</i>)&nbsp;&nbsp;<small>".anchor('user_c/user_logout','Logout')."<small><td style=\"border-right:medium solid #D12EA3;\">&nbsp;&nbsp;&nbsp;</td><td><strong>MENU >></strong></td>";
+			echo $value."</i>)&nbsp;&nbsp;<u>".anchor('user_c/user_logout','Logout')."<td style=\"border-right:medium solid #D12EA3;\">&nbsp;&nbsp;&nbsp;</td><td></td>";
 		if($value == 'yes')
 		{
-			echo "<td>".anchor($key.'_c',ucwords($key))."</td>";
+			echo "<td style=\"background-color:#CDEB8B;width:70px;text-align:center;height:30px;\">".anchor($key.'_c',"<div>".ucwords($key)."</div>")."</td>";
 		}
 	}
 	echo "<tr></table>";

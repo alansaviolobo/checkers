@@ -8,8 +8,10 @@
             ?>
         </title>
         <link rel="stylesheet" type="text/css" href="<?=base_url()?>resources/css/operation.css" />
-        <script type="text/javascript" src="<?=base_url()?>resources/js/cal2.js"></script>
-        <script type="text/javascript" src="<?=base_url()?>resources/js/cal_conf2.js"></script>
+        <script type="text/javascript" src="<?=base_url()?>resources/js/cal2.js">
+        </script>
+        <script type="text/javascript" src="<?=base_url()?>resources/js/cal_conf2.js">
+        </script>
         <script language="JavaScript" type="text/javascript">
             function room(){
                 document.frm_orders.ddl_room_no.disabled = false;
@@ -33,9 +35,11 @@
                             break;
                         case "check_ordered_by":
                             break;
-						case "txt_discount":
+                        case "txt_discount":
                             break;
-						case "txt_tax":
+                        case "txt_tax":
+                            break;
+                        case "ddl_pay_by":
                             break;
                         default:
                             objElems[i].disabled = true;
@@ -43,27 +47,31 @@
                     }
                 }
             }
-			
-			function createbill()
-			{
-				document.cookie = 'discount='+document.frm_orders.txt_discount.value
-				document.cookie = 'tax='+document.frm_orders.txt_tax.value
-				window.showModalDialog('bill_print');
-			}
+            
+            function createbill(){
+                document.cookie = 'discount=' + document.frm_orders.txt_discount.value
+                document.cookie = 'tax=' + document.frm_orders.txt_tax.value
+				if(document.frm_orders.ddl_pay_by[0].selected)
+					var pay = 'Cash';
+				else if(document.frm_orders.ddl_pay_by[1].selected)
+					var pay = 'Credit';
+				document.cookie = 'pay_by=' + pay
+                window.showModalDialog('bill_print');
+            }
         </script>
     </head>
     <body onload= DisableEnableForm(document.frm_orders)>
         <div id='container'>
             <div id='menu' style="background: url(<?=base_url()?>resources/image/checkers_small.png) 100% 0 no-repeat;">
                 <?php
-					if ( isset ($menu))
-					$this->load->view($menu);
+                if ( isset ($menu))
+                $this->load->view($menu);
                 ?>
             </div>
             <div id='content'>
                 <?php
-					if ( isset ($content))
-					$this->load->view($content);
+                if ( isset ($content))
+                $this->load->view($content);
                 ?>
             </div>
         </div>
