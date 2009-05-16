@@ -11,6 +11,12 @@ class User_m extends Model
 
     }
 	
+	function get_waiter_list()
+	{
+		$query = $this->db->get_where('check_user',array('designation'=>'Waiter'));
+		return $query->result_array();
+	}
+	
 	function user_login()
 	{
 		$query = $this->db->get_where('check_user',array('username' =>$this->input->xss_clean($this->input->post('txt_username')),'password'=>$this->input->xss_clean($this->input->post('txt_password'))));

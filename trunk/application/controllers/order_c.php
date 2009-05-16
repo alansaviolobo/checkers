@@ -4,11 +4,11 @@ class Order_c extends Controller
     function _construct()
     {
     }
-	
+
     function index()
     {
-    	$this->session->unset_userdata('message');
-		
+        $this->session->unset_userdata('message');
+
         $this->load->model('order_m', '', TRUE);
         $this->load->model('menu_m', '', TRUE);
 
@@ -27,6 +27,9 @@ class Order_c extends Controller
         $data['menu_items'] = $this->menu_m->menu_list_all();
         $data['categories'] = $this->menu_m->menu_categories();
 
+        $this->load->model('user_m', '', TRUE);
+        $data['waiter_list'] = $this->user_m->get_waiter_list();
+
         $content['title'] = 'Order';
         $content['menu'] = 'misc/menu_items';
         $content['content'] = 'order/order';
@@ -34,10 +37,10 @@ class Order_c extends Controller
         $this->load->view('template/operation', $data);
 
     }
-    
+
     function order_list_table()
     {
-    		 $this->load->model('order_m', '', TRUE);
+        $this->load->model('order_m', '', TRUE);
         $this->load->model('menu_m', '', TRUE);
 
         $config['base_url'] = base_url().'index.php/order_c/index';
@@ -55,16 +58,19 @@ class Order_c extends Controller
         $data['menu_items'] = $this->menu_m->menu_list_all();
         $data['categories'] = $this->menu_m->menu_categories();
 
+        $this->load->model('user_m', '', TRUE);
+        $data['waiter_list'] = $this->user_m->get_waiter_list();
+
         $content['title'] = 'Order';
         $content['menu'] = 'misc/menu_items';
         $content['content'] = 'order/order';
         $this->load->vars($content);
         $this->load->view('template/operation', $data);
     }
-    
+
     function order_list_room()
     {
-    			 $this->load->model('order_m', '', TRUE);
+        $this->load->model('order_m', '', TRUE);
         $this->load->model('menu_m', '', TRUE);
 
         $config['base_url'] = base_url().'index.php/order_c/index';
@@ -82,13 +88,16 @@ class Order_c extends Controller
         $data['menu_items'] = $this->menu_m->menu_list_all();
         $data['categories'] = $this->menu_m->menu_categories();
 
+        $this->load->model('user_m', '', TRUE);
+        $data['waiter_list'] = $this->user_m->get_waiter_list();
+
         $content['title'] = 'Order';
         $content['menu'] = 'misc/menu_items';
         $content['content'] = 'order/order';
         $this->load->vars($content);
         $this->load->view('template/operation', $data);
     }
-	
+
     function order_add()
     {
         if ( isset ($_POST['btn_add']))
@@ -117,6 +126,8 @@ class Order_c extends Controller
             $data['order_list'] = $this->order_m->order_list($config['per_page'], $this->uri->segment(3));
             $data['menu_items'] = $this->menu_m->menu_list_all();
             $data['categories'] = $this->menu_m->menu_categories();
+            $this->load->model('user_m', '', TRUE);
+            $data['waiter_list'] = $this->user_m->get_waiter_list();
             $content['title'] = "Order";
             $content['menu'] = 'misc/menu_items';
             $content['content'] = 'order/order';

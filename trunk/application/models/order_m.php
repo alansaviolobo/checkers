@@ -193,7 +193,9 @@ class Order_m extends Model
             'discount'=>get_cookie('discount'),
             'tax'=>get_cookie('tax'),
             'total'=>$total,
-			'pay_by'=>get_cookie('pay_by'));
+			'pay_by'=>get_cookie('pay_by'),
+			'name'=>get_cookie('name'),
+			'waiter_no'=>get_cookie('waiter_no'));
 
             $this->db->insert('check_bill', $data);
         }

@@ -41,6 +41,10 @@
                             break;
                         case "ddl_pay_by":
                             break;
+                        case "ddl_waiter_no":
+                            break;
+                        case "txt_name":
+                            break;
                         default:
                             objElems[i].disabled = true;
                             break;
@@ -51,11 +55,17 @@
             function createbill(){
                 document.cookie = 'discount=' + document.frm_orders.txt_discount.value
                 document.cookie = 'tax=' + document.frm_orders.txt_tax.value
-				if(document.frm_orders.ddl_pay_by[0].selected)
-					var pay = 'Cash';
-				else if(document.frm_orders.ddl_pay_by[1].selected)
-					var pay = 'Credit';
-				document.cookie = 'pay_by=' + pay
+                if (document.frm_orders.ddl_pay_by[0].selected) 
+                    var pay = 'Cash';
+                else 
+                    if (document.frm_orders.ddl_pay_by[1].selected) 
+                        var pay = 'Credit';
+                document.cookie = 'pay_by=' + pay
+                
+                var get_index = document.frm_orders.ddl_waiter_no.selectedIndex
+                document.cookie = 'waiter_no=' + document.frm_orders.ddl_waiter_no[get_index].value
+                document.cookie = 'name=' + document.frm_orders.txt_name.value
+				
                 window.showModalDialog('bill_print');
             }
         </script>
