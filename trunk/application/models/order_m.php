@@ -83,22 +83,14 @@ class Order_m extends Model
 	
     function order_add()
     {
-        if ($this->input->xss_clean($this->input->post('ddl_table_no')))
-        {
-            $ordered_by = $this->input->xss_clean($this->input->post('ddl_table_no'));
-        }
-        else
-        {
-            $ordered_by = $this->input->xss_clean($this->input->post('ddl_room_no'));
-        }
+		$ordered_by = $this->input->xss_clean($this->input->post('ddl_ordered_by'));
         $identify_item = '';
         $cost = 0;
         $query = $this->db->get('check_menu');
         $quantity = 0;
         foreach ($query->result_array() as $row)
         {
-            if ($this->input->xss_clean($this->input->post('ddl_'.$row['section'])))
-            $identify_item = $this->input->xss_clean($this->input->post('ddl_'.$row['section']));
+            $identify_item = $this->input->xss_clean($this->input->post('ddl_items'));
             if ($identify_item == $row['name'])
             {
                 $cost = $row['cost'];

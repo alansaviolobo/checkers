@@ -1,6 +1,6 @@
 <?php
 
-echo "<span style=\"font-size: large;border-bottom:medium dotted pink;\">User List</span>&nbsp;&nbsp;&nbsp;".anchor('loader_c/load_user_add','New User')."<br /><br />";
+echo "<span style=\"font-size: large;\">User List</span>&nbsp;&nbsp;&nbsp;".anchor('loader_c/load_user_add','New User')."<br /><br />";
 
 if (isset($users))
 {

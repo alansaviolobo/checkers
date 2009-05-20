@@ -1,6 +1,6 @@
 <?php
 
-echo "<h2>Report Log</h2><small>".anchor('loader_c/load_report_create','Report Create')."</small><br /><br />";
+echo "<span style=\"font-size: large;\">Report</span>&nbsp;&nbsp;&nbsp;".anchor('loader_c/load_report_create','Report Create')."<br /><br />";
 
 if (isset($log))
 {

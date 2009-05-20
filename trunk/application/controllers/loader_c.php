@@ -16,7 +16,7 @@ class Loader_c extends Controller
     {
 		redirect('menu_c/menu_list','refresh');
     }
-
+	
     function load_menu_add()
     {
     	$content['title'] = "Menu Add";

@@ -5,7 +5,7 @@ echo form_open('menu_c/menu_list_section_items', $attributes);
 
 echo "<span style=\"font-size: large;\">Menu Items</span>&nbsp;&nbsp;&nbsp;".anchor('loader_c/load_menu_add','New Menu Item')."<br />";
 
-echo "<p>Select Section :".form_dropdown('ddl_section',array('Bar'=>'Bar','Restaurant'=>'Restaurant','Beverages'=>'Beverages'))."&nbsp;&nbsp;";
+echo "<p>Select Section : &nbsp;".form_dropdown('ddl_section',array('Bar'=>'Bar','Restaurant'=>'Restaurant','Beverages'=>'Beverages'))."&nbsp;&nbsp;";
 echo form_submit('submit','Select')."</p>";
 
 if (isset($menu_items))

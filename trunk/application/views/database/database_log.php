@@ -1,6 +1,6 @@
 <?php
 
-echo "<h2>Database Log</h2><small>".anchor('loader_c/load_database_backup','Database Backup')."</small><br /><br />";
+echo "<span style=\"font-size: large;\">Database</span>&nbsp;&nbsp;&nbsp;".anchor('loader_c/load_database_backup','Database Backup')."<br /><br />";
 
 if (isset($log))
 {
