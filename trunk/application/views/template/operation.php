@@ -12,7 +12,7 @@
         </script>
         <script type="text/javascript" src="<?=base_url()?>resources/js/cal_conf2.js">
         </script>
-        <script language="JavaScript" type="text/javascript">         
+        <script language="JavaScript" type="text/javascript">
             function createbill(){
                 document.cookie = 'discount=' + document.frm_orders.txt_discount.value
                 document.cookie = 'tax=' + document.frm_orders.txt_tax.value
@@ -23,11 +23,37 @@
                         var pay = 'Credit';
                 document.cookie = 'pay_by=' + pay
                 
-                var get_index = document.frm_orders.ddl_waiter_no.selectedIndex
-                document.cookie = 'waiter_no=' + document.frm_orders.ddl_waiter_no[get_index].value
+                var get_index = document.frm_orders.ddl_waiter_name.selectedIndex
+                document.cookie = 'waiter_name=' + document.frm_orders.ddl_waiter_name[get_index].value
                 document.cookie = 'name=' + document.frm_orders.txt_name.value
-				
+                
                 window.showModalDialog('bill_print');
+            }
+            
+            function check_daily(){
+                if (document.frm_report_create.ddl_report_type[0].selected) {
+                    var currentTime = new Date()
+                    var month = currentTime.getMonth() + 1
+                    var day = currentTime.getDate()
+                    var year = currentTime.getFullYear()
+                    if (month < 10) {
+                        month = "0" + month
+                    }
+                    if (day < 10) {
+                        day = "0" + day
+                    }
+                    var daily_date = year + "-" + month + "-" + day
+                    
+                    document.frm_report_create.txt_from_date.value = daily_date
+                    document.frm_report_create.txt_to_date.value = daily_date
+					
+					document.frm_report_create.txt_from_date.onclick = null
+					document.frm_report_create.txt_to_date.onclick = null
+                }
+                else {
+                    document.frm_report_create.txt_from_date.value = ""
+                    document.frm_report_create.txt_to_date.value = ""
+                }
             }
         </script>
     </head>

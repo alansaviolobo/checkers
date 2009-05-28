@@ -35,6 +35,15 @@ class Loader_c extends Controller
         $this->load->view('template/operation');
 	}
 	
+	function load_database_restore()
+	{
+		$content['title'] = "Database Restore";
+		$content['menu'] = 'misc/menu_items';
+        $content['content'] = 'database/database_restore';
+        $this->load->vars($content);
+        $this->load->view('template/operation');
+	}
+	
 	function load_user_add()
 	{
 		$content['title'] = "User Add";
