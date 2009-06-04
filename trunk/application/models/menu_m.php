@@ -58,9 +58,16 @@ class Menu_m extends Model
 
     function menu_update()
     {
+    	$quantity = 0;
+    	$query = $this->db->get_where('check_menu',array('name'=>$this->input->xss_clean($this->input->post('txt_name'))));
+		foreach($query->result_array() as $q)
+		{
+			$quantity = $quantity + intval($q['quantity']);
+		}
+		
         $data = array (
         'name'=>$this->input->xss_clean($this->input->post('txt_name')),
-        'quantity'=>$this->input->xss_clean($this->input->post('txt_quantity')),
+        'quantity'=>$quantity + intval($this->input->xss_clean($this->input->post('txt_quantity'))),
         'cost'=>$this->input->xss_clean($this->input->post('txt_cost')),
         'section'=>$this->input->xss_clean($this->input->post('ddl_section'))
         );

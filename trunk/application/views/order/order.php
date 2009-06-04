@@ -11,6 +11,20 @@ echo form_open('order_c/order_add', $attributes);
  *options to put an order
  **********************************/
 
+if ($this->session->userdata('error'))
+{
+    $check_error = intval($this->session->userdata('error'));
+    if ($check_error == 0)
+    {
+        echo "Quantity remaining : ".$check_error;
+    }
+    else if ($check_error > 0 & $check_error <= 7)
+    {
+        echo "Quantity remaining : ".$check_error;
+    }
+    $this->session->unset_userdata('error');
+}
+
 unset ($dropdown_elements);
 echo "<div id='wrapper' style=\"float:left;margin-left:7px;\">";
 echo "<div id='order_options' style=\"background-color:#C3D9FF;width:365px;padding:10px;\">";
@@ -49,13 +63,9 @@ if ($order_type == 'table')
 else if ($order_type == 'room')
 {
     unset ($dropdown_elements);
-    /*for ($i = 100; $i < 151; $i++)
-    {
-        $dropdown_elements['Room No. '.$i] = 'Room No. '.$i;
-    }*/
-	$dropdown_elements = array(5=>5,6=>6,7=>7,8=>8,9=>9,10=>10,11=>11,12=>12,
-	101=>101,102=>102,103=>103,104=>104,105=>105,106=>106,107=>107,108=>108,109=>109,110=>110,111=>111,112=>112,
-	201=>201,202=>202,203=>203,204=>204,205=>205,206=>206,207=>207,208=>208,209=>209,210=>210,211=>211,212=>212);
+    $dropdown_elements = array ('Room. Boss'=>'Room. Boss', 'Room No. 5'=>'Room No. 5', '6'=>'Room No. 6', 'Room No. 7'=>'Room No. 7', 'Room No. 8'=>'Room No. 8', 'Room No. 9'=>'Room No. 9', 'Room No. 10'=>'Room No. 10', 'Room No. 11'=>'Room No. 11', 'Room No. 12'=>'Room No. 12',
+    'Room No. 101'=>'Room No. 101', 'Room No. 102'=>'Room No. 102', 'Room No. 103'=>'Room No. 103', 'Room No. 104'=>'Room No. 104', 'Room No. 105'=>'Room No. 105', 'Room No. 106'=>'Room No. 106', 'Room No. 107'=>'Room No. 107', 'Room No. 108'=>'Room No. 108', 'Room No. 109'=>'Room No. 109', 'Room No. 110'=>'Room No. 110', 'Room No. 111'=>'Room No. 111', 'Room No. 112'=>'Room No. 112',
+    'Room No. 201'=>'Room No. 201', 'Room No. 202'=>'Room No. 202', 'Room No. 203'=>'Room No. 203', 'Room No. 204'=>'Room No. 204', 'Room No. 205'=>'Room No. 205', 'Room No. 206'=>'Room No. 206', 'Room No. 207'=>'Room No. 207', 'Room No. 208'=>'Room No. 208', 'Room No. 209'=>'Room No. 209', 'Room No. 210'=>'Room No. 210', 'Room No. 211'=>'Room No. 211', 'Room No. 212'=>'Room No. 212');
     echo "<td>Room No&nbsp;&nbsp;";
 }
 echo form_dropdown('ddl_ordered_by', $dropdown_elements)."</td>";
@@ -113,7 +123,14 @@ if ( isset ($orders))
             $room[$o['ordered_by']] = $o['ordered_by'];
         }
     }
-    $ordered_by = array_merge($table, $room);
+    if ($order_type == 'table')
+    {
+        $ordered_by = $table;
+    }
+    else if ($order_type == 'room')
+    {
+        $ordered_by = $room;
+    }
 }
 
 /**********************************
@@ -125,10 +142,6 @@ echo "<strong>Bill<br /></strong>";
 echo "<p>Ordered By :&nbsp;".form_dropdown('ddl_bill_dropdown', array_unique($ordered_by))."&nbsp;&nbsp;";
 echo form_submit('check_ordered_by', 'Check')."</p>";
 $cost = '';
-$data = array (
-'name'=>'txt_name',
-'size'=>'40'
-);
 
 $w_list = array ();
 if ( isset ($waiter_list))
@@ -141,7 +154,7 @@ if ( isset ($waiter_list))
 
 if ( isset ($order_bill))
 {
-    echo "<p>Name :<br>".form_input($data)."</p>";
+    echo "<p>Name :<br>".form_input( array ('name'=>'txt_name', 'size'=>'40'))."</p>";
     echo "<p>Waiter No :&nbsp;".form_dropdown('ddl_waiter_name', $w_list)."<p/>";
     echo "<table cellpadding='3' cellspacing='3' align='center' class='border_set' style=\"border-collapse: collapse;\">";
     echo "<tr><th class='back_color'>Item name</th>";
@@ -160,10 +173,20 @@ if ( isset ($order_bill))
     echo "<tr><td>Subtotal: </td><td>".$cost."</td><tr>";
     echo "<tr><td>Discount: </td><td>".form_input('txt_discount', '0')." %</td></tr>";
     echo "<tr><td>Tax: </td><td>".form_input('txt_tax', '0')." %</td></tr>";
-    echo "<tr><td>Pay By: </td><td>".form_dropdown('ddl_pay_by', array ('Cash'=>'Cash', 'Credit Card'=>'Credit Card', 'Room Sales'=>'Room Sales'))." </td></tr>";
+    if ($order_type == 'room')
+    {
+        $pay_by = array ('Cash'=>'Cash', 'Credit Card'=>'Credit Card', 'Room Sales'=>'Room Sales');
+    }
+    else if ($order_type == 'table')
+    {
+        $pay_by = array ('Cash'=>'Cash', 'Credit Card'=>'Credit Card');
+    }
     echo "</table><p>";
     $this->session->set_userdata('sub_total', $cost);
     echo "<a href='#' onclick=\"createbill();\">Print</a></p>";
+
+    echo "<p>Select: ".form_dropdown('ddl_bill_printed')."<br />";
+    echo "Pay By: ".form_dropdown('ddl_pay_by', $pay_by)."&nbsp;&nbsp;".form_submit('close_bill', 'Close Bill')."</p>";
 }
 echo "</div>";
 echo form_close();

@@ -16,8 +16,8 @@ echo "<tr><td colspan='2' align='right'>".form_submit('submit', 'Login')."</td><
 
 echo "</table>";
 
-if($this->session->userdata('message'))
-	echo "<br /><h3>".$this->session->userdata('message')."</h3>";
+if ($this->session->userdata('message'))
+echo "<br /><h3>".$this->session->userdata('message')."</h3>";
 
 echo "</div>";
 

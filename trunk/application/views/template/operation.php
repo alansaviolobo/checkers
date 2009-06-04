@@ -46,13 +46,22 @@
                     
                     document.frm_report_create.txt_from_date.value = daily_date
                     document.frm_report_create.txt_to_date.value = daily_date
-					
-					document.frm_report_create.txt_from_date.onclick = null
-					document.frm_report_create.txt_to_date.onclick = null
+                    
+                    document.frm_report_create.txt_from_date.onclick = null
+                    document.frm_report_create.txt_to_date.onclick = null
                 }
                 else {
                     document.frm_report_create.txt_from_date.value = ""
                     document.frm_report_create.txt_to_date.value = ""
+                }
+            }
+            
+            function check_quantity(sample){
+                if (sample.value == "Bar") {
+                    document.frm_menu.txt_quantity.disabled = false
+                }
+                else {
+                    document.frm_menu.txt_quantity.disabled = true
                 }
             }
         </script>

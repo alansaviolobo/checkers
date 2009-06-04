@@ -25,7 +25,7 @@ if ($user_single)
 
         echo "<tr><td>".form_label('Designation', 'ddl_designation')."</td>";
         $designation_elements = array ('Waiter'=>'Waiter', 'Bartender'=>'Bartender', 'Manager'=>'Manager');
-		$js = 'onchange="check_admin()"';
+        $js = 'onchange="check_admin()"';
         echo "<td>".form_dropdown('ddl_designation', $designation_elements, $user['designation'], $js)."</td></tr>";
 
         echo "<tr><td valign='top'>".form_label('User Privileges')."</td>";

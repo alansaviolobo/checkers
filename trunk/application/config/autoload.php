@@ -51,7 +51,7 @@ $autoload['libraries'] = array('database', 'session', 'table','pagination','unit
 |	$autoload['helper'] = array('url', 'file');
 */
 
-$autoload['helper'] = array('form','url','file','cookie');
+$autoload['helper'] = array('form','url','file','cookie','download');
 
 
 /*
@@ -108,7 +108,7 @@ $autoload['language'] = array();
 |
 */
 
-$autoload['model'] = array();
+$autoload['model'] = array('report_m','order_m','user_m','menu_m','database_m');
 
 
 

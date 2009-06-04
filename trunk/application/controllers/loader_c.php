@@ -11,6 +11,11 @@ class Loader_c extends Controller
     {
     	$this->load->view('misc/login');
     }
+	
+	function load_database()
+	{
+        
+	}
 
     function load_menu_list()
     {
@@ -52,16 +57,7 @@ class Loader_c extends Controller
         $this->load->vars($content);
         $this->load->view('template/operation');
 	}
-	
-	function load_report_create()
-	{
-		$content['title'] = "Report Create";
-		$content['menu'] = 'misc/menu_items';
-        $content['content'] = 'report/report_create';
-        $this->load->vars($content);
-        $this->load->view('template/operation');
-	}
-	
+		
 	function load_bill()
 	{
 		$this->load->view('orders/bill');
