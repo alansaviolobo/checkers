@@ -28,14 +28,6 @@ class Report_c extends Controller
         {
             $query = $this->report_m->report_daily();
             $this->create_report($query, 'Daily');
-            /*$file = fopen('c:\\temp\\'.date('d-m-y').'-Daily.csv', "w");
-             foreach ($query as $line)
-             {
-             fputcsv($file, split(',', $line));
-             }
-             fclose($file);
-             force_download(date('d-m-Y').'.csv', file_get_contents('c:\\temp\\'.date('d-m-y').'-Daily.csv'));
-             $this->report_load('Report Successfully Created.');*/
         }
         if ( isset ($_POST['btn_create_report']))
         {
