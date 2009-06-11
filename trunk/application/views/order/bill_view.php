@@ -8,7 +8,7 @@ echo "<p>Ordered By :&nbsp;".form_dropdown('ddl_order_source', $source_list)."&n
 echo form_submit('btn_check_orders', 'Check Orders')."</p>";
 $cost = 0;
 
-$w_list = array ('General'=>'General');
+$w_list = array ();
 if ( isset ($waiters))
 {
     foreach ($waiters as $w)
