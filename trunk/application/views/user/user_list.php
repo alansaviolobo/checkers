@@ -1,6 +1,6 @@
 <?php
 
-echo "<span style=\"font-size: large;\">User List</span>&nbsp;&nbsp;&nbsp;".anchor('loader_c/load_user_add', 'New User')."<br /><br />";
+echo "<span id='topic'>User</span>&nbsp;&nbsp;&nbsp;".anchor('loader_c/user_add', 'New User')."<br /><br />";
 
 if ( isset ($users))
 {
@@ -15,24 +15,20 @@ if ( isset ($users))
     echo "<th class='back_color_1' >Report</th>";
     echo "<th class='back_color_1'>User</th>";
     echo "<th class='back_color_1'>Select</th></tr>";
-    foreach ($users as $user)
+    foreach ($users as $u)
     {
-        echo "<tr><td class='border_set' ><b><i>".$user['name']."</i></b></td>";
-        echo "<td class='border_set' >".$user['username']."</td>";
-        echo "<td class='border_set' >".$user['order_manage']."</td>";
-        echo "<td class='border_set' >".$user['menu_manage']."</td>";
-        echo "<td class='border_set' >".$user['database_manage']."</td>";
-        echo "<td class='border_set' >".$user['report_manage']."</td>";
-        echo "<td class='border_set' >".$user['user_manage']."</td>";
-        echo "<td class='border_set' >".anchor('user_c/user_manage/'.$user['id'], 'Select')."</td></tr>";
+        echo "<tr><td class='border_set' ><b><i>".$u['name']."</i></b></td>";
+        echo "<td class='border_set' >".$u['username']."</td>";
+        echo "<td class='border_set' >".$u['order_manage']."</td>";
+        echo "<td class='border_set' >".$u['menu_manage']."</td>";
+        echo "<td class='border_set' >".$u['database_manage']."</td>";
+        echo "<td class='border_set' >".$u['report_manage']."</td>";
+        echo "<td class='border_set' >".$u['user_manage']."</td>";
+        echo "<td class='border_set' >".anchor('user_c/user_manage/'.$u['username'], 'Select')."</td></tr>";
     }
     echo "</table>";
     echo $this->pagination->create_links();
 }
 else
-    echo "No User Exist&nbsp;&nbsp".anchor('loader_c/load_user_add', 'Add user')."";
-
-if ($this->session->userdata('message'))
-echo "<br /><h3>".$this->session->userdata('message')."</h3>";
-
+    echo "No User Exist&nbsp;&nbsp".anchor('loader_c/user_add', 'Add user')."";
 ?>

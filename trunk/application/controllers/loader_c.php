@@ -1,67 +1,32 @@
 <?php
-
 class Loader_c extends Controller
 {
-    function _construct()
-    {
-        parent::Controller();
-    }
-
-    function index()
-    {
-    	$this->load->view('misc/login');
-    }
-	
-	function load_database()
+	function _construct()
 	{
-        
+		
 	}
-
-    function load_menu_list()
-    {
-		redirect('menu_c/menu_list','refresh');
-    }
 	
-    function load_menu_add()
-    {
+	function index()
+	{
+		$this->load->view('misc/login');
+	}
+	
+	function menu_add()
+	{
     	$content['title'] = "Menu Add";
-		$content['menu'] = 'misc/menu_items';
-        $content['content'] = 'menu/menu_add';
+		$content['section_menu'] = 'misc/top_menu';
+        $content['section_content'] = 'menu/menu_add';
         $this->load->vars($content);
-        $this->load->view('template/operation');
-    }
-	
-	function load_database_backup()
-	{
-		$content['title'] = "Database Backup";
-		$content['menu'] = 'misc/menu_items';
-        $content['content'] = 'database/database_backup';
-        $this->load->vars($content);
-        $this->load->view('template/operation');
+        $this->load->view('template/template_all');
 	}
 	
-	function load_database_restore()
-	{
-		$content['title'] = "Database Restore";
-		$content['menu'] = 'misc/menu_items';
-        $content['content'] = 'database/database_restore';
-        $this->load->vars($content);
-        $this->load->view('template/operation');
-	}
-	
-	function load_user_add()
+	function user_add()
 	{
 		$content['title'] = "User Add";
-		$content['menu'] = 'misc/menu_items';
-        $content['content'] = 'user/user_add';
+		$content['section_menu'] = 'misc/top_menu';
+        $content['section_content'] = 'user/user_add';
         $this->load->vars($content);
-        $this->load->view('template/operation');
-	}
-		
-	function load_bill()
-	{
-		$this->load->view('orders/bill');
+        $this->load->view('template/template_all');
 	}
 }
-
 ?>

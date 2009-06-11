@@ -1,10 +1,9 @@
 <?php
-
 class Menu_m extends Model
 {
     function _construct()
     {
-        parent::Model();
+
     }
 
     function index()
@@ -12,89 +11,77 @@ class Menu_m extends Model
 
     }
 
-    function menu_add()
+    function menu_list()
     {
-        $data = array (
-        'name'=>$this->input->xss_clean($this->input->post('txt_name')),
-        'quantity'=>$this->input->xss_clean($this->input->post('txt_quantity')),
-        'cost'=>$this->input->xss_clean($this->input->post('txt_cost')),
-        'section'=>$this->input->xss_clean($this->input->post('ddl_section'))
-        );
-
-        if ($this->db->insert('check_menu', $data))
-        $this->session->set_userdata('message', 'Menu item successfully added');
-    }
-
-    function menu_list($limit, $offset)
-    {
-        $query = $this->db->get('check_menu', $limit, $offset);
+        $query = $this->db->get('menu');
         return $query->result_array();
     }
 
-    function menu_list_section_items($limit, $offset)
+    function menu_list_source($source_type, $limit, $offset)
     {
-        $query = $this->db->get_where('check_menu', array ('section'=>$this->input->xss_clean($this->input->post('ddl_section'))), $limit, $offset);
+        $query = $this->db->get_where('menu', array ('section'=>$source_type), $limit, $offset);
         return $query->result_array();
     }
 
-    function menu_list_section_items_count()
+    function menu_list_source_count($source_type)
     {
-        $this->db->like('section', $this->input->xss_clean($this->input->post('ddl_section')));
-        $this->db->from('check_menu');
+        $this->db->where( array ('section'=>$source_type));
+        $this->db->from('menu');
         return $this->db->count_all_results();
     }
 
-    function menu_list_all()
+    function menu_add($source_type, $name, $cost)
     {
-        $query = $this->db->get('check_menu');
-        return $query->result_array();
+        $query_menu = $this->db->get_where('menu', array ('name'=>$name))->row();
+        if ($query_menu == null)
+        {
+            $data = array ('name'=>$name, 'cost'=>$cost, 'section'=>$source_type);
+            if ($this->db->insert('menu', $data))
+            {
+                if ($source_type == 'Bar')
+                {
+                    $this->_assign_libraries();
+                    $check = $this->ticket_m->menu_purchase_insert($name, 0);
+                }
+                return "Item Added Successfully.";
+            }
+        }
+        else
+        {
+            return 'Item Already Exists.';
+        }
     }
 
-    function menu_item($id)
+    function menu_list_menu($name)
     {
-        $query = $this->db->where('id', $id)->get('check_menu');
-        return $query->result_array();
+        return $this->db->get_where('menu', array ('name'=>$name))->row();
     }
 
-    function menu_update()
+    function menu_update($name, $source_type, $new_name, $cost)
     {
-    	$quantity = 0;
-    	$query = $this->db->get_where('check_menu',array('name'=>$this->input->xss_clean($this->input->post('txt_name'))));
-		foreach($query->result_array() as $q)
-		{
-			$quantity = $quantity + intval($q['quantity']);
-		}
-		
-        $data = array (
-        'name'=>$this->input->xss_clean($this->input->post('txt_name')),
-        'quantity'=>$quantity + intval($this->input->xss_clean($this->input->post('txt_quantity'))),
-        'cost'=>$this->input->xss_clean($this->input->post('txt_cost')),
-        'section'=>$this->input->xss_clean($this->input->post('ddl_section'))
-        );
-
-        $this->db->where('id', $this->input->xss_clean($this->input->post('txt_id')));
-        if ($this->db->update('check_menu', $data))
-        $this->session->set_userdata('message', 'Menu item successfully updated');
+        $query_menu = $this->db->get_where('menu', array ('name'=>$new_name))->row();
+        if ($query_menu == null)
+        {
+            $data = array ('name'=>$new_name, 'cost'=>$cost, 'section'=>$source_type);
+            $this->db->where('name', $name);
+            if ($this->db->update('menu', $data))
+            {
+                return "Item Updated Successfully.";
+            }
+        }
+        else
+        {
+            return 'Item Already Exists.';
+        }
     }
 
-    function menu_delete($id)
+    function menu_delete($name)
     {
-        $this->db->where('id', $id);
-        if ($this->db->delete('check_menu'))
-        $this->session->set_userdata('message', 'Menu item successfully deleted');
-    }
-
-    function menu_categories()
-    {
-        $query = $this->db->query('select distinct section from check_menu');
-        $categories = $query->result_array();
-        return $categories;
-    }
-
-    function menu_count()
-    {
-        return $this->db->count_all('check_menu');
+        $this->db->where('name', $name);
+        if ($this->db->delete('menu'))
+        {
+            return "Item Deleted Successfully.";
+        }
     }
 }
-
 ?>

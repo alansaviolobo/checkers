@@ -8,82 +8,97 @@ class User_c extends Controller
 
     function index()
     {
-        $this->session->unset_userdata('message');
-        redirect('user_c/user_list', 'refresh');
+        $this->user_list('');
+    }
+
+    function login()
+    {
+        $data = array ('username'=>$this->input->xss_clean($this->input->post('txt_username')),
+        'password'=>$this->input->xss_clean($this->input->post('txt_password')));
+
+        $check = $this->user_m->login($data);
+        if ($check == 0)
+        {
+            $data['error'] = "Check Details";
+            $this->load->view('misc/login', $data);
+        }
+        else
+        {
+            $this->session->set_userdata('user_info', $check);
+            $this->session->set_userdata('order_type', 'table');
+            redirect('order_c');
+        }
+    }
+
+    function user_list($message)
+    {
+        $data['users'] = $this->user_m->user_list();
+        $content['title'] = "User Manage";
+        $content['section_menu'] = 'misc/top_menu';
+        $content['section_content'] = 'user/user_list';
+        $content['message'] = $message;
+        $this->load->vars($content);
+        $this->load->view('template/template_all', $data);
     }
 
     function user_add()
     {
-        $this->load->model('user_m', '', TRUE);
-        $this->user_m->user_add();
-        redirect('user_c/user_list', 'refresh');
+    	$username = $this->input->xss_clean($this->input->post('txt_username'));
+        $data = array (
+        'username'=>$this->input->xss_clean($this->input->post('txt_username')),
+        'password '=>$this->input->xss_clean($this->input->post('txt_password')),
+        'name'=>$this->input->xss_clean($this->input->post('txt_name')),
+        'designation '=>$this->input->xss_clean($this->input->post('ddl_designation')),
+        'order_manage '=>$this->input->xss_clean($this->input->post('chk_order')),
+        'menu_manage '=>$this->input->xss_clean($this->input->post('chk_menu')),
+        'database_manage '=>$this->input->xss_clean($this->input->post('chk_database')),
+        'report_manage '=>$this->input->xss_clean($this->input->post('chk_report')),
+        'user_manage '=>$this->input->xss_clean($this->input->post('chk_user')));
+
+        $check = $this->user_m->user_add($username,$data);
+        $this->user_list($check);
     }
 
-    function user_login()
+    function user_manage($username)
     {
-        $this->load->model('user_m', '', TRUE);
-        $check = $this->user_m->user_login();
-        if ($check == 0)
-        {
-            redirect('loader_c', 'refresh');
-        }
-        else if ($check == 1)
-        {
-            $this->session->set_userdata('order_type', 'table');
-            redirect('order_c', 'refresh');
-        }
-    }
-
-    function user_list()
-    {
-        $this->load->model('user_m', '', TRUE);
-
-        $config['base_url'] = base_url().'index.php/user_c/user_list/';
-        $config['total_rows'] = $this->user_m->user_count();
-        $config['full_tag_open'] = '<p>';
-        $config['full_tag_close'] = '</p>';
-        $config['per_page'] = 7;
-        $config['uri_segment'] = 3;
-
-        $this->pagination->initialize($config);
-
-        $data['users'] = $this->user_m->user_list($config['per_page'], $this->uri->segment(3));
-        $content['title'] = "User List";
-        $content['menu'] = 'misc/menu_items';
-        $content['content'] = 'user/user_list';
-        $this->load->vars($content);
-        $this->load->view('template/operation', $data);
-    }
-
-    function user_manage($id)
-    {
-        $this->load->model('user_m', '', TRUE);
-        $data['user_single'] = $this->user_m->user_single($id);
+        $data['user'] = $this->user_m->user_list_user($username);
         $content['title'] = "User Manage";
-        $content['menu'] = 'misc/menu_items';
-        $content['content'] = 'user/user_manage';
+        $content['section_menu'] = 'misc/top_menu';
+        $content['section_content'] = 'user/user_manage';
         $this->load->vars($content);
-        $this->load->view('template/operation', $data);
+        $this->load->view('template/template_all', $data);
+    }
+
+    function user_delete($username)
+    {
+        $check = $this->user_m->user_delete($username);
+        $this->user_list($check);
     }
 
     function user_update()
     {
-        $this->load->model('user_m', '', TRUE);
-        $this->user_m->user_update();
-        redirect('user_c/user_list', 'refresh');
-    }
+        $username = $this->input->xss_clean($this->input->post('username'));
+        $new_username = $this->input->xss_clean($this->input->post('txt_username'));
+        $name = $this->input->xss_clean($this->input->post('txt_name'));
+        $data = array (
+        'username'=>$this->input->xss_clean($this->input->post('txt_username')),
+        'password '=>$this->input->xss_clean($this->input->post('txt_password')),
+        'name'=>$this->input->xss_clean($this->input->post('txt_name')),
+        'designation '=>$this->input->xss_clean($this->input->post('ddl_designation')),
+        'order_manage '=>$this->input->xss_clean($this->input->post('chk_order')),
+        'menu_manage '=>$this->input->xss_clean($this->input->post('chk_menu')),
+        'database_manage '=>$this->input->xss_clean($this->input->post('chk_database')),
+        'report_manage '=>$this->input->xss_clean($this->input->post('chk_report')),
+        'user_manage '=>$this->input->xss_clean($this->input->post('chk_user')));
 
-    function user_delete($id)
-    {
-        $this->load->model('user_m', '', TRUE);
-        $this->user_m->user_delete($id);
-        redirect('user_c/user_list', 'refresh');
+        $check = $this->user_m->user_update($name, $username, $new_username, $data);
+        $this->user_list($check);
     }
 
     function user_logout()
     {
         $this->session->sess_destroy();
-        redirect('loader_c', 'refresh');
+        redirect('loader_c');
     }
 }
 ?>

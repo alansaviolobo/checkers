@@ -18,7 +18,7 @@ echo "<tr><td>".form_label('Password', 'txt_password')."</td>";
 echo "<td>".form_password('txt_password')."</td><tr />";
 
 echo "<tr><td>".form_label('Designation', 'ddl_designation')."</td>";
-$designation_elements = array ('Waiter'=>'Waiter', 'Bartender'=>'Bartender', 'Manager'=>'Manager');
+$designation_elements = array ('Owner'=>'Owner', 'Manager'=>'Manager', 'Waiter'=>'Waiter');
 echo "<td>".form_dropdown('ddl_designation', $designation_elements)."</td></tr>";
 
 echo "<tr><td valign='top'>".form_label('User Privileges')."</td>";
@@ -28,10 +28,9 @@ echo form_checkbox('chk_database', 'yes')." Database Manage<br/>";
 echo form_checkbox('chk_report', 'yes')." Report Manage<br/>";
 echo form_checkbox('chk_user', 'yes')." User Manage<br/></td></tr>";
 
-echo "<tr><td colspan='2'>".form_submit('submit', 'Add')."</td><tr />";
+echo "<tr><td colspan='2'>".form_submit('btn_user_add', 'Add')."</td><tr />";
 
 echo "</table>";
 
 echo form_close();
-
 ?>

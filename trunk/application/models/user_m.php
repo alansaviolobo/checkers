@@ -11,19 +11,12 @@ class User_m extends Model
 
     }
 
-    function get_waiter_list()
+    function login($data)
     {
-        $query = $this->db->get_where('check_user', array ('designation'=>'Waiter'));
-        return $query->result_array();
-    }
-
-    function user_login()
-    {
-        $query = $this->db->get_where('check_user', array ('username'=>$this->input->xss_clean($this->input->post('txt_username')), 'password'=>$this->input->xss_clean($this->input->post('txt_password'))));
+        $query = $this->db->get_where('user', $data);
 
         if ($query->result_array() == null)
         {
-            $this->session->set_userdata('message', 'Check Username and Password');
             return 0;
         }
         else
@@ -37,74 +30,69 @@ class User_m extends Model
                 'database'=>$row['database_manage'],
                 'report'=>$row['report_manage'],
                 'user'=>$row['user_manage']);
-
-                $this->session->set_userdata('user_info', $user_info);
             }
-            return 1;
+            return $user_info;
         }
 
         return $query->result_array();
     }
 
-    function user_add()
+    function waiters_list()
     {
-        $data = array (
-        'name'=>$this->input->xss_clean($this->input->post('txt_name')),
-        'username'=>$this->input->xss_clean($this->input->post('txt_username')),
-        'password'=>$this->input->xss_clean($this->input->post('txt_password')),
-        'designation'=>$this->input->xss_clean($this->input->post('ddl_designation')),
-        'order_manage'=>$this->input->xss_clean($this->input->post('chk_order')),
-        'menu_manage'=>$this->input->xss_clean($this->input->post('chk_menu')),
-        'database_manage'=>$this->input->xss_clean($this->input->post('chk_database')),
-        'report_manage'=>$this->input->xss_clean($this->input->post('chk_report')),
-        'user_manage'=>$this->input->xss_clean($this->input->post('chk_user'))
-        );
-
-        if ($this->db->insert('check_user', $data))
-        $this->session->set_userdata('message', 'User successfully added');
-    }
-
-    function user_list($limit, $offset)
-    {
-        $query = $this->db->get('check_user', $limit, $offset);
+        $query = $this->db->get_where('user', array ('designation'=>'Waiter'));
         return $query->result_array();
     }
 
-    function user_single($id)
+    function user_list()
     {
-        $query = $this->db->where('id', $id)->get('check_user');
-        return $query->result_array();
+        return $this->db->get('user')->result_array();
     }
 
-    function user_update()
+    function user_list_user($username)
     {
-        $data = array (
-        'name'=>$this->input->xss_clean($this->input->post('txt_name')),
-        'username'=>$this->input->xss_clean($this->input->post('txt_username')),
-        'password'=>$this->input->xss_clean($this->input->post('txt_password')),
-        'designation'=>$this->input->xss_clean($this->input->post('ddl_designation')),
-        'order_manage'=>$this->input->xss_clean($this->input->post('chk_order')),
-        'menu_manage'=>$this->input->xss_clean($this->input->post('chk_menu')),
-        'database_manage'=>$this->input->xss_clean($this->input->post('chk_database')),
-        'report_manage'=>$this->input->xss_clean($this->input->post('chk_report')),
-        'user_manage'=>$this->input->xss_clean($this->input->post('chk_user'))
-        );
-
-        $this->db->where('id', $this->input->xss_clean($this->input->post('txt_id')));
-        if ($this->db->update('check_user', $data))
-        $this->session->set_userdata('message', 'User successfully updated');
+        return $this->db->get_where('user', array ('username'=>$username))->row();
     }
 
-    function user_delete($id)
+    function user_delete($username)
     {
-        $this->db->where('id', $id);
-        if ($this->db->delete('check_user'))
-        $this->session->set_userdata('message', 'User successfully deleted');
+        $this->db->where('username', $username);
+        if ($this->db->delete('user'))
+        {
+            return 'User Deleted Successfully.';
+        }
     }
 
-    function user_count()
+    function user_update($name, $username, $new_username, $data)
     {
-        return $this->db->count_all('check_user');
+        $query_user = $this->db->get_where('user', array ('username'=>$new_username))->row();
+        if ($query_user == null)
+        {
+            $this->db->where('username', $username);
+            if ($this->db->update('user', $data))
+            {
+                return 'User Updated Successfully.';
+            }
+        }
+        else
+        {
+            return 'The Username Already Exists.';
+        }
+    }
+
+    function user_add($username, $data)
+    {
+        $query_user = $this->db->get_where('user', array ('username'=>$username))->row();
+        if ($query_user == null)
+        {
+            if ($this->db->insert('user', $data));
+            {
+                return 'User Added Successfully.';
+            }
+        }
+        else
+        {
+            return 'The Username Already Exists.';
+        }
     }
 }
 ?>

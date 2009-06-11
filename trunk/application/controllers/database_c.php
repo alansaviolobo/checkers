@@ -1,5 +1,4 @@
 <?php
-
 class Database_c extends Controller
 {
     function _construct()
@@ -9,44 +8,31 @@ class Database_c extends Controller
 
     function index()
     {
-        $content['title'] = "Database Operation";
-        $content['menu'] = 'misc/menu_items';
-        $content['content'] = 'database';
-        $this->load->vars($content);
-        $this->load->view('template/operation');
+        $this->load('');
     }
 
-    function operation()
+    function main()
     {
         if ( isset ($_POST['btn_backup']))
-        {	
-			$this->database_backup();
-        }
-		else if(isset($_POST['btn_restore']))
-		{
-			$this->database_restore();
-		}
-    }
-
-    function database_backup()
-    {
-        $this->load->model('database_m', '', TRUE);
-        $check = $this->database_m->database_backup();
-        if ($check == 1)
         {
-            redirect('database_c', 'refresh');
+            $check = $this->database_m->database_backup();
+            force_download(date('d-m-Y').'.sql', $check);
+			$this->load('Database Backup Successful. File Name. '.date('d-m-Y').'.sql');
+        }
+        else if ( isset ($_POST['btn_restore']))
+        {
+        	
         }
     }
-
-    function database_restore()
-    {
-        $this->load->model('database_m', '', TRUE);
-         $check = $this->database_m->database_restore();
-         if ($check == 1)
-         {
-         redirect('database_c', 'refresh');
-         }
-    }
+	
+	function load($message)
+	{
+		$content['title'] = "Database";
+        $content['section_menu'] = 'misc/top_menu';
+        $content['section_content'] = 'database/database';
+		$content['message'] = $message;
+        $this->load->vars($content);
+        $this->load->view('template/template_all');
+	}
 }
-
 ?>

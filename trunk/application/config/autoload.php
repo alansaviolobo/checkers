@@ -39,7 +39,7 @@
 |	$autoload['libraries'] = array('database', 'session', 'xmlrpc');
 */
 
-$autoload['libraries'] = array('database', 'session', 'table','pagination','unit_test','ajax','form_validation');
+$autoload['libraries'] = array('database', 'session', 'table','pagination');
 
 
 /*
@@ -108,7 +108,7 @@ $autoload['language'] = array();
 |
 */
 
-$autoload['model'] = array('report_m','order_m','user_m','menu_m','database_m');
+$autoload['model'] = array('report_m','order_m','menu_m','user_m','ticket_m','database_m');
 
 
 
