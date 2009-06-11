@@ -36,11 +36,11 @@ CREATE TABLE `bill` (
   `discount` int(10) unsigned DEFAULT NULL,
   `tax` int(10) unsigned DEFAULT NULL,
   `total` int(10) unsigned DEFAULT NULL,
-  `paid` varchar(20) DEFAULT NULL,
+  `paid` ENUM('room sales', 'credit card', 'cash') NOT NULL,
   `name` varchar(100) DEFAULT NULL,
   `waiter` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`number`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB;
 
 --
 -- Definition of table `menu`
@@ -50,25 +50,26 @@ DROP TABLE IF EXISTS `menu`;
 CREATE TABLE `menu` (
   `name` varchar(100) NOT NULL,
   `cost` int(10) unsigned DEFAULT NULL,
-  `section` varchar(50) DEFAULT NULL,
+  `section` ENUM('Beverages','Food','Bar') NOT NULL,
   PRIMARY KEY (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB;
 
 --
--- Definition of table `order`
+-- Definition of table `orders`
 --
 
-DROP TABLE IF EXISTS `order`;
-CREATE TABLE `order` (
+DROP TABLE IF EXISTS `orders`;
+CREATE TABLE `orders` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `menu` varchar(100) DEFAULT NULL,
   `quantity` int(10) unsigned DEFAULT NULL,
   `cost` int(10) unsigned DEFAULT NULL,
   `source` varchar(50) DEFAULT NULL,
-  `status` varchar(50) DEFAULT NULL,
+  `status` ENUM('open', 'close', 'room sales') DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `fk_order_menu` (`menu`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+  FOREIGN KEY (`menu`) REFERENCES `menu`(`name`)
+  ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE=InnoDB;
 
 --
 -- Definition of table `ticket`
@@ -81,7 +82,7 @@ CREATE TABLE `ticket` (
   `quantity` int(10) unsigned DEFAULT NULL,
   `dated` date DEFAULT NULL,
   `total` int(10) unsigned DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB;
 
 --
 -- Definition of table `user`
@@ -93,12 +94,13 @@ CREATE TABLE `user` (
   `password` varchar(100) DEFAULT NULL,
   `name` varchar(100) DEFAULT NULL,
   `designation` varchar(50) DEFAULT NULL,
-  `order_manage` varchar(5) DEFAULT NULL,
-  `menu_manage` varchar(5) DEFAULT NULL,
-  `database_manage` varchar(5) DEFAULT NULL,
-  `report_manage` varchar(5) DEFAULT NULL,
-  `user_manage` varchar(5) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `order_manage` ENUM('no', 'yes') DEFAULT 'no',
+  `menu_manage` ENUM('no', 'yes') DEFAULT 'no',
+  `database_manage` ENUM('no', 'yes') DEFAULT 'no',
+  `report_manage` ENUM('no', 'yes') DEFAULT 'no',
+  `user_manage` ENUM('no', 'yes') DEFAULT 'no',
+  PRIMARY KEY(`username`)
+) ENGINE=InnoDB;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
@@ -110,7 +112,6 @@ CREATE TABLE `user` (
 
 GRANT ALL PRIVILEGES ON `checkers`.* TO 'checkers'@'localhost' IDENTIFIED BY 'check123';
 
-INSERT INTO `user` (`username`,`password`,`name`,`designation`,`order_manage`,`menu_manage`,`database_manage`,`report_manage`,`user_manage`) VALUES 
- ('admin','admin','Administrator','Administrator','yes','yes','yes','yes','yes');
-
+INSERT INTO `user` (`username`,`password`,`name`,`designation`,`order_manage`,`menu_manage`,`database_manage`,`report_manage`,`user_manage`) 
+            VALUES ('admin','admin','Administrator','Administrator','yes','yes','yes','yes','yes');
 

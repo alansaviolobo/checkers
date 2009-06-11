@@ -12,7 +12,7 @@ class Order_m extends Model
     function orders_list()
     {
         $this->db->select('*');
-        $this->db->from('order');
+        $this->db->from('orders');
         $this->db->where_in('status', array ('open', 'room sales'));
         $this->db->like('source', $this->session->userdata('source_type'), 'after');
         $this->db->order_by('source', 'asc');
@@ -25,7 +25,7 @@ class Order_m extends Model
         $this->db->where('source', $source);
         $this->db->where_in('status', array ('open', 'room sales'));
 
-        return $this->db->get('order')->result_array();
+        return $this->db->get('orders')->result_array();
     }
 
     function new_order($menu, $source, $quantity)
@@ -37,7 +37,7 @@ class Order_m extends Model
         $this->db->where('menu', $menu);
         $this->db->where_in('status', array ('open', 'room sales'));
 
-        $orders = $this->db->get('order')->row();
+        $orders = $this->db->get('orders')->row();
 
         if ($query_ticket != null)
         {
@@ -82,7 +82,7 @@ class Order_m extends Model
             }
             $data = array ('menu'=>$menu, 'quantity'=>$quantity, 'cost'=>intval($query_menu->cost)*intval($quantity),
             'source'=>$source, 'status'=>$status);
-            $this->db->insert('order', $data);
+            $this->db->insert('orders', $data);
         }
         else
         {
@@ -91,7 +91,7 @@ class Order_m extends Model
             'cost'=>intval($query_menu->cost)*intval($quantity_new));
 
             $this->db->where('id', $orders->id);
-            $this->db->update('order', $data);
+            $this->db->update('orders', $data);
         }
 
         if ($query_menu->section == 'Bar')
@@ -104,7 +104,7 @@ class Order_m extends Model
 
     function order_delete($id)
     {
-        $query_order = $this->db->get_where('order', array ('id'=>$id))->row();
+        $query_order = $this->db->get_where('orders', array ('id'=>$id))->row();
         $query_menu = $this->db->get_where('menu', array ('name'=>$query_order->menu))->row();
         $query_ticket = $this->db->get_where('ticket', array ('menu'=>$query_order->menu))->last_row();
 
@@ -116,7 +116,7 @@ class Order_m extends Model
         }
 
         $this->db->where('id', $id);
-        if ($this->db->delete('order'))
+        if ($this->db->delete('orders'))
         {
             return 'Order Item Deleted Successfully.';
         }
@@ -128,7 +128,7 @@ class Order_m extends Model
         $this->db->where('source', get_cookie('source'));
         $this->db->where_in('status', array ('open', 'room sales'));
 
-        $query_order = $this->db->get('order')->result_array();
+        $query_order = $this->db->get('orders')->result_array();
 
         $query_menu = $this->db->get('menu')->result_array();
 
@@ -196,7 +196,7 @@ class Order_m extends Model
     {
         $data = array ('status'=>'close');
         $this->db->where( array ('source'=>$source, 'status'=>'open'));
-        $this->db->update('order', $data);
+        $this->db->update('orders', $data);
         unset ($data);
 
         $temp = $this->session->userdata('source_bill');

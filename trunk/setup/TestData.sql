@@ -53,11 +53,11 @@ INSERT INTO `menu` (`name`,`cost`,`section`) VALUES
 /*!40000 ALTER TABLE `menu` ENABLE KEYS */;
 
 --
--- Dumping data for table `order`
+-- Dumping data for table `orders`
 --
 
-/*!40000 ALTER TABLE `order` DISABLE KEYS */;
-INSERT INTO `order` (`id`,`menu`,`quantity`,`cost`,`source`,`status`) VALUES 
+/*!40000 ALTER TABLE `orders` DISABLE KEYS */;
+INSERT INTO `orders` (`id`,`menu`,`quantity`,`cost`,`source`,`status`) VALUES 
  (16,'Poha',7,350,'Room No. 5','room sales'),
  (17,'Poha',16,800,'Table No. 1','close'),
  (18,'Poha',5,250,'Table No. 1','close'),
@@ -67,7 +67,7 @@ INSERT INTO `order` (`id`,`menu`,`quantity`,`cost`,`source`,`status`) VALUES
  (22,'Puri Bhaji',1,80,'Table No. 1','close'),
  (23,'Aloo Paratha',1,50,'Table No. 5','open'),
  (24,'Cham',1,12,'Table No. 1','open');
-/*!40000 ALTER TABLE `order` ENABLE KEYS */;
+/*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 
 --
 -- Dumping data for table `ticket`
