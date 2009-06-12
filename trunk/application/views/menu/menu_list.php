@@ -5,9 +5,7 @@ echo form_open('menu_c/main', $attributes);
 echo "<p><span id='topic'>Menu<span>&nbsp;&nbsp;|&nbsp;";
 echo anchor('loader_c/menu_add', 'New')."&nbsp;|&nbsp;";
 echo anchor('menu_c/menu_purchase', 'Purchase')."&nbsp;|</p>";
-
-echo "<p>Select Section : &nbsp;".form_dropdown('ddl_source_type', array ('Food'=>'Food', 'Beverages'=>'Beverages', 'Bar'=>'Bar'))."&nbsp;&nbsp;";
-echo form_submit('btn_source_menu', 'Select')."</p>";
+echo "<p>Select Section : ".form_dropdown('ddl_source_type', array ('Food'=>'Food', 'Beverages'=>'Beverages', 'Bar'=>'Bar'), array(), "onchange='this.form.submit()'")."</p>";
 
 if ( isset ($results) && isset ($source_type))
 {
@@ -59,7 +57,7 @@ if ( isset ($menu_items))
     echo $this->pagination->create_links();
 }
 else
-    echo "No Menu Items Exist&nbsp;&nbsp<small>".anchor('loader_c/menu_add', 'Add Item')."</small>";
+    echo "No Menu Items Exist  <small>".anchor('loader_c/menu_add', 'Add Item')."</small>";
 
 echo form_close();
 

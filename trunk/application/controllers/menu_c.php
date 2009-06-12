@@ -13,7 +13,7 @@ class Menu_c extends Controller
 
     function main()
     {
-        if ( isset ($_POST['btn_source_menu']))
+        if ( isset ($_POST['ddl_source_type']))
         {
             $source_type = $this->input->xss_clean($this->input->post('ddl_source_type'));
             $this->menu_list_source($source_type, '');
