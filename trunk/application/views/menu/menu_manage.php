@@ -1,6 +1,13 @@
 <?php
-$attributes = array ('name'=>'frm_menu_manage');
-echo form_open('menu_c/menu_update', $attributes);
+echo "<script language='javascript'>";
+echo "function checkform(form) {";
+echo "if (form.ddl_source_type.value == '') { alert('Please select Category'); return false; };";
+echo "if (form.txt_name.value == '') { alert('Please enter a name'); return false; };";
+echo "if (form.txt_cost.value == '') { alert('Please enter the cost'); return false; };";
+echo "return true;";
+echo "}";
+echo "</script>";
+echo form_open('menu_c/menu_update', array('name'=>'frm_menu_manage', 'onsubmit'=>'return checkform(this)'));
 
 echo "<h2>Manage Exiting Menu Items</h2>";
 if ($menu)
@@ -37,7 +44,5 @@ if ($menu)
     echo anchor('menu_c/menu_delete/'.$menu->name.'/'.$menu->section, 'Delete')."</td></tr>";
     echo "</table>";
 }
-
 echo form_close();
-
 ?>

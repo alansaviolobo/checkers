@@ -1,7 +1,5 @@
 <?php
-
-$attributes = array ('name'=>'frm_menu_purchase');
-echo form_open('menu_c/menu_purchase_insert', $attributes);
+echo form_open('menu_c/menu_purchase_insert', array ('name'=>'frm_menu_purchase'));
 
 echo "<h2>Purchase Menu Items</h2>";
 if ( isset ($menu))
