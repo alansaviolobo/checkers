@@ -33,8 +33,6 @@
                 ?>
             </div>
             <?php
-            $attributes = array ('name'=>'frm_orders');
-            echo form_open('order_c/main', $attributes);
             echo "<p><span id='topic'>Orders<span>&nbsp;&nbsp;|&nbsp;";
             echo anchor('order_c/select_source/table', 'Table')."&nbsp;|&nbsp;";
             echo anchor('order_c/select_source/room', 'Room')."&nbsp;|</p>";
