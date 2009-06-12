@@ -13,7 +13,6 @@ if ( isset ($orders) && $orders != null)
         echo "<td class='border_set'>".$o['quantity']."</td>";
         echo "<td class='border_set'>".$o['source']."</td>";
         echo "<td class='border_set' width='25px' align='center'>".anchor('order_c/order_delete/'.$o['id'], 'Del')."</td>";
-        echo "<td class='border_set' width='25px' align='center'>".anchor('order_c/order_delete/'.$o['id'], 'Upd')."</td></tr>";
     }
     echo "</table>";
     echo $this->pagination->create_links();
