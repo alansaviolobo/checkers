@@ -1,11 +1,13 @@
 <?php
+$source_list = array('' => 'Change');
 if ( isset ($sources))
 {
-    $source_list = array_unique($sources);
+    $source_list += array_unique($sources);
 }
 echo "<strong>Bill</strong><br />";
-echo "<p>Ordered By :&nbsp;".form_dropdown('ddl_order_source', $source_list)."&nbsp;&nbsp;";
-echo form_submit('btn_check_orders', 'Check Orders')."</p>";
+echo form_open('order_c/main');
+echo "<p>Ordered By : $source ".form_dropdown('ddl_order_source', $source_list, '', "onChange='this.form.submit()'");
+echo form_close();
 $cost = 0;
 
 $w_list = array ();

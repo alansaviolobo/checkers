@@ -28,11 +28,11 @@ class Order_c extends Controller
             $check = $this->order_m->new_order($menu, $source, $quantity);
             $this->orders_list($this->session->userdata('source_type'), $check, null);
         }
-        else if ( isset ($_POST['btn_check_orders']))
+        else if ( isset ($_POST['ddl_order_source']))
         {
             $source = $this->input->xss_clean($this->input->post('ddl_order_source'));
             $orders_source = $this->order_m->orders_list_source($source);
-
+			$this->session->set_userdata('source',$source);
             $this->orders_list($this->session->userdata('source_type'), '', $orders_source);
         }
 		else if(isset($_POST['btn_close_bill']))
@@ -51,6 +51,7 @@ class Order_c extends Controller
         $data['orders'] = $this->order_m->orders_list();
         $data['waiters'] = $this->user_m->waiters_list();
         $data['orders_source'] = $orders_source;
+        $data['source'] = $this->session->userdata('source');
 		$room = $table = array();
         if ( isset ($data['orders']))
         {
