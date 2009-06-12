@@ -27,7 +27,7 @@ class Report_c extends Controller
         if ( isset ($_POST['btn_daily']))
         {
             $query = $this->report_m->report_daily();
-            $this->create_report($query, 'Daily');
+            $this->create_report($query, 'Daily Report (' . date('d/m/Y') . ')');
         }
         if ( isset ($_POST['btn_create_report']))
         {
@@ -40,27 +40,24 @@ class Report_c extends Controller
             if ($report_type == 'Bills')
             {
                 $query = $this->report_m->bills($from,$to);
-                $this->create_report($query, 'Bills');
+                $this->create_report($query, "Bills from $from to $to");
             }
-            else if ($report_type == 'Sales')
+            elseif ($report_type == 'Sales')
             {
                 $query = $this->report_m->sales($from,$to);
-                $this->create_report($query, 'Sales');
+                $this->create_report($query, "Sales from $from to $to");
             }
         }
     }
 
-    function create_report($query, $type)
+    function create_report($query, $name)
     {
-        $file = fopen('c:\\temp\\'.date('d-m-y').'-'.$type.'.csv', "w");
-
+        $file = '';
         foreach ($query as $line)
         {
-            fputcsv($file, split(',', $line));
+            $file .= "$line\n";
         }
-
-        fclose($file);
-        force_download(date('d-m-Y').'.csv', file_get_contents('c:\\temp\\'.date('d-m-y').'-'.$type.'.csv'));
+        force_download("$name.csv", $file);
         $this->report_load('Report Successfully Created.');
     }
 }

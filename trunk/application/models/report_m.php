@@ -32,7 +32,7 @@ class Report_m extends Model
         }
         array_push($result, $check);
         array_push($result, '');
-        array_push($result, ',DATE,BILL NO.,FOOD,BEVERAGES,BAR,TOTAL');
+        array_push($result, 'DATE,BILL NO.,FOOD,BEVERAGES,BAR,TOTAL');
         array_push($result, '');
         foreach ($query_bill as $b)
         { // YMD
@@ -64,7 +64,7 @@ class Report_m extends Model
         }
         array_push($result, $check);
         array_push($result, '');
-        array_push($result, ',DATE,ITEM NAME,OPEN.BAL,PURCHASE,TOTAL QNTY,SOLD,CLOSE.BAL,TOTAL AMOUNT');
+        array_push($result, 'DATE,ITEM NAME,OPEN.BAL,PURCHASE,TOTAL QNTY,SOLD,CLOSE.BAL,TOTAL AMOUNT');
         array_push($result, '');
         foreach ($query_ticket as $t)
         {//YMD
