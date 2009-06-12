@@ -13,7 +13,7 @@ class Menu_m extends Model
 
     function menu_list()
     {
-        $query = $this->db->get('menu');
+        $query = $this->db->select('section, name')->order_by('section, name')->get('menu');
         return $query->result_array();
     }
 

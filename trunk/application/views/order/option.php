@@ -4,7 +4,7 @@ if ( isset ($menu))
 {
     foreach ($menu as $m)
     {
-        $menu_elements[$m['name']] = $m['name'];
+        $menu_elements[$m['section']][$m['name']] = $m['name'];
     }
 }
 
