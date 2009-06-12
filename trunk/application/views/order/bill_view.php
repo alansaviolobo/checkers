@@ -5,9 +5,10 @@ if ( isset ($sources))
     $source_list += array_unique($sources);
 }
 echo "<strong>Bill</strong><br />";
-echo form_open('order_c/main');
+echo form_open('order_c/main', array('name' => 'frm_bill_view'));
+echo "<input type='hidden' name='ddl_order_hidden' value='$source'>";
 echo "<p>Ordered By : $source ".form_dropdown('ddl_order_source', $source_list, '', "onChange='this.form.submit()'");
-echo form_close();
+
 $cost = 0;
 
 $w_list = array ();
@@ -50,7 +51,7 @@ if ( isset ($orders_source))
         echo "<hr />";
         $pay_by = array ('Cash'=>'Cash', 'Credit Card'=>'Credit Card');
         echo "<p align='center'>Pay By :&nbsp;".form_dropdown('ddl_pay_by', $pay_by)."&nbsp;&nbsp;".form_submit('btn_close_bill', 'Close Bill')."</p>";
-
     }
+echo form_close();
 }
 ?>

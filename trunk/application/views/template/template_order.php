@@ -9,15 +9,12 @@
         </title>
         <link rel="stylesheet" type="text/css" href="<?=base_url()?>resource/stylesheet/common.css" />
         <script language="JavaScript" type="text/javascript">
-            function print_bill(){
-                document.cookie = 'discount=' + document.frm_orders.txt_discount.value
-                document.cookie = 'tax=' + document.frm_orders.txt_tax.value
-                var get_index = document.frm_orders.ddl_waiters.selectedIndex
-                document.cookie = 'waiter=' + document.frm_orders.ddl_waiters[get_index].value
-                document.cookie = 'name=' + document.frm_orders.txt_name.value
-				var get_index = document.frm_orders.ddl_order_source.selectedIndex
-				document.cookie = 'source=' + document.frm_orders.ddl_order_source[get_index].value
-
+            function print_bill() {
+                document.cookie = 'discount='+ document.frm_bill_view.txt_discount.value
+                document.cookie =      'tax='+ document.frm_bill_view.txt_tax.value
+                document.cookie =   'waiter='+ document.frm_bill_view.ddl_waiters.value
+                document.cookie =     'name='+ document.frm_bill_view.txt_name.value
+				document.cookie =   'source='+ document.frm_bill_view.ddl_order_hidden.value
                 window.showModalDialog('bill_print');
             }
         </script>
