@@ -99,7 +99,7 @@
                 foreach ($details as $d)
                 {
                     echo "<tr><td align='right'><b>Sub Total: </b></td><td><u>Rs. ".$d['subtotal']."</u><br></td></tr>";
-                    echo "<tr><td align='right'><b>Amt. Less Discount: </b></td><td><u>Rs. ".floatval($d['subtotal']-$d['discount'])." </u><br></td></tr>";
+                    echo "<tr><td align='right'><b>Amt. after Discount: </b></td><td><u>Rs. ".floatval($d['subtotal']-$d['discount'])." </u><br></td></tr>";
                     echo "<tr><td align='right'><b>Tax: </b></td><td><u>Rs. ".$d['tax']." </u><br></td></tr>";
                     echo "<tr><td>&nbsp;</td></tr>";
                     echo "<tr><td align='right'><b>TOTAL: </b></td><td style=\"border-bottom: medium double black;\">Rs. ".intval($d['total'])."<br></td></tr>";
