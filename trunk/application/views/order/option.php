@@ -27,7 +27,7 @@ if ($source_type == 'table')
 elseif ($source_type == 'room')
 {
     $source_elements = array ('' => 'Select One',
-    'Room No. 5'=>'Room No. 5', '6'=>'Room No. 6', 'Room No. 7'=>'Room No. 7', 'Room No. 8'=>'Room No. 8', 'Room No. 9'=>'Room No. 9', 'Room No. 10'=>'Room No. 10', 'Room No. 11'=>'Room No. 11', 'Room No. 12'=>'Room No. 12',
+    'Room No. 5'=>'Room No. 5', 'Room No. 6'=>'Room No. 6', 'Room No. 7'=>'Room No. 7', 'Room No. 8'=>'Room No. 8', 'Room No. 9'=>'Room No. 9', 'Room No. 10'=>'Room No. 10', 'Room No. 11'=>'Room No. 11', 'Room No. 12'=>'Room No. 12',
     'Room No. 101'=>'Room No. 101', 'Room No. 102'=>'Room No. 102', 'Room No. 103'=>'Room No. 103', 'Room No. 104'=>'Room No. 104', 'Room No. 105'=>'Room No. 105', 'Room No. 106'=>'Room No. 106', 'Room No. 107'=>'Room No. 107', 'Room No. 108'=>'Room No. 108', 'Room No. 109'=>'Room No. 109', 'Room No. 110'=>'Room No. 110', 'Room No. 111'=>'Room No. 111', 'Room No. 112'=>'Room No. 112',
     'Room No. 201'=>'Room No. 201', 'Room No. 202'=>'Room No. 202', 'Room No. 203'=>'Room No. 203', 'Room No. 204'=>'Room No. 204', 'Room No. 205'=>'Room No. 205', 'Room No. 206'=>'Room No. 206', 'Room No. 207'=>'Room No. 207', 'Room No. 208'=>'Room No. 208', 'Room No. 209'=>'Room No. 209', 'Room No. 210'=>'Room No. 210', 'Room No. 211'=>'Room No. 211', 'Room No. 212'=>'Room No. 212',
     'Room. Boss'=>'Room. Boss');
