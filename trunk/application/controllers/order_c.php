@@ -37,7 +37,7 @@ class Order_c extends Controller
         }
 		else if(isset($_POST['btn_close_bill']))
 		{
-			$source = $this->input->xss_clean($this->input->post('ddl_order_source'));
+			$source = $this->session->userdata('source');
 			$paid = $this->input->xss_clean($this->input->post('ddl_pay_by'));
 			$check = $this->order_m->close_bill($source,$paid);
 			
