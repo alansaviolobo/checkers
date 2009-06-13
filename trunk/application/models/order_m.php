@@ -184,7 +184,7 @@ class Order_m extends Model
             $this->session->set_userdata('source_bill', $temp);
         }
 		
-        if (strpos(strtolower($this->session->userdata('source')), 'table') == false)
+        if (strpos(strtolower($this->session->userdata('source')), 'room') == true)
         {
             $this->close_bill($this->session->userdata('source'), 'room sales');
         }
