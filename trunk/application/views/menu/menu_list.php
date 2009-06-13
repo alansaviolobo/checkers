@@ -33,22 +33,16 @@ if ( isset ($menu_items))
         {
             if ($source_type == 'Bar')
             {
-                if ( isset ($ticket))
+            	$quantity = 0;
+            	foreach ($ticket as $t)
                 {
-                    foreach ($ticket as $t)
+                	if ($m['name'] == $t['menu'])
                     {
-                        if ($m['name'] == $t['menu'])
-                        {
-                            $quantity = $t['total'];
-							break;
-                        }
-						else{
-							$quantity = 0;
-						}
-                    }echo "<td class='border_set'>".$quantity."</td>";
+                    	$quantity += $t['total'];
+                    }
                 }
+				echo "<td class='border_set'>".$quantity."</td>";
             }
-					
         }
         echo "<td class='border_set'>".$m['cost']."</td>";
         echo "<td class='border_set'>".anchor('menu_c/menu_manage/'.$m['name'], 'Select')."</td></tr>";
