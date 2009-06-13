@@ -30,12 +30,12 @@ CREATE TABLE `bill` (
   `number` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `dated` date DEFAULT NULL,
   `beverages` int(10) unsigned DEFAULT NULL,
-  `bar` int(10) unsigned DEFAULT NULL,
-  `food` int(10) unsigned DEFAULT NULL,
-  `subtotal` int(10) unsigned DEFAULT NULL,
-  `discount` int(10) unsigned DEFAULT NULL,
-  `tax` int(10) unsigned DEFAULT NULL,
-  `total` int(10) unsigned DEFAULT NULL,
+  `bar` int(10) unsigned NOT NULL DEFAULT 0,
+  `food` int(10) unsigned NOT NULL DEFAULT 0,
+  `subtotal` int(10) unsigned NOT NULL DEFAULT 0,
+  `discount` int(10) unsigned NOT NULL DEFAULT 0,
+  `tax` int(10) unsigned NOT NULL DEFAULT 0,
+  `total` int(10) unsigned NOT NULL DEFAULT 0,
   `paid` ENUM('room sales', 'credit card', 'cash') NOT NULL,
   `name` varchar(100) DEFAULT NULL,
   `waiter` varchar(100) DEFAULT NULL,
@@ -49,7 +49,7 @@ CREATE TABLE `bill` (
 DROP TABLE IF EXISTS `menu`;
 CREATE TABLE `menu` (
   `name` varchar(100) NOT NULL,
-  `cost` int(10) unsigned DEFAULT NULL,
+  `cost` int(10) unsigned NOT NULL DEFAULT 0,
   `section` ENUM('Beverages','Food','Bar') NOT NULL,
   PRIMARY KEY (`name`)
 ) ENGINE=InnoDB;
@@ -61,11 +61,11 @@ CREATE TABLE `menu` (
 DROP TABLE IF EXISTS `orders`;
 CREATE TABLE `orders` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `menu` varchar(100) DEFAULT NULL,
-  `quantity` int(10) unsigned DEFAULT NULL,
-  `cost` int(10) unsigned DEFAULT NULL,
+  `menu` varchar(100) NOT NULL,
+  `quantity` int(10) unsigned NOT NULL,
+  `cost` int(10) unsigned NOT NULL ,
   `source` varchar(50) DEFAULT NULL,
-  `status` ENUM('open', 'close', 'room sales') DEFAULT NULL,
+  `status` ENUM('open', 'close', 'room sales') NOT NULL,
   PRIMARY KEY (`id`),
   FOREIGN KEY (`menu`) REFERENCES `menu`(`name`)
   ON DELETE RESTRICT ON UPDATE CASCADE
@@ -79,9 +79,11 @@ DROP TABLE IF EXISTS `ticket`;
 CREATE TABLE `ticket` (
   `menu` varchar(100) DEFAULT NULL,
   `carry` int(10) unsigned DEFAULT NULL,
-  `quantity` int(10) unsigned DEFAULT NULL,
-  `dated` date DEFAULT NULL,
-  `total` int(10) unsigned DEFAULT NULL
+  `quantity` int(10) unsigned NOT NULL,
+  `dated` date NOT NULL,
+  `total` int(10) unsigned NOT NULL,
+  FOREIGN KEY (`menu`) REFERENCES `menu`(`name`)
+  ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE=InnoDB;
 
 --
@@ -90,15 +92,15 @@ CREATE TABLE `ticket` (
 
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
-  `username` varchar(50) DEFAULT NULL,
-  `password` varchar(100) DEFAULT NULL,
-  `name` varchar(100) DEFAULT NULL,
-  `designation` varchar(50) DEFAULT NULL,
-  `order_manage` ENUM('no', 'yes') DEFAULT 'no',
-  `menu_manage` ENUM('no', 'yes') DEFAULT 'no',
-  `database_manage` ENUM('no', 'yes') DEFAULT 'no',
-  `report_manage` ENUM('no', 'yes') DEFAULT 'no',
-  `user_manage` ENUM('no', 'yes') DEFAULT 'no',
+  `username` varchar(50) NOT NULL,
+  `password` varchar(100) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `designation` varchar(50) NOT NULL,
+  `order_manage` ENUM('no', 'yes') NOT NULL DEFAULT 'no',
+  `menu_manage` ENUM('no', 'yes') NOT NULL DEFAULT 'no',
+  `database_manage` ENUM('no', 'yes') NOT NULL DEFAULT 'no',
+  `report_manage` ENUM('no', 'yes') NOT NULL DEFAULT 'no',
+  `user_manage` ENUM('no', 'yes') NOT NULL DEFAULT 'no',
   PRIMARY KEY(`username`)
 ) ENGINE=InnoDB;
 
