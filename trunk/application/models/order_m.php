@@ -23,7 +23,7 @@ class Order_m extends Model
     function orders_list_source($source)
     {
         $this->db->where('source', $source);
-        $this->db->where_in('status','open');
+        $this->db->where_in('status', 'open');
 
         return $this->db->get('orders')->result_array();
     }
@@ -72,7 +72,7 @@ class Order_m extends Model
     {
         if ($orders == null)
         {
-        	$status = 'open';
+            $status = 'open';
             $data = array ('menu'=>$menu, 'quantity'=>$quantity, 'cost'=>intval($query_menu->cost)*intval($quantity),
             'source'=>$source, 'status'=>$status);
             $this->db->insert('orders', $data);
@@ -166,23 +166,28 @@ class Order_m extends Model
         'discount'=>$discount,
         'tax'=>$tax,
         'total'=>$total,
-		'paid'=>'',
+        'paid'=>'',
         'name'=>get_cookie('name'),
         'waiter'=>get_cookie('waiter'));
 
-        $this->db->insert('bill', $data);
-        $this->session->set_userdata('number', $this->db->insert_id());
-
         $temp = $this->session->userdata('source_bill');
-        $temp[get_cookie('source')] = $this->db->insert_id();
-        $this->session->unset_userdata('source_bill');
-        $this->session->set_userdata('source_bill', $temp);
+        if ( isset ($temp[$this->session->userdata('source')]))
+        {
+        }
+        else
+        {
+            $this->db->insert('bill', $data);
+            $this->session->set_userdata('number', $this->db->insert_id());
+
+            $temp[get_cookie('source')] = $this->db->insert_id();
+            $this->session->unset_userdata('source_bill');
+            $this->session->set_userdata('source_bill', $temp);
+        }
 		
-		var_dump($this->session->userdata('source'));
-		if(strpos(strtolower($this->session->userdata('source')), 'table') == false)
-		{echo 1;
-			$this->close_bill($this->session->userdata('source'),'room sales');
-		}
+        if (strpos(strtolower($this->session->userdata('source')), 'table') == false)
+        {
+            $this->close_bill($this->session->userdata('source'), 'room sales');
+        }
 
         return $query_order;
     }
