@@ -168,9 +168,11 @@ class Order_m extends Model
         'total'=>$total,
         'paid'=>'',
         'name'=>get_cookie('name'),
-        'waiter'=>get_cookie('waiter'));
+        'waiter'=>get_cookie('waiter'),
+		'source'=>$this->session->userdata('source'));
 
         $temp = $this->session->userdata('source_bill');
+        var_dump($temp);
         if ( isset ($temp[$this->session->userdata('source')]))
         {
         }
@@ -183,7 +185,7 @@ class Order_m extends Model
             $this->session->unset_userdata('source_bill');
             $this->session->set_userdata('source_bill', $temp);
         }
-		
+
         if (strpos(strtolower($this->session->userdata('source')), 'room') == true)
         {
             $this->close_bill($this->session->userdata('source'), 'room sales');
@@ -211,6 +213,10 @@ class Order_m extends Model
             $this->db->where('number', $t[$source]);
             $this->db->update('bill', $data);
         }
+
+        unset($temp[$source]);
+        $this->session->unset_userdata('source_bill');
+        $this->session->set_userdata('source_bill', $temp);
 
         return "Bill Closed Successfully.";
     }
