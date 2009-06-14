@@ -116,4 +116,3 @@ GRANT ALL PRIVILEGES ON `checkers`.* TO 'checkers'@'localhost' IDENTIFIED BY 'ch
 
 INSERT INTO `user` (`username`,`password`,`name`,`designation`,`order_manage`,`menu_manage`,`database_manage`,`report_manage`,`user_manage`) 
             VALUES ('admin','admin','Administrator','Administrator','yes','yes','yes','yes','yes');
-
