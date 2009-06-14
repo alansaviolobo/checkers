@@ -120,3 +120,9 @@
 window.print();
 window.close();
 </script-->
+<script language="JavaScript">
+    window.onunload
+ 	{
+		this.opener.location = 'http://localhost/checkers/index.php/order_c';
+	}       
+</script>

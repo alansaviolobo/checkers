@@ -1,4 +1,4 @@
--- MySQL Administrator dump 1.4
+﻿-- MySQL Administrator dump 1.4
 --
 -- ------------------------------------------------------
 -- Server version	5.1.30-community
@@ -36,9 +36,10 @@ CREATE TABLE `bill` (
   `discount` int(10) unsigned NOT NULL DEFAULT 0,
   `tax` int(10) unsigned NOT NULL DEFAULT 0,
   `total` int(10) unsigned NOT NULL DEFAULT 0,
-  `paid` ENUM('room sales', 'credit card', 'cash') NOT NULL,
+  `paid` ENUM('room sales', 'credit card', 'cash', 'print') NOT NULL,
   `name` varchar(100) DEFAULT NULL,
   `waiter` varchar(100) DEFAULT NULL,
+  `source` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`number`)
 ) ENGINE=InnoDB;
 
@@ -65,7 +66,7 @@ CREATE TABLE `orders` (
   `quantity` int(10) unsigned NOT NULL,
   `cost` int(10) unsigned NOT NULL ,
   `source` varchar(50) DEFAULT NULL,
-  `status` ENUM('open', 'close', 'room sales') NOT NULL,
+  `status` ENUM('open', 'close') NOT NULL,
   PRIMARY KEY (`id`),
   FOREIGN KEY (`menu`) REFERENCES `menu`(`name`)
   ON DELETE RESTRICT ON UPDATE CASCADE
@@ -114,5 +115,5 @@ CREATE TABLE `user` (
 
 GRANT ALL PRIVILEGES ON `checkers`.* TO 'checkers'@'localhost' IDENTIFIED BY 'check123';
 
-INSERT INTO `user` (`username`,`password`,`name`,`designation`,`order_manage`,`menu_manage`,`database_manage`,`report_manage`,`user_manage`) 
+INSERT INTO `user` (`username`,`password`,`name`,`designation`,`order_manage`,`menu_manage`,`database_manage`,`report_manage`,`user_manage`)
             VALUES ('admin','admin','Administrator','Administrator','yes','yes','yes','yes','yes');
