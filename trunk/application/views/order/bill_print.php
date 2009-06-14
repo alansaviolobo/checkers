@@ -116,13 +116,11 @@
     </div>
     <br>
 </div>
-<!--script language='javascript'>
-window.print();
-window.close();
-</script-->
-<script language="JavaScript">
+<script language='javascript'>
+    window.print();
     window.onunload
- 	{
-		this.opener.location = 'http://localhost/checkers/index.php/order_c';
-	}       
+    {
+        this.opener.location = 'http://localhost/checkers/index.php/order_c';
+    }
+    window.close();
 </script>
