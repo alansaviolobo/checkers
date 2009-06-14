@@ -9,13 +9,16 @@
         </title>
         <link rel="stylesheet" type="text/css" href="<?=base_url()?>resource/stylesheet/common.css" />
         <script language="JavaScript" type="text/javascript">
-            function print_bill() {
-                document.cookie = 'discount='+ document.frm_bill_view.txt_discount.value
-                document.cookie =      'tax='+ document.frm_bill_view.txt_tax.value
-                document.cookie =   'waiter='+ document.frm_bill_view.ddl_waiters.value
-                document.cookie =     'name='+ document.frm_bill_view.txt_name.value
-				document.cookie =   'source='+ document.frm_bill_view.ddl_order_hidden.value
-                window.showModalDialog('bill_print');
+            function print_bill(){
+                var discount = document.frm_bill_view.txt_discount.value;
+                var tax = document.frm_bill_view.txt_tax.value;
+                var waiter = document.frm_bill_view.ddl_waiters.value;
+                var name = document.frm_bill_view.txt_name.value;
+                var source = document.frm_bill_view.ddl_order_hidden.value;
+				if(name == ""){
+					name ="-";
+				}
+                window.showModalDialog('bill_print/' + discount + '/' + tax + '/' + waiter + '/' + source + '/' + name);
             }
         </script>
     </head>
@@ -36,7 +39,7 @@
             ?>
             <p>
                 <?php
-                if(isset($message))
+                if ( isset ($message))
                 {
                     echo $message;
                 }

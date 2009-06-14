@@ -52,6 +52,6 @@ if ( isset ($orders_source))
         $pay_by = array ('Cash'=>'Cash', 'Credit Card'=>'Credit Card');
         echo "<p align='center'>Pay By :&nbsp;".form_dropdown('ddl_pay_by', $pay_by)."&nbsp;&nbsp;".form_submit('btn_close_bill', 'Close Bill')."</p>";
     }
-echo form_close();
 }
+echo form_close();
 ?>

@@ -3,10 +3,6 @@ class Order_m extends Model
 {
     function _construct()
     {
-        if (!$this->session->userdata('source_bill'))
-        {
-            $source_bill = array ();
-        }
     }
 
     function orders_list()
@@ -116,86 +112,71 @@ class Order_m extends Model
         return $message;
     }
 
-    function create_bill()
+    function create_bill($discount, $tax, $waiter, $source, $name)
     {
-        $this->db->where('source', get_cookie('source'));
+        $this->db->where('source', $source);
         $this->db->where_in('status', 'open');
-
         $query_order = $this->db->get('orders')->result_array();
 
         $query_menu = $this->db->get('menu')->result_array();
 
-        $subtotal = intval($this->session->userdata('subtotal'));
-        $discount = floatval(get_cookie('discount'));
-        $discount = $subtotal*($discount/100);
-        $subtotal = $subtotal-$discount;
-        $tax = floatval(get_cookie('tax'));
-        $tax = $subtotal*($tax/100);
-        $total = $subtotal+$tax;
-        $beverages = 0;
-        $bar = 0;
-        $food = 0;
-        foreach ($query_order as $q_o)
+        $query_bill = $this->db->get_where('bill', array ('source'=>$source, 'paid'=>'print'))->row();
+        if ($query_bill == null)
         {
-            foreach ($query_menu as $q_m)
+            $subtotal = intval($this->session->userdata('subtotal'));
+            $discount = $subtotal*($discount/100);
+            $subtotal = $subtotal-$discount;
+            $tax = $subtotal*($tax/100);
+            $total = $subtotal+$tax;
+            $beverages = 0;
+            $bar = 0;
+            $food = 0;
+            foreach ($query_order as $q_o)
             {
-                if ($q_o['menu'] === $q_m['name'])
+                foreach ($query_menu as $q_m)
                 {
-                    switch($q_m['section'])
+                    if ($q_o['menu'] === $q_m['name'])
                     {
-                        case 'Beverages':
-                            $beverages = $beverages+intval($q_o['cost']);
-                            break;
-                        case 'Bar':
-                            $bar = $bar+intval($q_o['cost']);
-                            break;
-                        case 'Food':
-                            $food = $food+intval($q_o['cost']);
-                            break;
+                        switch($q_m['section'])
+                        {
+                            case 'Beverages':
+                                $beverages = $beverages+intval($q_o['cost']);
+                                break;
+                            case 'Bar':
+                                $bar = $bar+intval($q_o['cost']);
+                                break;
+                            case 'Food':
+                                $food = $food+intval($q_o['cost']);
+                                break;
+                        }
                     }
                 }
             }
-        }
 
-        $data = array (
-        'dated'=>date('y-m-d'),
-        'beverages'=>$beverages,
-        'bar'=>$bar,
-        'food'=>$food,
-        'subtotal'=>$this->session->userdata('subtotal'),
-        'discount'=>$discount,
-        'tax'=>$tax,
-        'total'=>$total,
-        'paid'=>'',
-        'name'=>get_cookie('name'),
-        'waiter'=>get_cookie('waiter'),
-		'source'=>$this->session->userdata('source'));
+            $data = array (
+            'dated'=>date('y-m-d'),
+            'beverages'=>$beverages,
+            'bar'=>$bar,
+            'food'=>$food,
+            'subtotal'=>$this->session->userdata('subtotal'),
+            'discount'=>$discount,
+            'tax'=>$tax,
+            'total'=>$total,
+            'paid'=>'print',
+            'name'=>$name,
+            'waiter'=>$waiter,
+            'source'=>$source);
 
-        $temp = $this->session->userdata('source_bill');
-        if ( isset ($temp[$this->session->userdata('source')]))
-        {
-        }
-        else
-        {
             $this->db->insert('bill', $data);
-            $this->session->set_userdata('number', $this->db->insert_id());
-
-            $temp[get_cookie('source')] = $this->db->insert_id();
-            $this->session->unset_userdata('source_bill');
-            $this->session->set_userdata('source_bill', $temp);
-        }
-
-        if (strpos(strtolower($this->session->userdata('source')), 'room') == true)
-        {
-            $this->close_bill($this->session->userdata('source'), 'room sales');
         }
 
         return $query_order;
     }
 
-    function bill_details()
+    function bill_details($source)
     {
-        return $this->db->get_where('bill', array ('number'=>$this->session->userdata('number')))->result_array();
+    	$data = array('source'=>$source, 'paid'=>'print');
+        return $this->db->get_where('bill', $data)->row();
     }
 
     function close_bill($source, $paid)
@@ -205,17 +186,9 @@ class Order_m extends Model
         $this->db->update('orders', $data);
         unset ($data);
 
-        $temp = $this->session->userdata('source_bill');
-        foreach ($temp as $t)
-        {
-            $data = array ('paid'=>$paid);
-            $this->db->where('number', $t[$source]);
-            $this->db->update('bill', $data);
-        }
-
-        unset($temp[$source]);
-        $this->session->unset_userdata('source_bill');
-        $this->session->set_userdata('source_bill', $temp);
+        $data = array ('paid'=>$paid);
+        $this->db->where(array('source' => $source, 'paid'=>'print'));
+        $this->db->update('bill', $data);
 
         return "Bill Closed Successfully.";
     }

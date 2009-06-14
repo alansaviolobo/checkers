@@ -24,7 +24,11 @@
                 <td align='right'>
                     <strong>Bill Number: </strong>
                     <u>
-                        <?= $this->session->userdata('number') ?>
+                        <?
+                        if ( isset ($details))
+                        {
+                            echo $details->number;
+                        ?>
                     </u>
                 </td>
             </tr>
@@ -32,7 +36,8 @@
                 <td colspan='2' style="padding-top:10px;padding-bottom:10px;border-collapse:collapse; border-bottom: thin black solid;">
                     <strong>Name: </strong>
                     <u>
-                        <?= get_cookie('name');
+                        <?
+                        echo $details->name;
                         ?>
                     </u>
                 </td>
@@ -40,14 +45,17 @@
             <tr>
                 <td align='left'>
                     <u>
-                        <?=get_cookie('source');
+                        <?
+                        echo $details->source;
                         ?>
                     </u>
                 </td>
                 <td align='right'>
                     <strong>Waiter Name: </strong>
                     <u>
-                        <?=get_cookie('waiter');
+                        <?
+                        echo $details->waiter;
+                        }
                         ?>
                     </u>
                 </td>
@@ -78,7 +86,7 @@
     </div>
     <br>
     <div style="width:400px;height:150px;">
-        <div style="width:200px; float:left;text-align:center">
+        <div style="width:175px; float:left;text-align:center">
             <span style="font-size:15px;">TIN NO: 30181105939</span>
             <br>
             <br>
@@ -91,20 +99,16 @@
                 Prepared By
             </label>
         </div>
-        <div style="width:200px; float:right;">
+        <div style="width:220px; float:right;">
             <?
             echo "<table cellpadding='3' style=\"border-collapse:collapse;\">";
             if ( isset ($details))
             {
-                foreach ($details as $d)
-                {
-                    echo "<tr><td align='right'><b>Sub Total: </b></td><td><u>Rs. ".$d['subtotal']."</u><br></td></tr>";
-                    echo "<tr><td align='right'><b>Amt. after Discount: </b></td><td><u>Rs. ".floatval($d['subtotal']-$d['discount'])." </u><br></td></tr>";
-                    echo "<tr><td align='right'><b>Tax: </b></td><td><u>Rs. ".$d['tax']." </u><br></td></tr>";
-                    echo "<tr><td>&nbsp;</td></tr>";
-                    echo "<tr><td align='right'><b>TOTAL: </b></td><td style=\"border-bottom: medium double black;\">Rs. ".intval($d['total'])."<br></td></tr>";
-                    break;
-                }
+                echo "<tr><td align='right'><b>Sub Total: </b></td><td><u>Rs. ".$details->subtotal."</u><br></td></tr>";
+                echo "<tr><td align='right'><b>Amt. after Discount: </b></td><td><u>Rs. ".floatval($details->subtotal-$details->discount)." </u><br></td></tr>";
+                echo "<tr><td align='right'><b>Tax: </b></td><td><u>Rs. ".$details->tax." </u><br></td></tr>";
+                echo "<tr><td>&nbsp;</td></tr>";
+                echo "<tr><td align='right'><b>TOTAL: </b></td><td style=\"border-bottom: medium double black;\">Rs. ".intval($details->total)."<br></td></tr>";
             }
             echo "</table>";
             ?>
