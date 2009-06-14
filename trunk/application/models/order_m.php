@@ -172,7 +172,6 @@ class Order_m extends Model
 		'source'=>$this->session->userdata('source'));
 
         $temp = $this->session->userdata('source_bill');
-        var_dump($temp);
         if ( isset ($temp[$this->session->userdata('source')]))
         {
         }

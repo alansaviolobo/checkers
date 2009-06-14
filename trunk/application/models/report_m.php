@@ -21,14 +21,14 @@ class Report_m extends Model
         $query_bill = $this->db->get('bill')->result_array();
         $result = array ();
         $cost = 0;
-        array_push($result, 'MAHATTAN - Bar and Restaurant');
+        array_push($result, 'MAHATTAN, Bar, and, Restaurant');
         if ($from == $to)
         {
-            $check = 'Bills Report - '.$from;
+            $check = "Bills, Report,$from";
         }
         else
         {
-            $check = 'Bills Report - ('.$from.' to '.$to.')';
+            $check = "Bills, Report,($from, to, $to)";
         }
         array_push($result, $check);
         array_push($result, '');
@@ -43,7 +43,7 @@ class Report_m extends Model
             array_push($result, $temp);
         }
         array_push($result, '');
-        array_push($result, 'Total Amount = Rs.'.$cost);
+        array_push($result, 'Total, Amount, Rs.'.$cost);
         return $result;
     }
 
@@ -53,14 +53,14 @@ class Report_m extends Model
         $query_menu = $this->db->get('menu')->result_array();
         $result = array ();
         $cost = 0;
-        array_push($result, 'MAHATTAN - Bar and Restaurant');
+        array_push($result, 'MAHATTAN, Bar, and, Restaurant');
         if ($to == $from)
         {
-            $check = $type.' Report - '.$from;
+            $check = "$type, Report, $from";
         }
         else
         {
-            $check = $type.' Report - ('.$from.' to '.$to.')';
+            $check = "$type, Report, ($from, to, $to)";
         }
         array_push($result, $check);
         array_push($result, '');
@@ -85,7 +85,7 @@ class Report_m extends Model
             array_push($result, $temp);
         }
         array_push($result, '');
-        array_push($result, 'Total Amount = Rs.'.$cost);
+        array_push($result, 'Total, Amount, Rs.'.$cost);
         return $result;
     }
 }
