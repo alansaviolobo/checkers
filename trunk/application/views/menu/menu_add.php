@@ -12,7 +12,7 @@ echo "<h2>Add New Menu</h2>";
 echo "<hr /><br/>";
 echo "<table cellpadding='3' cellspacing='3'>";
 echo "<tr><td>".form_label('Section', 'ddl_section')."</td>";
-echo "<td>".form_dropdown('ddl_source_type', array ('' =>'Select', 'Food'=>'Food', 'Beverages'=>'Beverages', 'Bar'=>'Bar'), '', 'onchange="check_quantity(this)"')."</td></tr>";
+echo "<td>".form_dropdown('ddl_source_type', array ('' =>'Select', 'Food'=>'Food', 'Beverages'=>'Beverages', 'Bar'=>'Bar'), '')."</td></tr>";
 echo "<tr><td>".form_label('Name', 'txt_name')."</td>";
 echo "<td>".form_input('txt_name')."</td></tr>";
 echo "<tr><td>".form_label('Cost (Per Unit)', 'txt_cost')."</td>";

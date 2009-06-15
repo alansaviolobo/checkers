@@ -38,7 +38,7 @@ class Report_m extends Model
         { // YMD
             $d = explode("-", $b['dated']);
             $date = $d[2].'-'.$d[1].'-'.$d[0];
-            $temp = ','.$date.','.$b['number'].','.$b['food'].','.$b['beverages'].','.$b['bar'].','.$b['total'];
+            $temp = $date.','.$b['number'].','.$b['food'].','.$b['beverages'].','.$b['bar'].','.$b['total'];
 			$cost = $cost + intval($b['total']);	
             array_push($result, $temp);
         }
@@ -71,7 +71,7 @@ class Report_m extends Model
             $d = explode("-", $t['dated']);
             $date = $d[2].'-'.$d[1].'-'.$d[0];
             $t1 = intval($t['carry'])+intval($t['quantity']);
-            $temp = ','.$date.','.$t['menu'].','.intval($t['carry']).','.intval($t['quantity']).','.$t1.','.intval($t1-$t['total']).','.intval($t['total']);
+            $temp = $date.','.$t['menu'].','.intval($t['carry']).','.intval($t['quantity']).','.$t1.','.intval($t1-$t['total']).','.intval($t['total']);
             foreach ($query_menu as $m)
             {
                 if ($t['menu'] === $m['name'])
