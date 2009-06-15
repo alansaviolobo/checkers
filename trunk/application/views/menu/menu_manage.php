@@ -20,7 +20,8 @@ if ($menu)
     echo "<td>".form_dropdown('ddl_source_type', $dropdown_elements, $menu->section)."</td></tr>";
 
     echo "<tr><td>".form_label('Name', 'txt_name')."</td>";
-    echo "<td>".form_input('txt_name', $menu->name)."</td></tr>";
+	$data = array('name'=>'txt_name','disabled'=>'disabled','value'=>$menu->name);
+    echo "<td>".form_input($data)."</td></tr>";
 
     if ($menu->section == 'Bar')
     {

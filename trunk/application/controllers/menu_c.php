@@ -74,9 +74,8 @@ class Menu_c extends Controller
 
     function menu_update()
     {
-        $name = $this->input->xss_clean($this->input->post('name'));
         $source_type = $this->input->xss_clean($this->input->post('ddl_source_type'));
-        $new_name = $this->input->xss_clean($this->input->post('txt_name'));
+        $name = $this->input->xss_clean($this->input->post('name'));
         $cost = $this->input->xss_clean($this->input->post('txt_cost'));
         if ($cost == null)
         {
@@ -84,7 +83,7 @@ class Menu_c extends Controller
         }
         else
         {
-            $check = $this->menu_m->menu_update($name, $source_type, $new_name, $cost);
+            $check = $this->menu_m->menu_update($name, $source_type, $cost);
         }
         $this->menu_list_source($source_type, $check);
     }

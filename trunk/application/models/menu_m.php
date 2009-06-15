@@ -57,21 +57,13 @@ class Menu_m extends Model
         return $this->db->get_where('menu', array ('name'=>$name))->row();
     }
 
-    function menu_update($name, $source_type, $new_name, $cost)
+    function menu_update($name, $source_type, $cost)
     {
-        $query_menu = $this->db->get_where('menu', array ('name'=>$new_name))->row();
-        if ($query_menu == null)
+        $data = array ('cost'=>$cost, 'section'=>$source_type);
+        $this->db->where('name', $name);
+        if ($this->db->update('menu', $data))
         {
-            $data = array ('name'=>$new_name, 'cost'=>$cost, 'section'=>$source_type);
-            $this->db->where('name', $name);
-            if ($this->db->update('menu', $data))
-            {
-                return "Item Updated Successfully.";
-            }
-        }
-        else
-        {
-            return 'Item Already Exists.';
+            return "Item Updated Successfully.";
         }
     }
 
