@@ -26,42 +26,51 @@ class Order_m extends Model
 
     function new_order($menu, $source, $quantity)
     {
-        $query_menu = $this->db->get_where('menu', array ('name'=>$menu))->row();
-        $query_ticket = $this->db->get_where('ticket', array ('menu'=>$menu))->last_row();
-
-        $this->db->where('source', $source);
-        $this->db->where('menu', $menu);
-        $this->db->where_in('status', 'open');
-
-        $orders = $this->db->get('orders')->row();
-
-        if ($query_ticket != null)
+        $query_bill = $this->db->get_where('bill', array ('source'=>$source, 'paid'=>'print'))->row();
+        if ($query_bill == null)
         {
-            if ($query_menu->section == 'Bar')
+            $query_menu = $this->db->get_where('menu', array ('name'=>$menu))->row();
+            $query_ticket = $this->db->get_where('ticket', array ('menu'=>$menu))->last_row();
+
+            $this->db->where('source', $source);
+            $this->db->where('menu', $menu);
+            $this->db->where_in('status', 'open');
+
+            $orders = $this->db->get('orders')->row();
+
+            if ($query_ticket != null)
             {
-                if ($query_ticket->total == 0)
+                if ($query_menu->section == 'Bar')
                 {
-                    return 'Alert. No Quantity To Add. menus Remaining, 0';
-                }
-                else if ($query_ticket->total <= 7 && $query_ticket->total > 0)
-                {
-                    $this->new_order_details($query_menu, $query_ticket, $orders, $menu, $source, $quantity);
-                    return $message = 'Alert. Quantity Remaining, '.$quantity;
-                }
-                else if ($query_ticket->total > 7)
-                {
-                    $this->new_order_details($query_menu, $query_ticket, $orders, $menu, $source, $quantity);
-                }
-                else if ($quantity > $query_ticket->total)
-                {
-                    return 'Alert. There Is No Enough Quantity Remaining.';
+                    if ($query_ticket->total == 0)
+                    {
+                        return 'Alert. No Quantity To Add. menus Remaining, 0';
+                    }
+                    else if ($query_ticket->total <= 7 && $query_ticket->total > 0)
+                    {
+                        $this->new_order_details($query_menu, $query_ticket, $orders, $menu, $source, $quantity);
+                        return $message = 'Alert. Quantity Remaining, '.$quantity;
+                    }
+                    else if ($query_ticket->total > 7)
+                    {
+                        $this->new_order_details($query_menu, $query_ticket, $orders, $menu, $source, $quantity);
+                    }
+                    else if ($quantity > $query_ticket->total)
+                    {
+                        return 'Alert. There Is No Enough Quantity Remaining.';
+                    }
                 }
             }
+            else if ($query_menu->section == 'Beverages' || $query_menu->section == 'Food')
+            {
+                $this->new_order_details($query_menu, $query_ticket, $orders, $menu, $source, $quantity);
+            }
         }
-        else if ($query_menu->section == 'Beverages' || $query_menu->section == 'Food')
-        {
-            $this->new_order_details($query_menu, $query_ticket, $orders, $menu, $source, $quantity);
-        }
+		else
+		{
+			return 'Bill Already Printed. Please Close the Bill and start new one.';
+		}
+
     }
 
     function new_order_details($query_menu, $query_ticket, $orders, $menu, $source, $quantity)
@@ -175,7 +184,7 @@ class Order_m extends Model
 
     function bill_details($source)
     {
-    	$data = array('source'=>$source, 'paid'=>'print');
+        $data = array ('source'=>$source, 'paid'=>'print');
         return $this->db->get_where('bill', $data)->row();
     }
 
@@ -187,7 +196,7 @@ class Order_m extends Model
         unset ($data);
 
         $data = array ('paid'=>$paid);
-        $this->db->where(array('source' => $source, 'paid'=>'print'));
+        $this->db->where( array ('source'=>$source, 'paid'=>'print'));
         $this->db->update('bill', $data);
 
         return "Bill Closed Successfully.";
