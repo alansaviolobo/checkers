@@ -11,13 +11,15 @@ class Report_m extends Model
         return $this->report(date('Y-m-d'), date('Y-m-d'), 'Daily');
     }
 
-    function sales($from,$to)
+    function sales($from, $to)
     {
         return $this->report($from, $to, 'Sales');
     }
 
     function bills($from, $to)
     {
+        $data = array ('print');
+        $this->db->where_not_in('paid', $data);
         $query_bill = $this->db->get('bill')->result_array();
         $result = array ();
         $cost = 0;
@@ -39,7 +41,7 @@ class Report_m extends Model
             $d = explode("-", $b['dated']);
             $date = $d[2].'-'.$d[1].'-'.$d[0];
             $temp = $date.','.$b['number'].','.$b['food'].','.$b['beverages'].','.$b['bar'].','.$b['total'];
-			$cost = $cost + intval($b['total']);	
+            $cost = $cost+intval($b['total']);
             array_push($result, $temp);
         }
         array_push($result, '');

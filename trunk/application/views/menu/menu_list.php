@@ -38,7 +38,7 @@ if ( isset ($menu_items))
                 {
                 	if ($m['name'] == $t['menu'])
                     {
-                    	$quantity += $t['total'];
+                    	$quantity = $t['total'];
                     }
                 }
 				echo "<td class='border_set'>".$quantity."</td>";
