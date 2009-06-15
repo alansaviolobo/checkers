@@ -78,10 +78,7 @@ class User_c extends Controller
     function user_update()
     {
         $username = $this->input->xss_clean($this->input->post('username'));
-        $new_username = $this->input->xss_clean($this->input->post('txt_username'));
-        $name = $this->input->xss_clean($this->input->post('txt_name'));
         $data = array (
-        'username'=>$this->input->xss_clean($this->input->post('txt_username')),
         'password '=>$this->input->xss_clean($this->input->post('txt_password')),
         'name'=>$this->input->xss_clean($this->input->post('txt_name')),
         'designation '=>$this->input->xss_clean($this->input->post('ddl_designation')),
@@ -91,7 +88,7 @@ class User_c extends Controller
         'report_manage '=>$this->input->xss_clean($this->input->post('chk_report')),
         'user_manage '=>$this->input->xss_clean($this->input->post('chk_user')));
 
-        $check = $this->user_m->user_update($name, $username, $new_username, $data);
+        $check = $this->user_m->user_update($username, $data);
         $this->user_list($check);
     }
 

@@ -15,7 +15,8 @@ if ($user)
     echo "<td>".form_input('txt_name', $user->name)."</td></tr>";
 
     echo "<tr><td>".form_label('Username', 'txt_username')."</td>";
-    echo "<td>".form_input('txt_username', $user->username)."</td></tr>";
+	$data = array('name'=>'txt_username','disabled'=>'disabled','value'=>$user->username);
+    echo "<td>".form_input($data)."</td></tr>";
 
     echo "<tr><td>".form_label('Password', 'txt_password')."</td>";
     echo "<td>".form_password('txt_password', $user->password)."</td><tr />";

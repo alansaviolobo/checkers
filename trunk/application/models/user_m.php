@@ -62,20 +62,12 @@ class User_m extends Model
         }
     }
 
-    function user_update($name, $username, $new_username, $data)
+    function user_update($username, $data)
     {
-        $query_user = $this->db->get_where('user', array ('username'=>$new_username))->row();
-        if ($query_user == null)
+        $this->db->where('username', $username);
+        if ($this->db->update('user', $data))
         {
-            $this->db->where('username', $username);
-            if ($this->db->update('user', $data))
-            {
-                return 'User Updated Successfully.';
-            }
-        }
-        else
-        {
-            return 'The Username Already Exists.';
+            return 'User Updated Successfully.';
         }
     }
 
