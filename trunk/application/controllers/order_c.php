@@ -88,13 +88,21 @@ class Order_c extends Controller
 
         function bill_print($discount, $tax, $waiter, $source, $name)
         {
+        	$url = '';
             $data['orders'] = $this->order_m->create_bill($discount, $tax, $waiter, $source, $name);
             $data['details'] = $this->order_m->bill_details($source);
 
             if (strlen(stristr($source, 'Room')) > 0)
             {
                  $this->order_m->close_bill($source, 'room sales');
+				 $url = base_url()."index.php/order_c/select_source/room";
             }
+			else
+			{
+				$url = base_url()."index.php/order_c/select_source/table";
+			}
+			$data['url'] = $url;
+			
             $this->load->view('order/bill_print', $data);
         }
     }

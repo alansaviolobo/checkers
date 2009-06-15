@@ -120,7 +120,10 @@
     window.print();
     window.onunload
     {
-        this.opener.location = 'http://localhost/checkers/index.php/order_c';
+        this.opener.location = "<?php
+		if(isset($url))
+		{echo $url;}
+		?>";
     }
     window.close();
 </script>
