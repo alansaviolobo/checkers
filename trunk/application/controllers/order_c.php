@@ -83,7 +83,7 @@ class Order_c extends Controller
         function order_delete($id)
         {
             $check = $this->order_m->order_delete($id);
-            $this->orders_list($this->session->userdata('source_type'), $check, null);
+            $this->orders_list($this->session->userdata('source_type'), $check, null, null);
         }
 
         function bill_print($discount, $tax, $waiter, $source, $name)
