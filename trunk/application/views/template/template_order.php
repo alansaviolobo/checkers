@@ -18,6 +18,9 @@
 				if(name == ""){
 					name ="-";
 				}
+				if(waiter == ""){
+					waiter = "-";
+				}
                 window.showModalDialog('bill_print/' + discount + '/' + tax + '/' + waiter + '/' + source + '/' + name);
             }
         </script>
