@@ -68,8 +68,6 @@ CREATE TABLE `orders` (
   `source` varchar(50) DEFAULT NULL,
   `status` ENUM('open', 'close') NOT NULL,
   PRIMARY KEY (`id`),
-  FOREIGN KEY (`menu`) REFERENCES `menu`(`name`)
-  ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE=InnoDB;
 
 --
