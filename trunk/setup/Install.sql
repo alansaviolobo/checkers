@@ -67,7 +67,7 @@ CREATE TABLE `orders` (
   `cost` int(10) unsigned NOT NULL ,
   `source` varchar(50) DEFAULT NULL,
   `status` ENUM('open', 'close') NOT NULL,
-  PRIMARY KEY (`id`),
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;
 
 --
