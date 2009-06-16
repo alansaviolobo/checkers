@@ -28,7 +28,7 @@ if ( isset ($orders_source))
     echo "<tr><th class='back_color'>Item name</th>";
     echo "<th class='back_color'>Quantity</th>";
     echo "<th class='back_color'>Cost</th>";
-    echo "<th class='back_color'>Select</th></tr>";
+    echo "<th class='back_color'>&nbsp;</th></tr>";
     foreach ($orders_source as $o)
     {
         echo "<tr><td class='border_set'>".$o['menu']."</td>";

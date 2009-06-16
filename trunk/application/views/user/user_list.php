@@ -14,7 +14,7 @@ if ( isset ($users))
     echo "<th class='back_color_1' >Database</th>";
     echo "<th class='back_color_1' >Report</th>";
     echo "<th class='back_color_1'>User</th>";
-    echo "<th class='back_color_1'>Select</th></tr>";
+    echo "<th class='back_color_1'>&nbsp;</th></tr>";
     foreach ($users as $u)
     {
         echo "<tr><td class='border_set' ><b><i>".$u['name']."</i></b></td>";
@@ -24,7 +24,7 @@ if ( isset ($users))
         echo "<td class='border_set' >".$u['database_manage']."</td>";
         echo "<td class='border_set' >".$u['report_manage']."</td>";
         echo "<td class='border_set' >".$u['user_manage']."</td>";
-        echo "<td class='border_set' >".anchor('user_c/user_manage/'.$u['username'], 'Select')."</td></tr>";
+        echo "<td class='border_set' >".anchor('user_c/user_manage/'.$u['username'], 'Edit')."</td></tr>";
     }
     echo "</table>";
     echo $this->pagination->create_links();

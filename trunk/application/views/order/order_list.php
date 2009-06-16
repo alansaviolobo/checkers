@@ -6,7 +6,7 @@ if ( isset ($orders) && $orders != null)
     echo "<tr><th class='back_color'>Item name</th>";
     echo "<th class='back_color'>Qnty</th>";
     echo "<th class='back_color'>Ordered By</th>";
-    echo "<th class='back_color' colspan='2'>Select</th></tr>";
+    echo "<th class='back_color' colspan='2'>&nbsp;</th></tr>";
     foreach ($orders as $o)
     {
         echo "<tr><td class='border_set'>".$o['menu']."</td>";

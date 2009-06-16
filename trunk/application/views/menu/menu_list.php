@@ -25,7 +25,7 @@ if ( isset ($menu_items))
         }
     }
     echo "<th class='back_color'>Cost</th>";
-    echo "<th class='back_color'>Select</th></tr>";
+    echo "<th class='back_color'>&nbsp;</th></tr>";
     foreach ($menu_items as $m)
     {
         echo "<tr><td class='border_set'><b><i>".$m['name']."</i></b></td>";
@@ -45,7 +45,7 @@ if ( isset ($menu_items))
             }
         }
         echo "<td class='border_set'>".$m['cost']."</td>";
-        echo "<td class='border_set'>".anchor('menu_c/menu_manage/'.$m['name'], 'Select')."</td></tr>";
+        echo "<td class='border_set'>".anchor('menu_c/menu_manage/'.$m['name'], 'Edit')."</td></tr>";
     }
     echo "</table>";
     echo $this->pagination->create_links();
