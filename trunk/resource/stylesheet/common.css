@@ -4,6 +4,7 @@
 } #container {
     border: 1px solid;
     width:70%;
+	overflow: auto;
 } #container a {
     text-decoration: none;
 } #menu {
@@ -53,6 +54,7 @@
     margin-left: 7px;
     border: 1px black solid;
     padding: 10px;
+	margin-bottom: 10px;
 } #topic {
     font-size: large;
 }

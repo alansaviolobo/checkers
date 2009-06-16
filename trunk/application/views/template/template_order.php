@@ -64,7 +64,7 @@
                         $this->load->view($section_orders);
                     }
                     ?>
-                </div>
+                </div><br />
             </div>
             <div id="bill_view">
                 <?php
