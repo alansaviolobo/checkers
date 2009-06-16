@@ -14,7 +14,7 @@
     </head>
     <body>
         <div id='container'>
-            <div id='menu' class="style1">
+            <div id='menu'>
                 <?php
                 if ( isset ($section_menu))
                 {
