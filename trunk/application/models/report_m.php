@@ -18,29 +18,23 @@ class Report_m extends Model
 
     function bills($from, $to)
     {
-        $data = array ('print');
-        $this->db->where_not_in('paid', $data);
-        $query_bill = $this->db->get('bill')->result_array();
+        $query_bill = $this->db->where_not_in('paid', array('print'))->get('bill')->result_array();
         $result = array ();
         $cost = 0;
         array_push($result, 'MAHATTAN, Bar, and, Restaurant');
-        if ($from == $to)
-        {
-            $check = "Bills, Report,$from";
-        }
-        else
-        {
-            $check = "Bills, Report,($from, to, $to)";
-        }
+        $check = "Bills, Report,$from";
+        if ($from != $to)
+            $check .= ", to, $to";
         array_push($result, $check);
         array_push($result, '');
-        array_push($result, 'DATE,BILL NO.,FOOD,BEVERAGES,BAR,TOTAL');
+        array_push($result, 'DATE,BILL NO.,FOOD,BEVERAGES,BAR,TOTAL, MODE');
         array_push($result, '');
         foreach ($query_bill as $b)
         { // YMD
             $d = explode("-", $b['dated']);
             $date = $d[2].'-'.$d[1].'-'.$d[0];
-            $temp = $date.','.$b['number'].','.$b['food'].','.$b['beverages'].','.$b['bar'].','.$b['total'];
+            $temp = $date.','.$b['number'].','.$b['food'].','.$b['beverages'].','.
+            		$b['bar'].','.$b['total'].','.$b['paid'];
             $cost = $cost+intval($b['total']);
             array_push($result, $temp);
         }
