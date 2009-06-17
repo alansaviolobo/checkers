@@ -42,8 +42,8 @@ if ($menu)
     echo "<td>".form_input('txt_cost', $menu->cost)."</td><tr />";
 
     echo "<tr><td colspan='2'>".form_submit('btn_menu_update', 'Update')."&nbsp";
-    echo anchor('menu_c/menu_delete/'.$menu->name.'/'.$menu->section, 'Delete')."</td></tr>";
-    echo "</table>";
+    echo anchor('menu_c/menu_delete/'.$menu->name.'/'.$menu->section, 'Delete', "onclick=\"return confirm('ARE YOU SURE YOU WANT TO DELETE THIS ITEM?\\nDeleting this item will also delete all related inventory.')\"");
+    echo "</td></tr></table>";
 }
 echo form_close();
 ?>

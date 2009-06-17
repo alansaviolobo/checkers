@@ -82,7 +82,7 @@ CREATE TABLE `ticket` (
   `dated` date NOT NULL,
   `total` int(10) unsigned NOT NULL,
   FOREIGN KEY (`menu`) REFERENCES `menu`(`name`)
-  ON DELETE RESTRICT ON UPDATE CASCADE
+  ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB;
 
 --
