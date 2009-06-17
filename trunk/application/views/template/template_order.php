@@ -36,7 +36,7 @@
                 ?>
             </div>
             <?php
-            echo "<p><span id='topic'>Orders<span>&nbsp;&nbsp;|&nbsp;";
+            echo "<p><span style=\"padding-left:10px\" id='topic'>Orders<span>&nbsp;&nbsp;|&nbsp;";
             echo anchor('order_c/select_source/table', 'Table')."&nbsp;|&nbsp;";
             echo anchor('order_c/select_source/room', 'Room')."&nbsp;|</p>";
             ?>
@@ -44,7 +44,7 @@
                 <?php
                 if ( isset ($message))
                 {
-                    echo "<span style=\"font-size:small; font-weight:bold; color: red;\">".$message."</span>";
+                    echo "<span style=\"font-size:small; font-weight:bold; color: red; padding:1px;\">".$message."</span>";
                 }
                 ?>
             </p>
