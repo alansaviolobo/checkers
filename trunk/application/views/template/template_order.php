@@ -44,7 +44,7 @@
                 <?php
                 if ( isset ($message))
                 {
-                    echo "<span style=\"font-size:small; font-weight:bold; color: red; padding:1px;\">".$message."</span>";
+                    echo "<span style=\"font-size:small; font-weight:bold; color: red; padding:10px;\">".$message."</span>";
                 }
                 ?>
             </p>

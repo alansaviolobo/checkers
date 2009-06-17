@@ -38,9 +38,9 @@ class Order_m extends Model
 
             $orders = $this->db->get('orders')->row();
 
-            if ($query_ticket != null)
+            if ($query_menu->section == 'Bar')
             {
-                if ($query_menu->section == 'Bar')
+                if ($query_ticket != null)
                 {
                     if ($query_ticket->total == 0)
                     {
@@ -60,16 +60,20 @@ class Order_m extends Model
                         return 'Alert. There Is No Enough Quantity Remaining.';
                     }
                 }
+				else
+				{
+					return 'No Items Purchased For '.$menu;
+				}
             }
             else if ($query_menu->section == 'Beverages' || $query_menu->section == 'Food')
             {
                 $this->new_order_details($query_menu, $query_ticket, $orders, $menu, $source, $quantity);
             }
         }
-		else
-		{
-			return 'Bill Already Printed. Please Close the Bill and start new one.';
-		}
+        else
+        {
+            return 'Bill Already Printed. Please Close the Bill and start new one.';
+        }
 
     }
 
