@@ -5,7 +5,7 @@ echo form_open('menu_c/main', $attributes);
 echo "<p><span id='topic'>Menu<span>&nbsp;&nbsp;|&nbsp;";
 echo anchor('loader_c/menu_add', 'New')."&nbsp;|&nbsp;";
 echo anchor('menu_c/menu_purchase', 'Purchase')."&nbsp;|</p>";
-echo "<p>Select Section : ".form_dropdown('ddl_source_type', array ('Food'=>'Food', 'Beverages'=>'Beverages', 'Bar'=>'Bar'), array(), "onchange='this.form.submit()'")."</p>";
+echo "<p>Select Section : ".form_dropdown('ddl_source_type', array ('Food'=>'Food', 'Beverages'=>'Beverages', 'Bar'=>'Bar'), $source_type, "onchange='this.form.submit()',")."</p>";
 
 if ( isset ($results) && isset ($source_type))
 {

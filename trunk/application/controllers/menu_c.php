@@ -19,21 +19,26 @@ class Menu_c extends Controller
             $this->menu_list_source($source_type, '');
         }
     }
+	
+	function list_menu($source_type)
+	{
+		$this->menu_list_source($source_type, '');
+	}
 
     function menu_list_source($source_type, $message)
     {
         $this->load->model('menu_m', '', TRUE);
 
-        $config['base_url'] = base_url().'index.php/menu_c/index';
+        $config['base_url'] = base_url().'index.php/menu_c/list_menu/'.$source_type.'/';
         $config['total_rows'] = $this->menu_m->menu_list_source_count($source_type);
         $config['full_tag_open'] = '<p>';
         $config['full_tag_close'] = '</p>';
         $config['per_page'] = 15;
-        $config['uri_segment'] = 3;
+        $config['uri_segment'] = 4;
 
         $this->pagination->initialize($config);
 
-        $data['menu_items'] = $this->menu_m->menu_list_source($source_type, $config['per_page'], $this->uri->segment(3));
+        $data['menu_items'] = $this->menu_m->menu_list_source($source_type, $config['per_page'], $this->uri->segment(4));
         $data['source_type'] = $source_type;
         $data['results'] = $config['total_rows'];
         $data['ticket'] = $this->ticket_m->ticket_list();
