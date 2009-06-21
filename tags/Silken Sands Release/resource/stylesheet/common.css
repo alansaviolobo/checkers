@@ -3,7 +3,7 @@
     font-size: 11px;
 } #container {
     border: 1px solid;
-    width:70%;
+    /*width:75%;*/
 	overflow: auto;
 } #container a {
     text-decoration: none;
