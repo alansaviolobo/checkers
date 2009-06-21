@@ -1,4 +1,15 @@
 <?php
+echo "<script language='JavaScript' type='text/javascript'>";
+echo "function print_bill() {";
+echo "var discount = document.frm_bill_view.txt_discount.value;";
+echo "var tax = document.frm_bill_view.txt_tax.value;";
+echo "var waiter = document.frm_bill_view.ddl_waiters.value|'-';";
+echo "var name = document.frm_bill_view.txt_name.value|'-';";
+echo "var source = document.frm_bill_view.ddl_order_hidden.value;";
+echo "window.showModalDialog('bill_print/' + discount + '/' + tax + '/' + waiter + '/' + source + '/' + name);";
+echo "}";
+echo "</script>";
+
 $source_list = array('' => 'Change');
 if ( isset ($sources))
 {
