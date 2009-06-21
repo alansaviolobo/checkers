@@ -60,10 +60,10 @@ class Order_m extends Model
                         return 'Alert. There Is No Enough Quantity Remaining.';
                     }
                 }
-				else
-				{
-					return 'No Items Purchased For '.$menu;
-				}
+                else
+                {
+                    return 'No Items Purchased For '.$menu;
+                }
             }
             else if ($query_menu->section == 'Beverages' || $query_menu->section == 'Food')
             {
@@ -194,16 +194,24 @@ class Order_m extends Model
 
     function close_bill($source, $paid)
     {
-        $data = array ('status'=>'close');
-        $this->db->where( array ('source'=>$source, 'status'=>'open'));
-        $this->db->update('orders', $data);
-        unset ($data);
+        $query_bill = $this->db->get_where('bill', array ('source'=>$source, 'paid'=>'print'))->row();
+        if ($query_bill == null)
+        {
+            return "Please Print The Bill Before Closing";
+        }
+        else
+        {
+            $data = array ('status'=>'close');
+            $this->db->where( array ('source'=>$source, 'status'=>'open'));
+            $this->db->update('orders', $data);
+            unset ($data);
+			
+            $data = array ('paid'=>$paid);
+            $this->db->where( array ('source'=>$source, 'paid'=>'print'));
+            $this->db->update('bill', $data);
 
-        $data = array ('paid'=>$paid);
-        $this->db->where( array ('source'=>$source, 'paid'=>'print'));
-        $this->db->update('bill', $data);
-
-        return "Bill Closed Successfully.";
+            return "Bill Closed Successfully.";
+        }
     }
 }
 ?>

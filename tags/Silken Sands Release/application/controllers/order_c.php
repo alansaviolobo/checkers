@@ -14,7 +14,7 @@ class Order_c extends Controller
     function select_source($source_type)
     {
         $this->session->set_userdata('source_type', $source_type);
-        $this->orders_list($source_type, '', null, null);
+        $this->orders_list($source_type, null, null, null);
     }
 
     function main()
@@ -31,7 +31,7 @@ class Order_c extends Controller
         {
             $source = $this->input->xss_clean($this->input->post('ddl_order_source'));
             $orders_source = $this->order_m->orders_list_source($source);
-            $this->orders_list($this->session->userdata('source_type'), '', $orders_source, $source);
+            $this->orders_list($this->session->userdata('source_type'), null, $orders_source, $source);
         }
 
         elseif ( isset ($_POST['btn_order']))
