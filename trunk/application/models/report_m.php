@@ -6,83 +6,45 @@ class Report_m extends Model
         parent::Model();
     }
 
-    function report_daily()
-    {
-        return $this->report(date('Y-m-d'), date('Y-m-d'), 'Daily');
-    }
-
     function sales($from, $to)
     {
-        return $this->report($from, $to, 'Sales');
+        $result  = $this->db->select("DATE_FORMAT(dated, '%d/%m/%Y'), number, food, beverages, ".
+        								"bar, total, paid", false)
+							->from('bill')
+							->where_in('paid', array('room sales', 'cash', 'credit card'))
+							->where("dated BETWEEN DATE('$from') AND DATE('$to')")
+							->get()->result_array();
+        $header =  "Bills, Report, $from, to, $to";
+        $columns = 'DATE,BILL NO.,FOOD,BEVERAGES,BAR,TOTAL,MODE';
+        return $this->post_processing($result, $header, $columns);
     }
 
-    function bills($from, $to)
+    function purchases($from, $to)
     {
-        $query_bill = $this->db->where_not_in('paid', array('print'))->get('bill')->result_array();
-        $result = array ();
-        $cost = 0;
-        array_push($result, 'MAHATTAN, Bar, and, Restaurant');
-        $check = "Bills, Report,$from";
-        if ($from != $to)
-            $check .= ", to, $to";
-        array_push($result, $check);
-        array_push($result, '');
-        array_push($result, 'DATE,BILL NO.,FOOD,BEVERAGES,BAR,TOTAL, MODE');
-        array_push($result, '');
-        foreach ($query_bill as $b)
-        { // YMD
-            $d = explode("-", $b['dated']);
-            $date = $d[2].'-'.$d[1].'-'.$d[0];
-            $temp = $date.','.$b['number'].','.$b['food'].','.$b['beverages'].','.
-            		$b['bar'].','.$b['total'].','.$b['paid'];
-            $cost = $cost+intval($b['total']);
-            array_push($result, $temp);
-        }
-        array_push($result, '');
-        array_push($result, 'Total, Amount, Rs.'.$cost);
-        return $result;
+        $result  = $this->db->select("DATE_FORMAT(dated, '%d/%m/%Y'),menu, carry, quantity, ".
+        							 "carry+quantity AS subtotal, carry+quantity-total AS sold, ".
+        							 "total AS closing, cost*(carry+quantity-total) AS total", false)
+							->from('menu')
+							->join('ticket', 'menu.name = ticket.menu')
+							->where('menu.section', 'Bar')
+							->where("dated BETWEEN DATE('$from') AND DATE('$to')")
+							->get()->result_array();
+		$header = "Purchase, Report, $from, to, $to";
+		$columns = 'DATE,ITEM NAME,OPEN.BAL,PURCHASE,TOTAL QNTY,SOLD,CLOSE.BAL,TOTAL AMOUNT';
+    	return $this->post_processing($result, $header, $columns);
     }
-
-    function report($from, $to, $type)
+    
+    private function post_processing($result, $header, $columns)
     {
-        $query_ticket = $this->db->get_where('ticket', array ('dated >= '=>$from, 'dated <= '=>$to))->result_array();
-        $query_menu = $this->db->get('menu')->result_array();
-        $result = array ();
+        $report = array($header, '', $columns, '');
         $cost = 0;
-        array_push($result, 'MAHATTAN, Bar, and, Restaurant');
-        if ($to == $from)
+        foreach ($result as $row)
         {
-            $check = "$type, Report, $from";
+            $cost += $row['total'];
+            array_push($report, implode(',', $row));
         }
-        else
-        {
-            $check = "$type, Report, ($from, to, $to)";
-        }
-        array_push($result, $check);
-        array_push($result, '');
-        array_push($result, 'DATE,ITEM NAME,OPEN.BAL,PURCHASE,TOTAL QNTY,SOLD,CLOSE.BAL,TOTAL AMOUNT');
-        array_push($result, '');
-        foreach ($query_ticket as $t)
-        {//YMD
-            $d = explode("-", $t['dated']);
-            $date = $d[2].'-'.$d[1].'-'.$d[0];
-            $t1 = intval($t['carry'])+intval($t['quantity']);
-            $temp = $date.','.$t['menu'].','.intval($t['carry']).','.intval($t['quantity']).','.$t1.','.intval($t1-$t['total']).','.intval($t['total']);
-            foreach ($query_menu as $m)
-            {
-                if ($t['menu'] === $m['name'])
-                {
-                    $c = intval($m['cost']*($t1-$t['total']));
-                    $temp = $temp.','.$c;
-                    $cost = $cost+$c;
-                    break;
-                }
-            }
-            array_push($result, $temp);
-        }
-        array_push($result, '');
-        array_push($result, 'Total, Amount, Rs.'.$cost);
-        return $result;
+        array_push($report, "\nTotal, Amount, Rs. $cost");
+        return $report;
     }
 }
 ?>

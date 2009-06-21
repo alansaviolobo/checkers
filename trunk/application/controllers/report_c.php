@@ -4,61 +4,29 @@ class Report_c extends Controller
     function _construct()
     {
         parent::Controller();
-        $this->load->dbutil();
     }
 
     function index()
     {
-        $this->report_load('');
-    }
-
-    function report_load($message)
-    {
         $content['title'] = "Report";
         $content['section_menu'] = 'misc/top_menu';
         $content['section_content'] = 'report/report';
-        $content['message'] = $message;
         $this->load->vars($content);
         $this->load->view('template/template_all');
     }
 
-    function main()
+    function generate_report()
     {
-        if ( isset ($_POST['btn_daily']))
-        {
-            $query = $this->report_m->report_daily();
-            $this->create_report($query, 'Daily Report (' . date('d/m/Y') . ')');
-        }
-        if ( isset ($_POST['btn_create_report']))
-        {
-            $report_type = $this->input->xss_clean($this->input->post('ddl_report_type'));
-			$f = explode("/",$this->input->xss_clean($this->input->post('txt_from_date')));
-			$t = explode("/", $this->input->xss_clean($this->input->post('txt_to_date')));
-			$from = $f[2].'-'.$f[1].'-'.$f[0];
-			$to = $date = $t[2].'-'.$t[1].'-'.$t[0];
-			
-            if ($report_type == 'Bills')
-            {
-                $query = $this->report_m->bills($from,$to);
-                $this->create_report($query, "Bills from $from to $to");
-            }
-            elseif ($report_type == 'Sales')
-            {
-                $query = $this->report_m->sales($from,$to);
-                $this->create_report($query, "Sales from $from to $to");
-            }
-        }
-    }
-
-    function create_report($query, $name)
-    {
-        $file = '';
-        foreach ($query as $line)
-        {
-            $file .= "$line\n";
-        }
-        force_download("$name.csv", $file);
-        $this->report_load('Report Successfully Created.');
+    	$this->load->model('report_m');
+    	$from = $this->input->post('from_date', true);
+    	$to = $this->input->post('to_date', true);
+    	switch($this->input->post('report_type', true))
+    	{
+    		case 'Purchases':	$report = $this->report_m->purchases($from, $to);break;
+    		case 'Sales':		$report = $this->report_m->sales($from, $to);break;
+    		default: echo "Invalid report requested";
+    	}
+        force_download("$report[0].csv", implode("\n", $report));
     }
 }
 ?>
