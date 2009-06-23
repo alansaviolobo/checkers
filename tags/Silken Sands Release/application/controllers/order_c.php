@@ -66,44 +66,51 @@ class Order_c extends Controller
                 }
             }
         }
+				
+        $source_type == 'Table'?($data['sources'] = $table):($data['sources'] = $room);
 
-        $source_type == 'Table'?($data['sources'] = $table):
-            ($data['sources'] = $room);
-
-            $content['title'] = "Orders";
-            $content['section_menu'] = 'misc/top_menu';
-            $content['section_options'] = 'order/option';
-            $content['section_orders'] = 'order/order_list';
-            $content['section_bill_view'] = 'order/bill_view';
-            $content['message'] = $message;
-            $this->load->vars($content);
-            $this->load->view('template/template_order', $data);
-        }
-
-        function order_delete($id)
-        {
-            $check = $this->order_m->order_delete($id);
-            $this->orders_list($this->session->userdata('source_type'), $check, null, null);
-        }
-
-        function bill_print($discount, $tax, $waiter, $source, $name)
-        {
-        	$url = '';
-            $data['orders'] = $this->order_m->create_bill($discount, $tax, $waiter, $source, $name);
-            $data['details'] = $this->order_m->bill_details($source);
-
-            if (strlen(stristr($source, 'Room')) > 0)
-            {
-                 $this->order_m->close_bill($source, 'room sales');
-				 $url = base_url()."index.php/order_c/select_source/room";
-            }
-			else
-			{
-				$url = base_url()."index.php/order_c/select_source/table";
-			}
-			$data['url'] = $url;
-			
-            $this->load->view('order/bill_print', $data);
-        }
+        $content['title'] = "Orders";
+        $content['section_menu'] = 'misc/top_menu';
+        $content['section_options'] = 'order/option';
+        $content['section_orders'] = 'order/order_list';
+        $content['section_bill_view'] = 'order/bill_view';
+        $content['message'] = $message;
+        $this->load->vars($content);
+        $this->load->view('template/template_order', $data);
     }
+
+    function order_delete($id)
+    {
+        $check = $this->order_m->order_delete($id);
+        $this->orders_list($this->session->userdata('source_type'), $check, null, null);
+    }
+
+    function bill_print($discount, $tax, $waiter, $source, $name)
+    {
+        $url = '';
+        $data['orders'] = $this->order_m->create_bill($discount, $tax, $waiter, $source, $name);
+        $data['details'] = $this->order_m->bill_details($source);
+
+        if (strlen(stristr($source, 'Room')) > 0)
+        {
+            $this->order_m->close_bill($source, 'room');
+            $url = base_url()."index.php/order_c/select_source/room";
+        }
+        else
+        {
+            $url = base_url()."index.php/order_c/select_source/table";
+        }
+        $data['url'] = $url;
+
+        $this->load->view('order/bill_print', $data);
+    }
+	
+	function room_checkout()
+	{
+		$source = $this->input->xss_clean($this->input->post('ddl_sources'));
+		$payment = $this->input->xss_clean($this->input->post('ddl_payment_mode'));
+		$check = $this->order_m->room_payment($source,$payment);
+		redirect('loader_c/room_checkout/'.$check);
+	}
+}
 ?>

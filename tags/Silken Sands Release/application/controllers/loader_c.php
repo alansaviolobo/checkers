@@ -28,5 +28,12 @@ class Loader_c extends Controller
         $this->load->vars($content);
         $this->load->view('template/template_all');
 	}
+	
+	function room_checkout($message)
+	{
+		$data['sources'] = $this->order_m->orders_source();
+		$data['message'] = $message;
+		$this->load->view('order/room_checkout',$data);
+	}
 }
 ?>

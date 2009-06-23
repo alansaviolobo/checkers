@@ -23,6 +23,10 @@
 				}
                 window.showModalDialog('bill_print/' + discount + '/' + tax + '/' + waiter + '/' + source + '/' + name);
             }
+			
+			function checkout(){
+				window.showModalDialog('<?php echo base_url(); ?>'+'index.php/loader_c/room_checkout/Fill options above.');
+			}
         </script>
     </head>
     <body>

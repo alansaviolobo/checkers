@@ -44,7 +44,7 @@ class Order_m extends Model
                 {
                     if ($query_ticket->total == 0)
                     {
-                        return 'Alert. No Quantity To Add. menus Remaining, 0';
+                        return 'Alert. No Quantity To Add. Items Remaining - 0';
                     }
                     else if ($query_ticket->total <= 7 && $query_ticket->total > 0)
                     {
@@ -201,17 +201,29 @@ class Order_m extends Model
         }
         else
         {
-            $data = array ('status'=>'close');
-            $this->db->where( array ('source'=>$source, 'status'=>'open'));
-            $this->db->update('orders', $data);
-            unset ($data);
+            $this->db->where( array ('source'=>$source, 'status'=>'open'))
+            	     ->update('orders', array ('status'=>'close'));
 			
-            $data = array ('paid'=>$paid);
-            $this->db->where( array ('source'=>$source, 'paid'=>'print'));
-            $this->db->update('bill', $data);
+            $this->db->where( array ('source'=>$source, 'paid'=>'print'))
+            		 ->update('bill', array ('paid'=>$paid));
 
             return "Bill Closed Successfully.";
         }
     }
+	
+	function orders_source()
+	{
+		$this->db->select('source');
+		$this->db->where('paid','room');
+		$this->db->from('bill');
+		return $this->db->get()->result_array();
+	}
+	
+	function room_payment($source,$payment)
+	{ 
+		$this->db->where(array('source'=>$source,'paid'=>'room'))
+				 ->update('bill',array('paid'=>$payment));
+		return "Bill Closed Successfully.";
+	}
 }
 ?>

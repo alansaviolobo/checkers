@@ -1,13 +1,18 @@
 <?php
-$source_list = array('' => 'Change');
+$source_list = array (''=>'Change');
 if ( isset ($sources))
 {
     $source_list += array_unique($sources);
 }
-echo "<strong>Bill</strong><br />";
-echo form_open('order_c/main', array('name' => 'frm_bill_view'));
+echo "<table><tr><td><strong>Bill</strong></td><td>&nbsp;&nbsp;&nbsp;";
+if ($this->session->userdata('source_type') == 'room')
+{
+    echo "<a href='#' onclick=\"checkout()\">Checkout</a>";
+}
+echo "</td></tr></table><br />";
+echo form_open('order_c/main', array ('name'=>'frm_bill_view'));
 echo "<input type='hidden' name='ddl_order_hidden' value='$source'>";
-echo "<p>Ordered By : $source ".form_dropdown('ddl_order_source', $source_list, '', "onChange='this.form.submit()'");
+echo "<p>Ordered By : $source ".form_dropdown('ddl_order_source', $source_list, '', "onChange='this.form.submit()'")."</p>";
 
 $cost = 0;
 
