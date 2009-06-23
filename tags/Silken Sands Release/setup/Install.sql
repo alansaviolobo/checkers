@@ -36,7 +36,7 @@ CREATE TABLE `bill` (
   `discount` int(10) unsigned NOT NULL DEFAULT 0,
   `tax` int(10) unsigned NOT NULL DEFAULT 0,
   `total` int(10) unsigned NOT NULL DEFAULT 0,
-  `paid` ENUM('room sales', 'credit card', 'cash', 'print') NOT NULL,
+  `paid` ENUM('room sales', 'credit card', 'cash', 'print', 'room') NOT NULL,
   `name` varchar(100) DEFAULT NULL,
   `waiter` varchar(100) DEFAULT NULL,
   `source` varchar(100) DEFAULT NULL,
