@@ -420,4 +420,4 @@ INSERT INTO `menu` (`name`,`cost`,`section`) VALUES
 ('Cobra - Pint',40,'Bar'),
 ('Beer',70,'Bar'),
 ('Beer - Pint',40,'Bar'),
-('Bacardi Breezers',70,'Bar')
+('Bacardi Breezers',70,'Bar');

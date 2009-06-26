@@ -29,7 +29,7 @@ class Loader_c extends Controller
         $this->load->view('template/template_all');
 	}
 	
-	function room_checkout($message)
+	function room_checkout($message = '')
 	{
 		$data['sources'] = $this->order_m->orders_source();
 		$data['message'] = $message;

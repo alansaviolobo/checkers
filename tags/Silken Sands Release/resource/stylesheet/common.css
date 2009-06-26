@@ -3,16 +3,15 @@
     font-size: 11px;
 } #container {
     border: 1px solid;
-    /*width:75%;*/
 	overflow: auto;
 } #container a {
     text-decoration: none;
 } #menu {
     margin: 10px;
-    padding-left: 10px;
     border-bottom: medium solid #D12EA3;
     padding-bottom: 7px;
-    background: url("../../resource/image/checkers_small.png") 100% 0 no-repeat;
+    height:100px;
+    text-align:center;
 } #menu a {
     text-decoration: none;
 } #tbl_orders {
@@ -30,15 +29,15 @@
 } .back_color_1 {
     border: 1px solid #666666;
     background-color: orange;
-} #userinfo {
-    border-right: medium solid #D12EA3;
-    padding-right: 5px;
-} #menuinfo {
+} .menuinfo {
     background-color: #CDEB8B;
     width: 70px;
     text-align: center;
     height: 30px;
     font-weight: bold;
+    padding: 5px;
+    margin: 2px;
+    border: 1px dotted;
 } #wrapper {
     float: left;
     margin-left: 7px;
@@ -60,9 +59,8 @@
 }
 .style1{
 	font-family:Verdana;
-	height:250px;
+	height:350px;
 	width:40%;
 	border: 1px dotted;
 	margin:auto;
-	background: url("../../resource/image/technotrix.png") 100% 100% no-repeat;
 }

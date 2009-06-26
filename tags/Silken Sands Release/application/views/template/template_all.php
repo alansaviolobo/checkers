@@ -14,14 +14,11 @@
     </head>
     <body>
         <div id='container'>
-            <div id='menu'>
-                <?php
-                if ( isset ($section_menu))
-                {
-                    $this->load->view($section_menu);
-                }
-                ?>
-            </div>
+            <table id='menu'><tr>
+	        	<td valign='bottom'><img src="../../resource/image/Silken Sands Logo.png" width=200 height=100/></td>
+                <td valign='bottom'><?php if ( isset ($section_menu)) $this->load->view($section_menu); ?></td>
+                <td valign='top'><img src="../../resource/image/checkers_small.png" /></td>
+            </tr></table>
             <div id='content'>
                 <?php
                 if ( isset ($section_content))
