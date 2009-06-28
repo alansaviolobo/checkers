@@ -1,13 +1,13 @@
  * {
     font-family: Verdana;
-    font-size: 11px;
+    font-size: 13px;
 } #container {
     border: 1px solid;
 	overflow: auto;
 } #container a {
     text-decoration: none;
 } #menu {
-    margin: 10px;
+    margin: auto;
     border-bottom: medium solid #D12EA3;
     padding-bottom: 7px;
     height:100px;

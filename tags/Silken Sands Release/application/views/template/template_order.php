@@ -15,7 +15,7 @@
                 var discount = document.frm_bill_view.txt_discount.value;
                 var   waiter = document.frm_bill_view.ddl_waiters.value|"-";
                 var   source = document.frm_bill_view.ddl_order_hidden.value;
-                window.showModalDialog('bill_print/' + discount + '/' + tax + '/' + waiter + '/' + source + '/' + name);
+                window.showModalDialog('bill_print/' + discount + '/' + tax + '/' + waiter + '/' + source + '/' + name,null, 'dialogWidth:300px; dialogHeight:200px; center:yes; scroll:no; status:no');
             }
 			
 			function checkout(){
