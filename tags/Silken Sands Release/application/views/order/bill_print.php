@@ -1,5 +1,5 @@
-<div align='left' style="width:400px; overflow:visible;">
-    <div align='center' style="width:400px;">
+<div align='center' style="width:530px; overflow:visible;">
+    <div align='center' style="width:530px;">
         <span style="font-size:28px">MANHATTAN</span>
         <br>
         <strong>Restaurant & Bar</strong>
@@ -12,7 +12,7 @@
             Tel: 0832-2789786-69-70  Email: silkensands@sancharnet.in
         </div>
     </div>
-    <div align='left' style="padding-top:25px;width:400px;">
+    <div align='left' style="padding-top:25px;width:530px;">
         <table cellpadding='3' style="width:inherit;">
             <tr>
                 <td align='left'>
@@ -63,7 +63,7 @@
         </table>
     </div>
     <br>
-    <div align='center' style="width:400px;">
+    <div align='center' style="width:530px;">
         <table border='1' cellpadding='2' style="border-collapse: collapse;width:inherit;">
             <?
             $i = 0;
@@ -71,12 +71,12 @@
             {
                 echo "<tr><th width=50>Sr. No.</th>";
                 echo "<th>Item name</th>";
-                echo "<th width=60>Quantity</th>";
+                echo "<th width=50>Qnty</th>";
                 echo "<th width=50>Cost</th></tr>";
                 foreach ($orders as $o)
                 {
                     echo "<tr><td align='center'>".++$i."</td>";
-                    echo "<td>".$o['menu']."</td>";
+                    echo "<td align='left'>".$o['menu']."</td>";
                     echo "<td align='center'>".$o['quantity']."</td>";
                     echo "<td align='center'>".$o['cost']."</td></tr>";
                 }
@@ -85,7 +85,7 @@
         </table>
     </div>
     <br>
-    <div style="width:400px;height:150px;">
+    <div style="width:530px;height:150px;">
         <div style="width:175px; float:left;text-align:center">
             <span style="font-size:15px;">TIN NO: 30181105939</span>
             <br>
