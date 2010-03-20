@@ -181,6 +181,8 @@ class Order_m extends Model
             'source'=>$source);
 
             $this->db->insert('bill', $data);
+            $this->db->where( array ('source'=>$source, 'status'=>'open'))
+            	     ->update('orders', array ('bill_number'=>$this->db->insert_id()));
         }
 
         return $query_order;
@@ -224,6 +226,29 @@ class Order_m extends Model
 		$this->db->where(array('source'=>$source,'paid'=>'room'))
 				 ->update('bill',array('paid'=>$payment));
 		return "Bill Closed Successfully.";
+	}
+	
+	function bill_details_from_id($billId)
+	{
+		$details = $this->db->select('*')
+							->from('bill')
+							->join('orders', 'number = bill_number')
+							->where('number', $billId)
+							->get()
+							->result_array();
+		foreach($details as $detail)
+		{
+			$bill->number = $detail['number'];
+			$bill->date = $detail['dated'];
+			$bill->subtotal = $detail['subtotal'];
+			$bill->discount = $detail['discount'];
+			$bill->tax = $detail['tax'];
+			$bill->paymentmode = $detail['paid'];
+			$bill->items[$detail['id']]->name = $detail['menu'];
+			$bill->items[$detail['id']]->quantity = $detail['quantity'];
+			$bill->items[$detail['id']]->cost = $detail['cost'];
+		}
+		return $bill;
 	}
 }
 ?>

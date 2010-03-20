@@ -62,6 +62,7 @@ CREATE TABLE `menu` (
 DROP TABLE IF EXISTS `orders`;
 CREATE TABLE `orders` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `bill_number` int(10) unsigned NOT NULL,  
   `menu` varchar(100) NOT NULL,
   `quantity` int(10) unsigned NOT NULL,
   `cost` int(10) unsigned NOT NULL ,
