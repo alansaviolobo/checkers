@@ -15,6 +15,7 @@ for ($i = 1; $i < 51; $i++)
 }
 
 $source_type = $this->session->userdata('source_type');
+if(!$source_type) $source_type = 'table';
 if ($source_type == 'table')
 {
     $source_elements = array('' => 'Select One');
@@ -50,6 +51,7 @@ echo "<tr>";
 echo "<td>Items<br />" . form_dropdown('ddl_menu', $menu_elements, '')."</td>";
 echo "<td>Qnty<br />" . form_dropdown('txt_quantity', $quantity, '')."</td>";
 echo "<td>$source_label<br />" . form_dropdown('ddl_source', $source_elements, '')."</td>";
+echo "<td>KOT<br />" . form_input('txt_kot', '', 'size=5')."</td>";
 echo "<td colspan='2' valign='bottom'>".form_submit('btn_order', 'Order')."</td>";
 echo "</tr>";
 echo "</table>";

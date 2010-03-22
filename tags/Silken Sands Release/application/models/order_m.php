@@ -24,7 +24,7 @@ class Order_m extends Model
         return $this->db->get('orders')->result_array();
     }
 
-    function new_order($menu, $source, $quantity)
+    function new_order($menu, $source, $quantity, $kot)
     {
         $query_bill = $this->db->get_where('bill', array ('source'=>$source, 'paid'=>'print'))->row();
         if ($query_bill == null)
@@ -48,12 +48,12 @@ class Order_m extends Model
                     }
                     else if ($query_ticket->total <= 7 && $query_ticket->total > 0)
                     {
-                        $this->new_order_details($query_menu, $query_ticket, $orders, $menu, $source, $quantity);
+                        $this->new_order_details($query_menu, $query_ticket, $orders, $menu, $source, $quantity, $kot);
                         return $message = 'Alert. Quantity Remaining, '.$quantity;
                     }
                     else if ($query_ticket->total > 7)
                     {
-                        $this->new_order_details($query_menu, $query_ticket, $orders, $menu, $source, $quantity);
+                        $this->new_order_details($query_menu, $query_ticket, $orders, $menu, $source, $quantity, $kot);
                     }
                     else if ($quantity > $query_ticket->total)
                     {
@@ -67,7 +67,7 @@ class Order_m extends Model
             }
             else if ($query_menu->section == 'Beverages' || $query_menu->section == 'Food')
             {
-                $this->new_order_details($query_menu, $query_ticket, $orders, $menu, $source, $quantity);
+                $this->new_order_details($query_menu, $query_ticket, $orders, $menu, $source, $quantity, $kot);
             }
         }
         else
@@ -77,19 +77,19 @@ class Order_m extends Model
 
     }
 
-    function new_order_details($query_menu, $query_ticket, $orders, $menu, $source, $quantity)
+    function new_order_details($query_menu, $query_ticket, $orders, $menu, $source, $quantity, $kot)
     {
         if ($orders == null)
         {
             $status = 'open';
             $data = array ('menu'=>$menu, 'quantity'=>$quantity, 'cost'=>intval($query_menu->cost)*intval($quantity),
-            'source'=>$source, 'status'=>$status);
+            'source'=>$source, 'status'=>$status, 'kot_numbers'=>$kot);
             $this->db->insert('orders', $data);
         }
         else
         {
             $quantity_new = intval($quantity)+intval($orders->quantity);
-            $data = array ('quantity'=>$quantity_new,
+            $data = array ('quantity'=>$quantity_new, 'kot_numbers'=>"$orders->kot_numbers,$kot",
             'cost'=>intval($query_menu->cost)*intval($quantity_new));
 
             $this->db->where('id', $orders->id);
@@ -232,10 +232,12 @@ class Order_m extends Model
 	{
 		$details = $this->db->select('*')
 							->from('bill')
-							->join('orders', 'number = bill_number')
+							->join('orders', 'number = bill_number', 'left outer')
 							->where('number', $billId)
 							->get()
 							->result_array();
+		if(!count($details)) return 0;
+		$kots = null;
 		foreach($details as $detail)
 		{
 			$bill->number = $detail['number'];
@@ -244,10 +246,15 @@ class Order_m extends Model
 			$bill->discount = $detail['discount'];
 			$bill->tax = $detail['tax'];
 			$bill->paymentmode = $detail['paid'];
+			$kots .= $detail['kot_numbers'] . ',';
+			if (is_null($detail['id'])) continue;
 			$bill->items[$detail['id']]->name = $detail['menu'];
 			$bill->items[$detail['id']]->quantity = $detail['quantity'];
 			$bill->items[$detail['id']]->cost = $detail['cost'];
 		}
+		$kots = array_unique(array_filter(explode(',', $kots)));
+		sort($kots);
+		$bill->kots = implode(',', $kots);
 		return $bill;
 	}
 }

@@ -18,7 +18,7 @@ To : <?php echo form_input('to_date', date('Y-m-d'), "onclick=\"displayDatePicke
 <br/>
 <strong>Show Bill Details for Bill Number: </strong>
 <?php echo form_input('bill_number', null, "size=5") . form_submit('btn_bill_details', 'Display') . form_close(); ?>
-<?php if (isset($bill)) : ?>
+<?php if (isset($bill) and !empty($bill)) : ?>
 <table>
 <tr>
 <td style="border-left: 1px solid;border-top: 1px solid">Bill No.</td>
@@ -29,10 +29,14 @@ To : <?php echo form_input('to_date', date('Y-m-d'), "onclick=\"displayDatePicke
 <td style="border-right: 1px solid;"><?= $bill->date ?></td>
 </tr>
 <tr>
+<td style="border-left: 1px solid;">KOT</td>
+<td style="border-right: 1px solid;"><?= $bill->kots ?>&nbsp;</td>
+</tr>
+<tr>
 <td style="border-left: 1px solid;">Payment Mode</td>
 <td style="border-right: 1px solid;"><?= $bill->paymentmode ?></td>
 </tr>
-<?php foreach($bill->items as $item) { ?>
+<?php if (isset($bill->items)) foreach($bill->items as $item) { ?>
 <tr>
 <td style="border: 1px solid;"><?= $item->name . ' x ' . $item->quantity ?></td>
 <td style="border: 1px solid;"><?= $item->cost ?></td>
@@ -55,4 +59,8 @@ To : <?php echo form_input('to_date', date('Y-m-d'), "onclick=\"displayDatePicke
 <td style="border: 1px solid;"><?= $bill->subtotal - $bill->discount + $bill->tax ?></td>
 </tr>
 </table>
-<?php endif; ?>
+<?php
+elseif (isset($bill)) :
+	echo "Bill does not exist!";
+endif;
+?>

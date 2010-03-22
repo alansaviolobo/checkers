@@ -27,8 +27,15 @@ if ( isset ($waiters))
 
 if ( isset ($orders_source))
 {
+	$kots = null;
+	foreach ($orders_source as $os) $kots .= $os['kot_numbers'] . ',';
+	$kots = array_unique(array_filter(explode(',', $kots)));
+	sort($kots);
+	$kots = implode(',', $kots);
+	
     echo "<p>&nbsp;Name :&nbsp;".form_input( array ('name'=>'txt_name', 'size'=>'30'))."</p>";
     echo "<p>Waiter :&nbsp;".form_dropdown('ddl_waiters', $w_list)."<p/>";
+    echo "<p>KOTs : $kots<p/>";
     echo "<table cellpadding=5 cellspacing=5 align='center' class='border_set' style=\"border-collapse: collapse;\">";
     echo "<tr><th class='back_color'>Item name</th>";
     echo "<th class='back_color'>Quantity</th>";

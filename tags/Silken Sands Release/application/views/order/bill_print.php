@@ -45,7 +45,13 @@
         	<tr>
                 <td align='left'>
                     <strong>KOT No.:</strong>
-                    &nbsp;
+					<?php
+						$kots = null;
+						foreach ($orders as $os) $kots .= $os['kot_numbers'] . ',';
+						$kots = array_unique(array_filter(explode(',', $kots)));
+						sort($kots);
+						echo implode(',', $kots);
+					?>
                 </td>
                 <td align='right'>
                     <u>

@@ -39,7 +39,8 @@ class Order_c extends Controller
             $menu = $this->input->xss_clean($this->input->post('ddl_menu'));
             $source = $this->input->xss_clean($this->input->post('ddl_source'));
             $quantity = $this->input->xss_clean($this->input->post('txt_quantity'));
-            $check = $this->order_m->new_order($menu, $source, $quantity);
+            $kot = $this->input->xss_clean($this->input->post('txt_kot'));
+            $check = $this->order_m->new_order($menu, $source, $quantity, $kot);
             $this->orders_list($this->session->userdata('source_type'), $check, null, null);
         }
     }
