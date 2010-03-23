@@ -14,62 +14,41 @@
     </div>
     <div align='left' style="padding-top:15px;width:760px;font-size:12px">
         <table cellpadding='3' style="width:inherit;font-size:12px">
-            <tr>
-                <td align='left'>
-                    <strong>Datetime: </strong>
-                    <u>
-                        <?= date('F j, Y, g:i a'); ?>
-                    </u>
-                </td>
-                <td align='right'>
-                    <strong>Bill Number: </strong>
-                    <u>
-                        <?
-                        if ( isset ($details))
-                        {
-                            echo $details->number;
-                        ?>
-                    </u>
-                </td>
-            </tr>
-            <tr>
-                <td colspan='2' style="padding-top:8px;padding-bottom:12px;border-collapse:collapse; border-bottom: 2px black solid;font-size:12px">
-                    <strong>Name: </strong>
-                    <u>
-                        <?
-                        echo $details->name;
-                        ?>
-                    </u>
-                </td>
-            </tr>
         	<tr>
                 <td align='left'>
-                    <strong>KOT No.:</strong>
-					<?php
+                <?= "<strong>$details->source</strong> served by <strong>$details->waiter</strong>" ?>
+                </td>
+                <td align='right'>
+                	Name:
+                    <strong><?= $details->name; ?></strong>
+                </td>
+            </tr>
+            <tr>
+                <td align='left'>
+                    Date:
+                    <strong><?= date('F j, Y'); ?></strong>
+                </td>
+                <td align='right'>
+                    Bill Number:
+                    <strong><?= $details->number;?></strong>
+                </td>
+            </tr>
+            <tr>
+                <td align='left' style="padding-top:8px;padding-bottom:12px;border-collapse:collapse; border-bottom: 2px black solid;font-size:12px">
+                    Time:
+                    <strong><?= date('g:i a'); ?></strong>
+                </td>
+                <td align='right'style="padding-top:8px;padding-bottom:12px;border-collapse:collapse; border-bottom: 2px black solid;font-size:12px">
+                    KOT No.:
+					<strong>
+                	<?php
 						$kots = null;
 						foreach ($orders as $os) $kots .= $os['kot_numbers'] . ',';
 						$kots = array_unique(array_filter(explode(',', $kots)));
 						sort($kots);
 						echo implode(',', $kots);
 					?>
-                </td>
-                <td align='right'>
-                    <u>
-                        <?
-                        echo $details->source;
-                        ?>
-                    </u>
-                </td>
-            </tr>
-            <tr>
-                <td colspan='2' align='right'>
-                    <strong>Waiter Name: </strong>
-                    <u>
-                        <?
-                        echo $details->waiter;
-                        }
-                        ?>
-                    </u>
+					</strong>
                 </td>
             </tr>
         </table>

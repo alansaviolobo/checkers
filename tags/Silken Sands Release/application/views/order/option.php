@@ -18,19 +18,26 @@ $source_type = $this->session->userdata('source_type');
 if(!$source_type) $source_type = 'table';
 if ($source_type == 'table')
 {
-    $source_elements = array('' => 'Select One');
-    for ($i = 1; $i < 51; $i++)
-    {
-        $source_elements['Table No. '.$i] = 'Table No. '.$i;
-    }
+    $source_elements = array ('' => 'Select One');
+    $elements = array(10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,
+    30,31,32,33,34,35,36,37,38,39,40,1,2,3,4,101,102,103,104,105,106,107,108,109,
+    110,111,112,201,202,203,204,205,206,207,208,209,210,211,212);
+    foreach ($elements as $element) $source_elements["Table No. $element"] = "Table No. $element";
     $source_label = "Tables";
 }
 elseif ($source_type == 'room')
 {
     $source_elements = array ('' => 'Select One',
-    'Room No. 1'=>'Room No. 1', 'Room No. 2'=>'Room No. 2', 'Room No. 3'=>'Room No. 3', 'Room No. 4'=>'Room No. 4', 'Room No. 11'=>'Room No. 11', 'Room No. 12'=>'Room No. 12',
-    'Room No. 101'=>'Room No. 101', 'Room No. 102'=>'Room No. 102', 'Room No. 103'=>'Room No. 103', 'Room No. 104'=>'Room No. 104', 'Room No. 105'=>'Room No. 105', 'Room No. 106'=>'Room No. 106', 'Room No. 107'=>'Room No. 107', 'Room No. 108'=>'Room No. 108', 'Room No. 109'=>'Room No. 109', 'Room No. 110'=>'Room No. 110', 'Room No. 111'=>'Room No. 111', 'Room No. 112'=>'Room No. 112',
-    'Room No. 201'=>'Room No. 201', 'Room No. 202'=>'Room No. 202', 'Room No. 203'=>'Room No. 203', 'Room No. 204'=>'Room No. 204', 'Room No. 205'=>'Room No. 205', 'Room No. 206'=>'Room No. 206', 'Room No. 207'=>'Room No. 207', 'Room No. 208'=>'Room No. 208', 'Room No. 209'=>'Room No. 209', 'Room No. 210'=>'Room No. 210', 'Room No. 211'=>'Room No. 211', 'Room No. 212'=>'Room No. 212',
+    'Room No. 1'=>'Room No. 1', 'Room No. 2'=>'Room No. 2', 'Room No. 3'=>'Room No. 3', 'Room No. 4'=>'Room No. 4',
+    'Room No. 11'=>'Room No. 11', 'Room No. 12'=>'Room No. 12',
+    'Room No. 101'=>'Room No. 101', 'Room No. 102'=>'Room No. 102', 'Room No. 103'=>'Room No. 103',
+    'Room No. 104'=>'Room No. 104', 'Room No. 105'=>'Room No. 105', 'Room No. 106'=>'Room No. 106',
+    'Room No. 107'=>'Room No. 107', 'Room No. 108'=>'Room No. 108', 'Room No. 109'=>'Room No. 109',
+    'Room No. 110'=>'Room No. 110', 'Room No. 111'=>'Room No. 111', 'Room No. 112'=>'Room No. 112',
+    'Room No. 201'=>'Room No. 201', 'Room No. 202'=>'Room No. 202', 'Room No. 203'=>'Room No. 203',
+    'Room No. 204'=>'Room No. 204', 'Room No. 205'=>'Room No. 205', 'Room No. 206'=>'Room No. 206',
+    'Room No. 207'=>'Room No. 207', 'Room No. 208'=>'Room No. 208', 'Room No. 209'=>'Room No. 209',
+    'Room No. 210'=>'Room No. 210', 'Room No. 211'=>'Room No. 211', 'Room No. 212'=>'Room No. 212',
     'Room. Boss'=>'Room. Boss');
     $source_label = "Rooms";
 }
@@ -41,6 +48,7 @@ echo "{";
 echo "if (form.ddl_menu.value == '') { alert('Please select a menu item'); return false; };";
 echo "if (form.txt_quantity.value == '') { alert('Please select a quantity'); return false; };";
 echo "if (form.ddl_source.value == '') { alert('Please select a $source_type'); return false; };";
+echo "if (form.txt_kot.value == '') { alert('Please enter a KOT no.'); return false; };";
 echo "return true;";
 echo "}";
 echo "</script>";

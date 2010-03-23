@@ -1,16 +1,6 @@
 <?php
 class Menu_m extends Model
 {
-    function _construct()
-    {
-
-    }
-
-    function index()
-    {
-
-    }
-
     function menu_list()
     {
         $query = $this->db->select('section, name')->order_by('section, name')->get('menu');

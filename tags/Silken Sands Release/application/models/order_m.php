@@ -1,10 +1,6 @@
 <?php
 class Order_m extends Model
 {
-    function _construct()
-    {
-    }
-
     function orders_list()
     {
         $this->db->select('*');
@@ -205,14 +201,14 @@ class Order_m extends Model
         {
             $this->db->where( array ('source'=>$source, 'status'=>'open'))
             	     ->update('orders', array ('status'=>'close'));
-			
+
             $this->db->where( array ('source'=>$source, 'paid'=>'print'))
             		 ->update('bill', array ('paid'=>$paid));
 
             return "Bill Closed Successfully.";
         }
     }
-	
+
 	function orders_source()
 	{
 		$this->db->select('source');
@@ -220,14 +216,14 @@ class Order_m extends Model
 		$this->db->from('bill');
 		return $this->db->get()->result_array();
 	}
-	
+
 	function room_payment($source,$payment)
-	{ 
+	{
 		$this->db->where(array('source'=>$source,'paid'=>'room'))
 				 ->update('bill',array('paid'=>$payment));
 		return "Bill Closed Successfully.";
 	}
-	
+
 	function bill_details_from_id($billId)
 	{
 		$details = $this->db->select('*')

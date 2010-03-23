@@ -1,11 +1,6 @@
 <?php
 class Report_m extends Model
 {
-    function _construct()
-    {
-        parent::Model();
-    }
-
     function sales($from, $to)
     {
         $result  = $this->db->select("DATE_FORMAT(dated, '%d/%m/%Y'), number, food, beverages, ".
@@ -33,7 +28,7 @@ class Report_m extends Model
 		$columns = 'DATE,ITEM NAME,OPEN.BAL,PURCHASE,TOTAL QNTY,SOLD,CLOSE.BAL,TOTAL AMOUNT';
     	return $this->post_processing($result, $header, $columns);
     }
-    
+
     private function post_processing($result, $header, $columns)
     {
         $report = array($header, '', $columns, '');

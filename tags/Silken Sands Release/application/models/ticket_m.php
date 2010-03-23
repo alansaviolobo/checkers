@@ -1,11 +1,6 @@
 <?php
 class Ticket_m extends Model
 {
-    function _construct()
-    {
-        parent::Model();
-    }
-
     function ticket_list()
     {
         return $this->db->get('ticket')->result_array();

@@ -1,16 +1,6 @@
 <?php
 class User_m extends Model
 {
-    function _construct()
-    {
-        parent::Model();
-    }
-
-    function index()
-    {
-
-    }
-
     function login($data)
     {
         $query = $this->db->get_where('user', $data);
