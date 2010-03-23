@@ -11,13 +11,24 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
-
+-- TODO concept of multiple kitchens serving the same menu items (e.g. bar, pool bar)
 --
 -- Create schema checkers
 --
 
 CREATE DATABASE IF NOT EXISTS checkers;
 USE checkers;
+
+--
+-- Definition of table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE `users` (
+  `key` varchar(255) NOT NULL,
+  `value` text NOT NULL,
+  UNIQUE KEY (`key`),
+) ENGINE=InnoDB;
 
 --
 -- Definition of table `users`
@@ -57,6 +68,20 @@ CREATE TABLE `raw_materials` (
 ) ENGINE=InnoDB;
 
 --
+-- Definition of table `raw_material_sources`
+--
+
+DROP TABLE IF EXISTS `raw_material_sources`;
+CREATE TABLE `raw_material_sources` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `address` int(10) unsigned NOT NULL,
+  `phone` char(10) NOT NULL,
+  `enabled` BOOL NOT NULL default true,
+  PRIMARY KEY (`id`),
+) ENGINE=InnoDB;
+
+--
 -- Definition of table `raw_material_purchases`
 --
 
@@ -64,13 +89,35 @@ DROP TABLE IF EXISTS `raw_material_purchases`;
 CREATE TABLE `raw_material_purchases` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `raw_material_id` int(10) unsigned NOT NULL,
+  `raw_material_source_id` int(10) unsigned NOT NULL,
   `quantity` int(10) unsigned NOT NULL,
   `bought_on` date NOT NULL,
+  `bill_no` int(10) unsigned NOT NULL,
+  `paid_on` date,
+  `paid_by` varchar(255),
   `entered_by` int(10) unsigned NOT NULL,
+  `entered_on` date NOT NULL,
   PRIMARY KEY (`id`),
   FOREIGN KEY (`raw_material_id`) REFERENCES `raw_materials`(`id`)
   ON DELETE RESTRICT ON UPDATE CASCADE,
+  FOREIGN KEY (`raw_material_source_id`) REFERENCES `raw_material_sources`(`id`)
+  ON DELETE RESTRICT ON UPDATE CASCADE,
   FOREIGN KEY (`entered_by`) REFERENCES `users`(`id`)
+  ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE=InnoDB;
+
+--
+-- Definition of table `raw_material_distribution`
+--
+
+DROP TABLE IF EXISTS `raw_material_distribution`;
+CREATE TABLE `raw_material_distribution` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `raw_material_id` int(10) unsigned NOT NULL,
+  `usage_fraction` float unsigned NOT NULL,
+  FOREIGN KEY (`raw_material_id`) REFERENCES `raw_materials`(`id`)
+  ON DELETE RESTRICT ON UPDATE CASCADE,
+  FOREIGN KEY (`menu_item_id`) REFERENCES `menu_items`(`id`)
   ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE=InnoDB;
 
@@ -90,13 +137,14 @@ CREATE TABLE `raw_material_menu_map` (
 ) ENGINE=InnoDB;
 
 --
--- Definition of table `locations`
+-- Definition of table `service_locations`
 --
 
-DROP TABLE IF EXISTS `locations`;
-CREATE TABLE `locations` (
+DROP TABLE IF EXISTS `service_locations`;
+CREATE TABLE `service_locations` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
+  `group_name` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY (`name`)
 ) ENGINE=InnoDB;
@@ -109,6 +157,7 @@ DROP TABLE IF EXISTS `menu_sections`;
 CREATE TABLE `menu_sections` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
+  `default_printer` varchar(255) NOT NULL,
   `enabled` BOOL NOT NULL default true,
   PRIMARY KEY (`id`),
   UNIQUE KEY (`name`)
@@ -145,7 +194,8 @@ CREATE TABLE `bills` (
   `discount` int(10) unsigned NOT NULL DEFAULT 0,
   `tax` int(10) unsigned NOT NULL DEFAULT 0,
   `status` ENUM('open', 'printed', 'paid', 'invalid') NOT NULL DEFAULT 'open',
-  `payment_mode` ENUM('room sales', 'credit card', 'cash') NOT NULL,
+  `payment_mode` ENUM('cheque', 'credit card', 'cash') NOT NULL,
+  `remarks` varchar(255) DEFAULT NULL,
   `printed_by` int(10) unsigned NOT NULL,
   `created_on` datetime DEFAULT NULL,
   `printed_on` datetime DEFAULT NULL,
@@ -153,7 +203,7 @@ CREATE TABLE `bills` (
   PRIMARY KEY (`id`),
   FOREIGN KEY (`waiter_id`) REFERENCES `users`(`id`)
   ON DELETE RESTRICT ON UPDATE CASCADE,
-  FOREIGN KEY (`location_id`) REFERENCES `locations`(`id`)
+  FOREIGN KEY (`location_id`) REFERENCES `service_locations`(`id`)
   ON DELETE RESTRICT ON UPDATE CASCADE,
   FOREIGN KEY (`printed_by`) REFERENCES `users`(`id`)
   ON DELETE RESTRICT ON UPDATE CASCADE
@@ -201,3 +251,5 @@ CREATE TABLE `db_log` (
 GRANT ALL PRIVILEGES ON `checkers`.* TO 'checkers'@'localhost' IDENTIFIED BY 'check123';
 
 INSERT INTO `users` VALUES (0,'admin',sha('admin'),'Admin','edit','edit','edit','edit','edit','edit', 'edit');
+
+INSERT INTO `configs` VALUES ('restaurant_name',''),('bill_header',''),('bill_footer','');
