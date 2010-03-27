@@ -12,6 +12,7 @@ if ($this->session->userdata('user_info'))
             echo  "(<i>$value</i>)&nbsp;&nbsp;".anchor('user_c/user_logout', 'Logout').'</span><br/><br/>';
         elseif ($value == 'yes')
             echo "<span class='menuinfo'>".anchor($key.'_c/index', ucwords($key))."</span>";
+        echo "<span class='menuinfo'>".anchor('BillArchive/', 'Bill Archive')."</span>";
 	echo "</div>";
 }
 ?>

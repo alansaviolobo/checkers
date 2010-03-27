@@ -26,17 +26,17 @@
             <tr>
                 <td align='left'>
                     Date:
-                    <strong><?= date('F j, Y'); ?></strong>
+                    <strong><?= date('F j, Y', strtotime($details->dated)); ?></strong>
                 </td>
                 <td align='right'>
                     Bill Number:
-                    <strong><?= $details->number;?></strong>
+                    <strong><?= $details->disp_no_cat.$details->disp_no_num;?></strong>
                 </td>
             </tr>
             <tr>
                 <td align='left' style="padding-top:8px;padding-bottom:12px;border-collapse:collapse; border-bottom: 2px black solid;font-size:12px">
                     Time:
-                    <strong><?= date('g:i a'); ?></strong>
+                    <strong><?= date('g:i a', strtotime($details->dated)); ?></strong>
                 </td>
                 <td align='right'style="padding-top:8px;padding-bottom:12px;border-collapse:collapse; border-bottom: 2px black solid;font-size:12px">
                     KOT No.:
@@ -79,13 +79,7 @@
     <div style="width:760px;height:150px;font-size:12px">
         <div style="width:125px; float:left;text-align:center">
             <span style="font-size:12px;">TIN NO: 30181125939</span>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
+            <br><br><br><br><br><br><br>
             <label style="border-top: thin black solid;">
                 Prepared By
             </label>
@@ -108,13 +102,7 @@
     <br>
 </div>
 <script language='javascript'>
-    window.print();
-    window.onunload
-    {
-        this.opener.location = "<?php
-		if(isset($url))
-		{echo $url;}
-		?>";
-    }
-    window.close();
+//    window.print();
+    <?php if(isset($url)) echo "window.onunload { this.opener.location = '$url' }"; ?>
+//    window.close();
 </script>

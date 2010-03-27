@@ -1,16 +1,6 @@
 <?php
 class Database_c extends Controller
 {
-    function _construct()
-    {
-        parent::Controller();
-    }
-
-    function index()
-    {
-        $this->load('');
-    }
-
     function main()
     {
         if ( isset ($_POST['btn_backup']))

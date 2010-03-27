@@ -41,5 +41,14 @@ class Report_m extends Model
         array_push($report, "\nTotal, Amount, Rs. $cost");
         return $report;
     }
+
+    function get_bills($from, $to, $bill_cat)
+    {
+    	return $this->db->select("*")
+						->from('bill')
+						->where("dated BETWEEN DATE('$from') AND DATE('$to')")
+						->where('disp_no_cat', $bill_cat)
+						->get()->result_array();
+    }
 }
 ?>
