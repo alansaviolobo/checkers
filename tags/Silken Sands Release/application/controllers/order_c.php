@@ -72,18 +72,20 @@ class Order_c extends Controller {
 	}
 
 	function bill_print($discount, $tax, $waiter, $source, $name) {
-		$url = '';
 		$data ['orders'] = $this->order_m->create_bill ( $discount, $tax, $waiter, $source, $name );
 		$data ['details'] = $this->order_m->bill_details ( $source );
 
-		if (strlen ( stristr ( $source, 'Room' ) ) > 0) {
+		$closebill = false;
+		if (strpos ( $source, 'Room' ) !== false)
+			$closebill = true;
+		else if (in_array ( substr ( $source, 10 ), array (1, 2, 3, 4, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212 ) ))
+			$closebill = true;
+		if ($closebill) {
 			$this->order_m->close_bill ( $source, 'room' );
-			$url = base_url () . "index.php/order_c/select_source/room";
+			$data ['url'] = base_url () . "index.php/order_c/select_source/room";
 		} else {
-			$url = base_url () . "index.php/order_c/select_source/table";
+			$data ['url'] = base_url () . "index.php/order_c/select_source/table";
 		}
-		$data ['url'] = $url;
-
 		$this->load->view ( 'order/bill_print', $data );
 	}
 
