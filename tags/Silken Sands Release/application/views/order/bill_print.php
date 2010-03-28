@@ -95,7 +95,7 @@ Tel: 0832-2789786-69-70 Email: silkensands@sancharnet.in</div>
     window.print();
     <?php
 				if (isset ( $url ))
-					echo "window.onunload { this.opener.location = '$url' }";
+					echo "window.onunload = function() { this.opener.location = '$url' };\n";
 				?>
     window.close();
 </script>

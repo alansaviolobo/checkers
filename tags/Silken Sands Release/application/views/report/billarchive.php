@@ -4,7 +4,7 @@ $body = null;
 if (isset ( $bills ))
 	foreach ( $bills as $bill ) {
 		$dellink = $stealth ? '<td>' . anchor ( 'BillArchive/delbill/' . $bill ['number'], 'delete' ) . '</td>' : null;
-		$print = "<a onclick=\"window.showModalDialog('BillArchive/printbill/{$bill['number']}');\">print</a>";
+		$print = "<a href=# onclick=\"window.showModalDialog('BillArchive/printbill/{$bill['number']}');return false;\">print</a>";
 		$body .= "<tr align=center>
 					<td>{$bill['disp_no_cat']}{$bill['disp_no_num']}</td>
 					<td>{$bill['dated']}</td>

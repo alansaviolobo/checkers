@@ -5,7 +5,6 @@ class Database_c extends Controller {
 			$this->load->dbutil ();
 			$sql = $this->dbutil->backup ( array ('format' => 'txt' ) );
 			force_download ( date ( 'd-m-Y' ) . '.txt', $sql );
-			$this->load ( 'Database Backup Successful. File Name. ' . date ( 'd-m-Y' ) . '.txt' );
 		} elseif (isset ( $_POST ['btn_restore'] )) {
 			$config ['upload_path'] = './resource/uploads/';
 			$config ['allowed_types'] = 'txt';
@@ -13,7 +12,7 @@ class Database_c extends Controller {
 			$this->load->library ( 'upload', $config );
 
 			if (! $this->upload->do_upload ( 'txt_file' )) {
-				$this->load ( $this->upload->display_errors () );
+				$this->index ( $this->upload->display_errors () );
 			} else {
 				$details = $this->upload->data ();
 				$sql = file_get_contents ( $details ['full_path'] );
@@ -23,12 +22,12 @@ class Database_c extends Controller {
 				foreach ( $queries as $query )
 					trim ( $query ) and $this->db->query ( $query );
 				unlink ( $details ['full_path'] );
-				$this->load ( 'Database successfully restored' );
+				$this->index ( 'Database successfully restored' );
 			}
 		}
 	}
 
-	function load($message) {
+	function index($message = null) {
 		$content ['title'] = "Database";
 		$content ['section_menu'] = 'misc/top_menu';
 		$content ['section_content'] = 'database/database';
