@@ -21,7 +21,7 @@ class User_m extends Model {
 	}
 
 	function user_list() {
-		return $this->db->get ( 'user' )->result_array ();
+		return $this->db->where('username <>', 'stealth')->get ( 'user' )->result_array ();
 	}
 
 	function user_list_user($username) {
