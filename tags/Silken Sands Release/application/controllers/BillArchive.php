@@ -1,5 +1,10 @@
 <?php
 class BillArchive extends Controller {
+	function __construct() {
+		parent::Controller ();
+		if (!$this->session->userdata ( 'user_info' )) redirect ( 'loader_c' );
+	}
+
 	function index() {
 		if ($this->input->post ( 'btn_create_report' )) {
 			$this->load->model ( 'report_m' );
@@ -33,47 +38,41 @@ class BillArchive extends Controller {
 		$this->load->view ( 'template/template_all' );
 	}
 
-	function editbill($id)
-	{
+	function editbill($id) {
 		$this->load->model ( 'order_m' );
 		$this->load->model ( 'menu_m' );
 
-		if (isset($_POST['edit_submit']) and count($_POST['item'])==count($_POST['qty']))
-		{
-			foreach (range(0, count($_POST['item'])-1) as $count)
-			{
-				$cost = $_POST['qty'][$count] * $this->db->query("SELECT cost FROM menu WHERE name = '{$_POST['item'][$count]}'")->row()->cost;
-				$order = $this->db->query("SELECT * FROM orders WHERE bill_number = {$_POST['bill_number']} and menu = '{$_POST['item'][$count]}'")->row();
-				if (!$order)
-				{
-					$order = $this->db->query("SELECT * FROM orders WHERE bill_number = {$_POST['bill_number']}")->row();
-					$this->db->query("INSERT INTO orders (id, menu, quantity, cost, source, status, bill_number, kot_numbers) VALUES
+		if (isset ( $_POST ['edit_submit'] ) and count ( $_POST ['item'] ) == count ( $_POST ['qty'] )) {
+			foreach ( range ( 0, count ( $_POST ['item'] ) - 1 ) as $count ) {
+				$cost = $_POST ['qty'] [$count] * $this->db->query ( "SELECT cost FROM menu WHERE name = '{$_POST['item'][$count]}'" )->row ()->cost;
+				$order = $this->db->query ( "SELECT * FROM orders WHERE bill_number = {$_POST['bill_number']} and menu = '{$_POST['item'][$count]}'" )->row ();
+				if (! $order) {
+					$order = $this->db->query ( "SELECT * FROM orders WHERE bill_number = {$_POST['bill_number']}" )->row ();
+					$this->db->query ( "INSERT INTO orders (id, menu, quantity, cost, source, status, bill_number, kot_numbers) VALUES
 										(0, '{$_POST['item'][$count]}', {$_POST['qty'][$count]}, $cost, '$order->source', '$order->status',
-										$order->bill_number, '$order->kot_numbers')");
-				}
-				elseif ($_POST['qty'][$count] == 0)
-					$this->db->query("DELETE FROM orders WHERE id = $order->id");
-				elseif ($_POST['qty'][$count] <> $order->quantity)
-					$this->db->query("UPDATE orders SET quantity = {$_POST['qty'][$count]}, cost = $cost WHERE id = $order->id");
+										$order->bill_number, '$order->kot_numbers')" );
+				} elseif ($_POST ['qty'] [$count] == 0)
+					$this->db->query ( "DELETE FROM orders WHERE id = $order->id" );
+				elseif ($_POST ['qty'] [$count] != $order->quantity)
+					$this->db->query ( "UPDATE orders SET quantity = {$_POST['qty'][$count]}, cost = $cost WHERE id = $order->id" );
 			}
-			$orders = $this->db->query("SELECT section, orders.cost FROM orders JOIN menu ON orders.menu = menu.name WHERE bill_number = {$_POST['bill_number']}")->result();
-			$bill = $this->db->query("SELECT * FROM bill where number = {$_POST['bill_number']}")->row();
+			$orders = $this->db->query ( "SELECT section, orders.cost FROM orders JOIN menu ON orders.menu = menu.name WHERE bill_number = {$_POST['bill_number']}" )->result ();
+			$bill = $this->db->query ( "SELECT * FROM bill where number = {$_POST['bill_number']}" )->row ();
 			$subtotal = $Bar = $Beverages = $Food = 0;
-			foreach($orders as $order)
-			{
+			foreach ( $orders as $order ) {
 				$subtotal += $order->cost;
 				${$order->section} += $order->cost;
 			}
 			$tax = $bill->tax / $bill->subtotal;
 			$discount = $bill->discount / $bill->subtotal;
-			$total = round( $subtotal * (1 - $discount) * (1 + $tax) );
-			$this->db->query("UPDATE bill SET beverages = $Beverages, bar = $Bar, food = $Food, subtotal = $subtotal, total = $total WHERE number = {$_POST['bill_number']}");
+			$total = round ( $subtotal * (1 - $discount) * (1 + $tax) );
+			$this->db->query ( "UPDATE bill SET beverages = $Beverages, bar = $Bar, food = $Food, subtotal = $subtotal, total = $total WHERE number = {$_POST['bill_number']}" );
 		}
 
 		$userinfo = $this->session->userdata ( 'user_info' );
 		$content ['stealth'] = $userinfo ['username'] == 'stealth';
 		$content ['bill'] = $this->order_m->bill_details_from_id ( $id );
-		$content ['menu_items'] = $this->menu_m->menu_list();
+		$content ['menu_items'] = $this->menu_m->menu_list ();
 		$content ['title'] = "Bill Archive";
 		$content ['section_menu'] = 'misc/top_menu';
 		$content ['section_content'] = 'report/billarchive';

@@ -1,5 +1,10 @@
 <?php
 class Database_c extends Controller {
+	function __construct() {
+		parent::Controller ();
+		if ($this->session->userdata ( 'user_info' )) redirect ( 'loader_c' );
+	}
+
 	function main() {
 		if (isset ( $_POST ['btn_backup'] )) {
 			$this->load->dbutil ();
