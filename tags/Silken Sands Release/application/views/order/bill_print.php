@@ -67,7 +67,7 @@ Tel: 0832-2789786-69-70 Email: silkensands@sancharnet.in</div>
 <br>
 <div style="width: 760px; height: 150px; font-size: 12px">
 <div style="width: 125px; float: left; text-align: center"><span
-	style="font-size: 12px;">TIN NO: 30181125939</span> <br>
+	style="font-size: 12px;">TIN NO: 30181105939</span> <br>
 <br>
 <br>
 <br>
