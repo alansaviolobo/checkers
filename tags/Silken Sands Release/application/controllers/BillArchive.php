@@ -2,7 +2,6 @@
 class BillArchive extends Controller {
 	function __construct() {
 		parent::Controller ();
-		if (!$this->session->userdata ( 'user_info' )) redirect ( 'loader_c' );
 	}
 
 	function index() {
