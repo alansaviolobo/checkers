@@ -15,7 +15,11 @@ class Report_c extends Controller {
 					force_download ( "$report[0].csv", implode ( "\n", $report ) );
 					break;
 				case 'Sales' :
-					$report = $this->report_m->sales ( $from, $to );
+					$report = $this->report_m->sales ( $from, $to, $this->input->post ( 'taxvalue', true ) );
+					force_download ( "$report[0].csv", implode ( "\n", $report ) );
+					break;
+				case 'FastMoving' :
+					$report = $this->report_m->fastMoving ( $from, $to );
 					force_download ( "$report[0].csv", implode ( "\n", $report ) );
 					break;
 				default :
