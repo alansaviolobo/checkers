@@ -1,7 +1,7 @@
 <?php
 class Report_m extends Model {
 	function sales($from, $to, $taxvalue) {
-		$result = $this->db->select ( "DATE_FORMAT(dated, '%d/%m/%Y'), number, food, beverages, bar, total, paid", false )->from ( 'bill' )->where_in ( 'paid', array ('room sales', 'cash', 'credit card' ) )->where ( "dated BETWEEN DATE('$from') AND DATE('$to')" )->get ()->result_array ();
+		$result = $this->db->select ( "DATE_FORMAT(dated, '%d/%m/%Y'), CONCAT(disp_no_cat,disp_no_num) AS number, food, beverages, bar, total, paid", false )->from ( 'bill' )->where_in ( 'paid', array ('room sales', 'cash', 'credit card' ) )->where ( "dated BETWEEN DATE('$from') AND DATE('$to')" )->get ()->result_array ();
 		$running_tax = 0;
 		foreach($result as &$row)
 			list($row['tax'], $running_tax) = array($running_tax+$row['total']*$taxvalue/100, $running_tax+$row['total']*$taxvalue/100);
