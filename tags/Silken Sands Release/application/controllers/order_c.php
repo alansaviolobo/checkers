@@ -33,16 +33,17 @@ class Order_c extends Controller {
 			$quantity = $this->input->xss_clean ( $this->input->post ( 'txt_quantity' ) );
 			$kot = $this->input->xss_clean ( $this->input->post ( 'txt_kot' ) );
 			$check = $this->order_m->new_order ( $menu, $source, $quantity, $kot );
-			$this->orders_list ( $this->session->userdata ( 'source_type' ), $check, null, null );
+			$this->orders_list ( $this->session->userdata ( 'source_type' ), $check, null, null, $kot );
 		}
 	}
 
-	function orders_list($source_type, $message, $orders_source, $source) {
+	function orders_list($source_type, $message, $orders_source, $source, $last_kot = null) {
 		$data ['menu'] = $this->menu_m->menu_list ();
 		$data ['orders'] = $this->order_m->orders_list ();
 		$data ['waiters'] = $this->user_m->waiters_list ();
 		$data ['orders_source'] = $orders_source;
 		$data ['source'] = $source;
+		$data ['last_kot'] = $last_kot;
 		$room = $table = array ();
 		if (isset ( $data ['orders'] )) {
 			foreach ( $data ['orders'] as $o ) {
