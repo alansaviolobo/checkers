@@ -1,12 +1,12 @@
 <?php
 class Report_m extends Model {
 	function sales($from, $to, $taxvalue) {
-		$result = $this->db->select ( "DATE_FORMAT(dated, '%d/%m/%Y'), CONCAT(disp_no_cat,disp_no_num) AS number, food, beverages, bar, total, paid", false )->from ( 'bill' )->where_in ( 'paid', array ('room sales', 'cash', 'credit card' ) )->where ( "dated BETWEEN DATE('$from') AND DATE('$to')" )->get ()->result_array ();
+		$result = $this->db->select ( "DATE_FORMAT(dated, '%d/%m/%Y'), CONCAT(disp_no_cat,disp_no_num) AS number, food, beverages, bar, total, 0 AS tax, 0 AS runningtax, paid", false )->from ( 'bill' )->where_in ( 'paid', array ('room sales', 'cash', 'credit card' ) )->where ( "dated BETWEEN DATE('$from') AND DATE('$to')" )->get ()->result_array ();
 		$running_tax = 0;
-		foreach($result as &$row)
-			list($row['tax'], $running_tax) = array($running_tax+$row['total']*$taxvalue/100, $running_tax+$row['total']*$taxvalue/100);
+		foreach ( $result as &$row )
+			list ( $row ['tax'], $row ['runningtax'], $running_tax ) = array ($row ['total'] * $taxvalue / 100, $running_tax + $row ['total'] * $taxvalue / 100, $running_tax + $row ['total'] * $taxvalue / 100 );
 		$header = "Bills, Report, $from, to, $to";
-		$columns = 'DATE,BILL NO.,FOOD,BEVERAGES,BAR,TOTAL,MODE,RUNNING TAX';
+		$columns = 'DATE,BILL NO.,FOOD,BEVERAGES,BAR,TOTAL,TAX,RUNNING TAX,MODE';
 		return $this->post_processing ( $result, $header, $columns );
 	}
 
@@ -24,7 +24,11 @@ class Report_m extends Model {
 		return $this->post_processing ( $result, $header, $columns );
 	}
 
-	function get_bills($from, $to, $bill_cat) {
+	function get_bills_of_source($from, $to, $source) {
+		return $this->db->select ( "*" )->from ( 'bill' )->where ( "dated BETWEEN DATE('$from') AND DATE('$to')" )->where ( 'source', $source )->get ()->result_array ();
+	}
+
+	function get_bills_of_category($from, $to, $bill_cat) {
 		return $this->db->select ( "*" )->from ( 'bill' )->where ( "dated BETWEEN DATE('$from') AND DATE('$to')" )->where ( 'disp_no_cat', $bill_cat )->get ()->result_array ();
 	}
 

@@ -9,15 +9,24 @@ class BillArchive extends Controller {
 			$this->load->model ( 'report_m' );
 			$from = $this->input->post ( 'from_date', true );
 			$to = date ( 'Y-m-d', strtotime ( '+1 day', strtotime ( $this->input->post ( 'to_date', true ) ) ) );
-			$bill_cat = $this->input->post ( 'bill_cat', true );
-			$content ['bills'] = $this->report_m->get_bills ( $from, $to, $bill_cat );
+			if (trim ( $this->input->post ( 'sources' ) )) {
+				$source = $this->input->post ( 'sources', true );
+				$content ['bills'] = $this->report_m->get_bills_of_source ( $from, $to, $source );
+			} else {
+				$bill_cat = $this->input->post ( 'bill_cat', true );
+				$content ['bills'] = $this->report_m->get_bills_of_category ( $from, $to, $bill_cat );
+			}
 		}
 
 		$userinfo = $this->session->userdata ( 'user_info' );
+		$result = $this->db->select ( "DISTINCT source", false )->from ( "bill" )->get ()->result ();
+		foreach ( $result as $source )
+			$sources [$source->source] = $source->source;
 		$content ['stealth'] = $userinfo ['username'] == 'stealth';
 		$content ['title'] = "Bill Archive";
 		$content ['section_menu'] = 'misc/top_menu';
 		$content ['section_content'] = 'report/billarchive';
+		$content ['sources'] = $sources;
 		$this->load->vars ( $content );
 		$this->load->view ( 'template/template_all' );
 	}

@@ -1,11 +1,18 @@
 <?php
-$form = array ('formOpen' => form_open ( 'BillArchive' ), 'rest' => form_radio ( 'bill_cat', 'rest', TRUE ), 'room' => form_radio ( 'bill_cat', 'room' ), 'fromdate' => form_input ( 'from_date', date ( 'Y-m-d' ), "onclick=\"displayDatePicker('from_date')\"" ), 'todate' => form_input ( 'to_date', date ( 'Y-m-d' ), "onclick=\"displayDatePicker('to_date')\"" ), 'submit' => form_submit ( 'btn_create_report', 'View' ), 'formClose' => form_close () );
+$form ['formOpen'] = form_open ( 'BillArchive' );
+$form ['rest'] = form_radio ( 'bill_cat', 'rest', TRUE );
+$form ['room'] = form_radio ( 'bill_cat', 'room' );
+$form ['fromdate'] = form_input ( 'from_date', date ( 'Y-m-d' ), "size=10 onclick=\"displayDatePicker('from_date')\"" );
+$form ['todate'] = form_input ( 'to_date', date ( 'Y-m-d' ), "size=10 onclick=\"displayDatePicker('to_date')\"" );
+$form ['sources'] = form_dropdown ( 'sources', array (' ' => 'Select One' ) + $sources, ' ' );
+$form ['submit'] = form_submit ( 'btn_create_report', 'View' );
+$form ['formClose'] = form_close ();
+
 $body = null;
 if (isset ( $bills ))
 	foreach ( $bills as $onebill ) {
 		$dellink = $editlink = null;
-		if($stealth)
-		{
+		if ($stealth) {
 			$dellink = '<td>' . anchor ( 'BillArchive/editbill/' . $onebill ['number'], 'edit' ) . '</td>';
 			$editlink = '<td>' . anchor ( 'BillArchive/delbill/' . $onebill ['number'], 'delete' ) . '</td>';
 		}
@@ -13,6 +20,7 @@ if (isset ( $bills ))
 		$body .= "<tr align=center>
 					<td>{$onebill['disp_no_cat']}{$onebill['disp_no_num']}</td>
 					<td>{$onebill['dated']}</td>
+					<td>{$onebill['source']}</td>
 					<td>{$onebill['beverages']}</td>
 					<td>{$onebill['food']}</td>
 					<td>{$onebill['bar']}</td>
@@ -32,25 +40,42 @@ if (isset ( $bills ))
 <?=@$message;?>
 <br />
 <?=$form ['formOpen'];?>
-Show :
-<?=$form ['rest'];?> Restaurant
-&nbsp;&nbsp;&nbsp;
-<?=$form ['room'];?> Rooms
-&nbsp;&nbsp;&nbsp;
-bills from :
-&nbsp;&nbsp;&nbsp;
-<?=$form ['fromdate'];?>
-&nbsp;&nbsp;&nbsp;
-To : <?=$form ['todate'];?>
-&nbsp;&nbsp;&nbsp;
-<?=$form ['submit'];?>
+<table>
+	<tr>
+		<td>
+			Show :
+			<?=$form ['rest'];?> Restaurant
+			&nbsp;&nbsp;&nbsp;
+			<?=$form ['room'];?> Rooms
+			bills
+		</td>
+		<td rowspan=3>
+			&nbsp;&nbsp;&nbsp;
+			From : <?=$form ['fromdate'];?>
+			&nbsp;&nbsp;&nbsp;
+			To : <?=$form ['todate'];?>
+			&nbsp;&nbsp;&nbsp;
+			<?=$form ['submit'];?>
+		</td>
+	</tr>
+	<tr>
+		<td align=center>- OR -</td>
+	</tr>
+	<tr>
+		<td align=right>
+			Show bills for :
+			<?=$form ['sources'];?>
+		</td>
+	</tr>
+</table>
 <?=$form ['formClose'];?>
-<? if (!is_null($body)) : ?>
+<?if (! is_null ( $body )) :?>
 <hr />
 <table border=1 cellspacing=0 cellpadding=5>
 	<tr>
 		<th>id</th>
 		<th>date</th>
+		<th>room/table</th>
 		<th>beverages</th>
 		<th>food</th>
 		<th>bar</th>
@@ -61,53 +86,56 @@ To : <?=$form ['todate'];?>
 		<th>paid</th>
 		<th>&nbsp;</th>
 		<?php
-		if (isset($stealth) and $stealth)
-			echo "<th>&nbsp;</th><th>&nbsp;</th>";
-		?>
+	if (isset ( $stealth ) and $stealth)
+		echo "<th>&nbsp;</th><th>&nbsp;</th>";
+	?>
 	</tr>
 <?=$body;?>
 </table>
 <?php endif; ?>
 <hr />
-<?php if (isset($bill)) : ?>
+<?php
+if (isset ( $bill )) : ?>
 <form method="post">
-<input type="hidden" name="bill_number" value="<?= $bill->number; ?>" />
+<input type="hidden" name="bill_number" value="<?=$bill->number;?>" />
 <table id='bill'>
-<tr>
-<td style="border-left: 1px solid;border-top: 1px solid">Bill No.</td>
-<td style="border-right: 1px solid;border-top: 1px solid"><?= $bill->dispnocat.$bill->dispnonum ?></td>
-</tr>
-<tr>
-<td style="border-left: 1px solid;">Date</td>
-<td style="border-right: 1px solid;"><?= current(split(' ', $bill->date)); ?></td>
-</tr>
-<tr>
-<td style="border-left: 1px solid;">Payment Mode</td>
-<td style="border-right: 1px solid;"><?= $bill->paymentmode ?></td>
-</tr>
-<tr>
-<td style="border-left: 1px solid;">Subtotal</td>
-<td style="border: 1px solid;"><?= $bill->subtotal ?></td>
-</tr>
-<tr>
-<td style="border-left: 1px solid;">Discount</td>
-<td style="border-left: 1px solid;border-right: 1px solid;"><?= $bill->discount ?></td>
-</tr>
-<tr>
-<td style="border-left: 1px solid;">Tax</td>
-<td style="border-left: 1px solid;border-right: 1px solid;"><?= $bill->tax ?></td>
-</tr>
-<tr>
-<td style="border-left: 1px solid;border-bottom: 1px solid;">Total</td>
-<td style="border: 1px solid;"><?= $bill->subtotal - $bill->discount + $bill->tax ?></td>
-</tr>
-<?php foreach($bill->items as $item) { ?>
-<tr>
-<td style="border: 1px solid;">
-	<select name="item[]">
-	<? foreach($menu_items as $menuitem)
-		{
-			$selected = $item->name == $menuitem['name'] ? " selected " : "";
+	<tr>
+		<td style="border-left: 1px solid; border-top: 1px solid">Bill No.</td>
+		<td style="border-right: 1px solid; border-top: 1px solid"><?=$bill->dispnocat . $bill->dispnonum?></td>
+	</tr>
+	<tr>
+		<td style="border-left: 1px solid;">Date</td>
+		<td style="border-right: 1px solid;"><?=current ( split ( ' ', $bill->date ) );?></td>
+	</tr>
+	<tr>
+		<td style="border-left: 1px solid;">Payment Mode</td>
+		<td style="border-right: 1px solid;"><?=$bill->paymentmode?></td>
+	</tr>
+	<tr>
+		<td style="border-left: 1px solid;">Subtotal</td>
+		<td style="border: 1px solid;"><?=$bill->subtotal?></td>
+	</tr>
+	<tr>
+		<td style="border-left: 1px solid;">Discount</td>
+		<td style="border-left: 1px solid; border-right: 1px solid;"><?=$bill->discount?></td>
+	</tr>
+	<tr>
+		<td style="border-left: 1px solid;">Tax</td>
+		<td style="border-left: 1px solid; border-right: 1px solid;"><?=$bill->tax?></td>
+	</tr>
+	<tr>
+		<td style="border-left: 1px solid; border-bottom: 1px solid;">Total</td>
+		<td style="border: 1px solid;"><?=$bill->subtotal - $bill->discount + $bill->tax?></td>
+	</tr>
+<?php
+	foreach ( $bill->items as $item ) {
+		?>
+	<tr>
+		<td style="border: 1px solid;">
+		<select name="item[]">
+	<?
+		foreach ( $menu_items as $menuitem ) {
+			$selected = $item->name == $menuitem ['name'] ? " selected " : "";
 			echo "<option $selected value='{$menuitem['name']}'>{$menuitem['name']}</option>";
 		}
 	?>
