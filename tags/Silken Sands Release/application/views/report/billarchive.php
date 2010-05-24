@@ -4,7 +4,7 @@ $form ['rest'] = form_radio ( 'bill_cat', 'rest', TRUE );
 $form ['room'] = form_radio ( 'bill_cat', 'room' );
 $form ['fromdate'] = form_input ( 'from_date', date ( 'Y-m-d' ), "size=10 onclick=\"displayDatePicker('from_date')\"" );
 $form ['todate'] = form_input ( 'to_date', date ( 'Y-m-d' ), "size=10 onclick=\"displayDatePicker('to_date')\"" );
-$form ['sources'] = form_dropdown ( 'sources', array (' ' => 'Select One' ) + $sources, ' ' );
+$form ['sources'] = form_dropdown ( 'sources', $sources, ' ' );
 $form ['submit'] = form_submit ( 'btn_create_report', 'View' );
 $form ['formClose'] = form_close ();
 

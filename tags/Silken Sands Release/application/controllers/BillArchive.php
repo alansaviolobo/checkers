@@ -20,6 +20,7 @@ class BillArchive extends Controller {
 
 		$userinfo = $this->session->userdata ( 'user_info' );
 		$result = $this->db->select ( "DISTINCT source", false )->from ( "bill" )->get ()->result ();
+		$sources = array (' ' => 'Select One' );
 		foreach ( $result as $source )
 			$sources [$source->source] = $source->source;
 		$content ['stealth'] = $userinfo ['username'] == 'stealth';
