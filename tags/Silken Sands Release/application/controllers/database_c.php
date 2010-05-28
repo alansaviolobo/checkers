@@ -12,7 +12,7 @@ class Database_c extends Controller {
 		} elseif (isset ( $_POST ['btn_restore'] )) {
 			$config ['upload_path'] = './resource/uploads/';
 			$config ['allowed_types'] = 'txt';
-			$config ['max_size'] = '10240';
+			$config ['max_size'] = '1048576';
 			$this->load->library ( 'upload', $config );
 
 			if (! $this->upload->do_upload ( 'txt_file' )) {
@@ -23,6 +23,7 @@ class Database_c extends Controller {
 				$sql = preg_replace ( "/#.*\n/", "", $sql );
 				$sql = ('SET FOREIGN_KEY_CHECKS = 0;' . $sql . 'SET FOREIGN_KEY_CHECKS = 1;');
 				$queries = split ( ';', $sql );
+				set_time_limit(0);
 				foreach ( $queries as $query )
 					trim ( $query ) and $this->db->query ( $query );
 				unlink ( $details ['full_path'] );
